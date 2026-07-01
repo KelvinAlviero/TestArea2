@@ -131,6 +131,14 @@ PrefabInstance:
       propertyPath: rewardType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: APIController
+      value: 
+      objectReference: {fileID: 650347749}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: activeForceReward
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3744812807869482192, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -544,14 +552,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed5c1b83e5a1145f8964b2440b844b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpinningScript: {fileID: 1262285965}
   URL_GetUser: https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70
   URL_StartSpin: http://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin
   URL_RecieveReward: http://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel
   email: aaa@gmail.com
   password: qwerty123
   returnSecureToken: true
-  JWTToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODI4OTUyODAsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.oUYNJWHmdQ1G8DG9U8diDC8gBkPxBfbGRynJCfuZDLg
+  JWTToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODI5MDQzOTksInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.e9GU8Tx1_1TaGnh3cZYEZgDtRzJlkwTyfgUyqiU6mrs
   DebugText: {fileID: 1072922596}
+  ObtainedReward: 
+  UnserializeditemId: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,6 +748,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072922594}
   m_CullTransparentMesh: 1
+--- !u!114 &1262285965 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+  m_PrefabInstance: {fileID: 280416233}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9b6fd6c786d4695b639fce2b85b74e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1262285971 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}

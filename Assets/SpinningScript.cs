@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Forgehub.SpookyBubbles;
@@ -5,6 +6,7 @@ using JetBrains.Annotations;
 using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class SpinningScript : MonoBehaviour
@@ -14,6 +16,7 @@ public class SpinningScript : MonoBehaviour
     [Header("Script References")]
     public UIWheelReward UIWheelReward;
     public UIWheelSpin UIWheelSpin;
+    public APIController APIController;
     [SerializeField] public int RewardShift = 0; //wheel adjustment
     [SerializeField] private int Angle1, Angle2, Angle3, Angle4 ,Angle5 ,Angle6 ,Angle7;
     [SerializeField] public float rotatePower ;
@@ -38,6 +41,9 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private Coroutine lightAnimationCoroutine;
     [SerializeField] private int DelayedWinTime = 1000;
     [SerializeField] private float ChangeDelay = 3f;
+    [SerializeField] public bool ReceivedBackend;
+    [SerializeField] public string Coin10,Coin20,Prebooster,Placeholder1,Placeholder2,Placeholder3;
+    [SerializeField] private Dictionary<string, RewardType> rewardMap;
     
 
     int inRotate;
@@ -48,19 +54,41 @@ public class SpinningScript : MonoBehaviour
         ConfigureForcedReward(rewardType);
         // Initialize reward angles
         rewardAngles = new List<float>();
+        rewardMap = new Dictionary<string, RewardType>
+    {
+        { "69fdaf4e0d3ceac0fa4715a7", RewardType.Coin10 },
+        { "69fdaf380d3ceac0fa4715a5", RewardType.Coin20 },
+        { "6a2f6ece2754bd1e11ffcc90", RewardType.Prebooster },
+        { "placeholder1_id", RewardType.Placeholder1 },
+        { "placeholder2_id", RewardType.Placeholder2 },
+        { "placeholder3_id", RewardType.Placeholder3 }
+    };
     }
 
     float t;
+    
+    public bool TryResolveReward(string incomingItemId, out RewardType resolvedReward)
+    {
+        resolvedReward = RewardType.Random;
+
+        if (string.IsNullOrEmpty(incomingItemId))
+            return false;
+
+        if (rewardMap.TryGetValue(incomingItemId, out resolvedReward))
+            return true;
+
+        return false;
+    }
 
     public enum RewardType //List for rewards
     {
         Random, //Pick this for random reward
-        Coin10,
+        Coin10, //69fdaf4e0d3ceac0fa4715a7
         Placeholder1,
         Placeholder2,
-        Coin20,
+        Coin20, //69fdaf380d3ceac0fa4715a5
         Placeholder3,
-        Prebooster
+        Prebooster //6a2f6ece2754bd1e11ffcc90
     }
 
     public RewardType rewardType;
@@ -84,10 +112,24 @@ public class SpinningScript : MonoBehaviour
                 t = 0f;
             }
         }
+        Debug.Log("Backend Reward: "+ APIController.ObtainedReward);
+        {
+            if (ChangeDelay > 0)
+            {
+                ChangeDelay -= Time.deltaTime;
+                Debug.Log("Countdown started");
+            }
+            else
+            {
+                Debug.Log("No timer");
+            }
+        }
+
+        
     }
 
     
-    public void Rotete()
+    public void Rotete() //rotate func
     {
         if (inRotate == 0)
         {
@@ -103,7 +145,7 @@ public class SpinningScript : MonoBehaviour
         }
     }
 
-    private IEnumerator PreSpinThenSwitch()
+    private IEnumerator PreSpinThenSwitch() //Changes to new angle for forced rewards, leaves it running on off
     {
         float previousStopPower = stopPower;
         stopPower = preSpinDamping;
@@ -117,8 +159,9 @@ public class SpinningScript : MonoBehaviour
         }
 
 
-        if (activeForceReward)
+        if (activeForceReward && ReceivedBackend == true)
         {
+            Debug.Log("changing reward");
             // Set consistent angular velocity for the landing phase
             rbody.angularVelocity = switchAngularVelocity;
 
@@ -154,9 +197,8 @@ public class SpinningScript : MonoBehaviour
     }
 
 
-    private void ConfigureForcedReward(RewardType selectedReward) // Forced reward section
+    private void ConfigureForcedReward(RewardType rewardType) // Forced reward section
     {
-        activeForceReward = selectedReward != RewardType.Random;
         if (!activeForceReward)
         {
             activeTargetAngle = 0f;
@@ -164,7 +206,7 @@ public class SpinningScript : MonoBehaviour
             return;
         }
 
-        switch (selectedReward) //This is connected to RewardType
+        switch (rewardType) //This is connected to RewardType
         {
             case RewardType.Coin10:
                 activeTargetAngle = 30f + RewardShift;
@@ -205,6 +247,7 @@ public class SpinningScript : MonoBehaviour
         {
             ConfigureForcedReward(rewardType);
         }
+        
     }
 
     private void ResolveReward()
@@ -223,7 +266,7 @@ public class SpinningScript : MonoBehaviour
         ResolveRandomReward();
     }
 
-    private void ResolveRandomReward()
+    private void ResolveRandomReward() //Center reward back
     {
         float rot = transform.eulerAngles.z;
         float normalizedRot = (rot - RewardShift + 360f) % 360f;
