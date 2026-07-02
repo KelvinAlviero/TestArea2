@@ -834,20 +834,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIWheelReward: {fileID: 2389825359929637021}
   UIWheelSpin: {fileID: 3757220459799194151}
-  RewardShift: 0
-  Angle1: 0
-  Angle2: 0
-  Angle3: 0
-  Angle4: 0
-  Angle5: 0
-  Angle6: 0
-  Angle7: 0
+  APIController: {fileID: 0}
+  rbody: {fileID: 8164126190286055963}
+  Reward1: 0
+  Reward2: 0
+  Reward3: 0
+  Reward4: 0
+  Reward5: 0
+  Reward6: 0
+  Reward7: 0
   rotatePower: 1000
   stopPower: 100
   scalingFactor: 50
   landingTuner: 0.55
   rewardResult: 0
-  rbody: {fileID: 8164126190286055963}
+  activeTargetAngle: 0
+  activeRewardResult: 0
+  activeRewardType: 0
   rewardAngles: []
   preSpinDuration: 2
   preSpinSpeed: 3000
@@ -855,7 +858,11 @@ MonoBehaviour:
   switchAngularVelocity: 2000
   smoothRotationDuration: 1
   DelayedWinTime: 1000
+  ChangeDelay: 3
+  ReceivedBackend: 0
+  BackendReward: 
   rewardType: 2
+  inRotate: 0
 --- !u!50 &8164126190286055963
 Rigidbody2D:
   serializedVersion: 5
@@ -1357,10 +1364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7403017954048515499}
-  - component: {fileID: 7789666919035488085}
-  - component: {fileID: 2010876664454569151}
   - component: {fileID: 2912780765524897435}
-  - component: {fileID: 3354536241552859066}
   m_Layer: 5
   m_Name: AdsButton
   m_TagString: Untagged
@@ -1388,73 +1392,6 @@ RectTransform:
   m_AnchoredPosition: {x: 288, y: -401}
   m_SizeDelta: {x: 159.02, y: 139.93}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &7789666919035488085
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4385695400733852519}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &2010876664454569151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4385695400733852519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 3354536241552859066}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!222 &2912780765524897435
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1463,36 +1400,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4385695400733852519}
   m_CullTransparentMesh: 1
---- !u!114 &3354536241552859066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4385695400733852519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2ed0f924f4b5cd943b85a87245462d49, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4458681867238509439
 GameObject:
   m_ObjectHideFlags: 0
@@ -3337,6 +3244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43907a47b80d845daab6ed5a02dbb58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  APIController: {fileID: 0}
   wheelBackground: {fileID: 8802708168656611129}
   wheel: {fileID: 5241911431674448836}
   wheelPointer: {fileID: 4504440778643259068}
@@ -3354,4 +3262,5 @@ MonoBehaviour:
   TimerDebug: 0
   closeButton: {fileID: 8590150897425116731}
   spinningButton: {fileID: 813349630474445696}
-  WatchAdsButton: {fileID: 2010876664454569151}
+  IncreaseButton: {fileID: 0}
+  DecreaseButton: {fileID: 0}

@@ -40,7 +40,9 @@ using Unity.VisualScripting;
 
         [SerializeField] private Button closeButton;
         [SerializeField] private Button spinningButton; // X = 6, Y = -45, SCALE = 2
-        [SerializeField] private Button WatchAdsButton; // X = 6, Y = -45, SCALE = 2
+        [SerializeField] private Button IncreaseButton; // X = 6, Y = -45, SCALE = 2
+        [SerializeField] private Button DecreaseButton;
+        
 
 
         private void Awake()
@@ -76,7 +78,7 @@ using Unity.VisualScripting;
             }
             else
             {
-                
+
                 spinningButton.interactable = false;
                 TimeText.text = "You can spin the wheel again in: " + FormatTimer(duration - timer);
             }
@@ -88,6 +90,8 @@ using Unity.VisualScripting;
             LightsON.gameObject.SetActive(false);
             closeButton.onClick.AddListener(OnCloseButtonClicked);
             spinningButton.onClick.AddListener(OnSpinButtonClicked);
+            IncreaseButton.onClick.AddListener(OnIncreaseButtonClicked); 
+            DecreaseButton.onClick.AddListener(OnDecreaseButtonClicked); 
 
             panelRectTransform.gameObject.SetActive(true);
             wheelBackground.gameObject.SetActive(true);
@@ -103,7 +107,8 @@ using Unity.VisualScripting;
         {
             closeButton.onClick.RemoveListener(OnCloseButtonClicked);
             spinningButton.onClick.RemoveListener(OnSpinButtonClicked);
-            // WatchAdsButton.onClick.RemoveListener(OnWatchAdsButtonClicked); 
+            IncreaseButton.onClick.RemoveListener(OnIncreaseButtonClicked); 
+            DecreaseButton.onClick.RemoveListener(OnDecreaseButtonClicked); 
         }
         public void InitialPosition()
         {
@@ -121,8 +126,10 @@ using Unity.VisualScripting;
             wheelPointer.anchoredPosition = Vector2.down * 2000;
             spinningButton.transform.localPosition = Vector2.down * 2000;
             spinningButton.transform.localScale = new Vector3(2, 2, 2);
-            WatchAdsButton.transform.localScale = new Vector3(1, 1, 1);
-            WatchAdsButton.transform.localPosition = Vector2.down * 2000;
+            IncreaseButton.transform.localScale = new Vector3(1, 1, 1);
+            IncreaseButton.transform.localPosition = Vector2.down * 2000;
+            DecreaseButton.transform.localScale = new Vector3(1, 1, 1);
+            DecreaseButton.transform.localPosition = Vector2.down * 2000;
             TimeText.gameObject.SetActive(false);
 
             //Position of animation
@@ -148,7 +155,8 @@ using Unity.VisualScripting;
             LightsOFF.gameObject.SetActive(false);
             LightsON.gameObject.SetActive(false);
             spinningButton.gameObject.SetActive(false);
-            WatchAdsButton.gameObject.SetActive(false);
+            IncreaseButton.gameObject.SetActive(false);
+            DecreaseButton.gameObject.SetActive(false);
 
             backgroundImage.gameObject.SetActive(false);
         }
@@ -157,8 +165,8 @@ using Unity.VisualScripting;
         public void OnCloseButtonClicked()
         {
             //APIController.StartCoroutine(APIController.SignIn());
-            APIController.StartCoroutine(APIController.RecieveSpin());
-            UIController.HidePage<UIWheelSpin>();
+            // APIController.StartCoroutine(APIController.RecieveSpin());
+            // UIController.HidePage<UIWheelSpin>();
             Debug.Log("Close button clicked");
             Debug.Log("UIWheelSpin closed");
         }
@@ -175,6 +183,14 @@ using Unity.VisualScripting;
             Debug.Log("IsSpinning = " + isSpinning);
         }
     
+        public void OnIncreaseButtonClicked()
+        {
+            Debug.Log("AmountIncreased");
+        }
+        public void OnDecreaseButtonClicked()
+        {
+            Debug.Log("Amount Decreased");
+        }
         public void EnableCloseButton()
         {            
             Debug.Log("Close button Enabled");
