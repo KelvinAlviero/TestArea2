@@ -43,6 +43,7 @@ using Unity.VisualScripting;
         [SerializeField] private Button spinningButton; // X = 6, Y = -45, SCALE = 2
         [SerializeField] private Button IncreaseButton; // X = 6, Y = -45, SCALE = 2
         [SerializeField] private Button DecreaseButton;
+        [SerializeField] public bool SpinAgain;
         
 
 
@@ -63,26 +64,27 @@ using Unity.VisualScripting;
         
         private void Update()
         {
-            if (TimerDebug == true)
-            {
-                ResetTimerDebug();
-                TimerDebug = false;
-            }
+            Morespins();
+            // if (TimerDebug == true)
+            // {
+            //     ResetTimerDebug();
+            //     TimerDebug = false;
+            // }
 
-            TimeSpan timer = DateTime.Now - timerStartTime;
-            TimeSpan duration = TimeSpan.FromMinutes(timerDurationInMinutes);
-            if (timer > duration && isSpinning == false)
-            {  
-                spinningButton.interactable = true;
-                TimeText.gameObject.SetActive(false);
+            // TimeSpan timer = DateTime.Now - timerStartTime;
+            // TimeSpan duration = TimeSpan.FromMinutes(timerDurationInMinutes);
+            // if (timer > duration && isSpinning == false)
+            // {  
+            //     spinningButton.interactable = true;
+            //     TimeText.gameObject.SetActive(false);
             
-            }
-            else
-            {
+            // }
+            // else
+            // {
 
-                spinningButton.interactable = false;
-                TimeText.text = "You can spin the wheel again in: " + FormatTimer(duration - timer);
-            }
+            //     spinningButton.interactable = false;
+            //     TimeText.text = "You can spin the wheel again in: " + FormatTimer(duration - timer);
+            // }
         }
 
         public void Init()
@@ -161,6 +163,21 @@ using Unity.VisualScripting;
 
             backgroundImage.gameObject.SetActive(false);
         }
+        
+        // ----- More spins -----//
+        private void Morespins()
+        {
+            if (APIController.spin_count > 1)
+            for (int i = 0; i < APIController.spin_count + 1; i++ )
+            {
+                SpinAgain = true;
+            }
+        }
+
+        public void RemainingSpins()
+        {
+            
+        }
 
         //-------- Buttons --------//
         public void OnCloseButtonClicked()
@@ -172,7 +189,7 @@ using Unity.VisualScripting;
             Debug.Log("UIWheelSpin closed");
         }
         
-        private void OnSpinButtonClicked()
+        public void OnSpinButtonClicked()
         {
             isSpinning = true;
             // APIController.StartCoroutine(APIController.SignIn());
@@ -182,6 +199,10 @@ using Unity.VisualScripting;
             Debug.Log("Spin button clicked");
             Debug.Log("Close button Disabled");
             Debug.Log("IsSpinning = " + isSpinning);
+            if (SpinAgain == true)
+            {
+                isSpinning = false;
+            }
         }
     
         public void OnIncreaseButtonClicked()
@@ -269,45 +290,45 @@ using Unity.VisualScripting;
         #endif
                 
         //-------Timer Code -------//
-        public void StartTimer(bool skipCooldown = false)
-        {
-            if (skipCooldown)
-                timerStartTime = DateTime.Now.AddMinutes(-timerDurationInMinutes);
-            else
-                timerStartTime = DateTime.Now;
+    //     public void StartTimer(bool skipCooldown = false)
+    //     {
+    //         if (skipCooldown)
+    //             timerStartTime = DateTime.Now.AddMinutes(-timerDurationInMinutes);
+    //         else
+    //             timerStartTime = DateTime.Now;
             
-            PlayerPrefs.SetString($"TimerProduct_{saveID}", timerStartTime.ToBinary().ToString());
-            PlayerPrefs.Save();
-        }
+    //         PlayerPrefs.SetString($"TimerProduct_{saveID}", timerStartTime.ToBinary().ToString());
+    //         PlayerPrefs.Save();
+    //     }
 
-        public void ShowTimeText()
-        {
-            TimeText.gameObject.SetActive(true);
-            Debug.Log("TimeText SpinCooldown shown");
-        }
+    //     public void ShowTimeText()
+    //     {
+    //         TimeText.gameObject.SetActive(true);
+    //         Debug.Log("TimeText SpinCooldown shown");
+    //     }
 
-        private string FormatTimer(TimeSpan timeSpan)
-                {
-                    sb.Clear();
+    //     private string FormatTimer(TimeSpan timeSpan)
+    //             {
+    //                 sb.Clear();
 
-                    if(timeSpan.Hours > 0)
-                    {
-                        sb.Append(timeSpan.Hours);
-                        sb.Append(':');
-                    }
+    //                 if(timeSpan.Hours > 0)
+    //                 {
+    //                     sb.Append(timeSpan.Hours);
+    //                     sb.Append(':');
+    //                 }
 
-                    sb.Append(timeSpan.Minutes.ToString("00"));
-                    sb.Append(':');
+    //                 sb.Append(timeSpan.Minutes.ToString("00"));
+    //                 sb.Append(':');
 
-                    sb.Append(timeSpan.Seconds.ToString("00"));
+    //                 sb.Append(timeSpan.Seconds.ToString("00"));
 
-                    return sb.ToString();
-                }
-        public bool IsAvailable()
-                {
-                    TimeSpan timer = DateTime.Now - timerStartTime;
-                    TimeSpan duration = TimeSpan.FromMinutes(timerDurationInMinutes);
+    //                 return sb.ToString();
+    //             }
+    //     public bool IsAvailable()
+    //             {
+    //                 TimeSpan timer = DateTime.Now - timerStartTime;
+    //                 TimeSpan duration = TimeSpan.FromMinutes(timerDurationInMinutes);
 
-                    return timer > duration;
-                }
-    }
+    //                 return timer > duration;
+    //             }
+}

@@ -60,21 +60,23 @@ namespace Forgehub.SpookyBubbles
 
         public void OnClaimButtonClicked()
         {
+            
+            
+            
+
             Debug.Log("UIWheelReward: Claim Button Clicked");
-
             PlayHideAnimation();
-
-            UIWheelSpin.ShowTimeText();
             UIWheelSpin.EnableCloseButton();
             UIWheelSpin.StopLightAnimation();
-            UIWheelSpin.StartTimer();
             UIWheelSpin.isSpinning = false;
-            UIWheelSpin.TimeText.gameObject.SetActive(true);
             Debug.Log("IsSpinning = " + UIWheelSpin.isSpinning);
             Debug.Log("UIWheelReward: Claim button clicked");
             Debug.Log("UIWheelReward: closed UI");
             Debug.Log("UIWheelReward: Enable close button in UIWheelSpin");
-             
+            if (UIWheelSpin.SpinAgain == true)
+            {
+                UIWheelSpin.OnSpinButtonClicked();
+            }   
         }
 
         private void OnCloseButtonClicked()

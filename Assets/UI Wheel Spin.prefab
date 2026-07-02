@@ -3255,6 +3255,7 @@ MonoBehaviour:
   timerDurationInMinutes: 0
   saveID: uniqueTimerSaveID
   TimeText: {fileID: 1832771372477161663}
+  SpinAmount: {fileID: 0}
   contentRectTransform: {fileID: 174886553120547430}
   LightCheck: 0
   isSpinning: 0
