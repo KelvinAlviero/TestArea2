@@ -189,27 +189,29 @@ using Unity.VisualScripting;
             APIController.spin_count= APIController.spin_count + 1;
             Debug.Log("AmountIncreased");
             SpinAmount.text = "Spin " + APIController.spin_count;
+            Debug.Log("Spin " + APIController.spin_count);
+            DecreaseButton.interactable = true;
 
-            if (APIController.spin_count >= 9)
+            if (APIController.spin_count >= 10)
             {
-                Debug.Log("Spin " + APIController.spin_count);
                 IncreaseButton.interactable = false;
-                DecreaseButton.interactable = true;
             }
+            
             
         }
         public void OnDecreaseButtonClicked()
         {
             APIController.spin_count= APIController.spin_count - 1;
             Debug.Log("Amount Decreased");
-            SpinAmount.text = "Spin" + APIController.spin_count;
+            SpinAmount.text = "Spin " + APIController.spin_count;
+            Debug.Log("Spin " + APIController.spin_count);
+            IncreaseButton.interactable = true;
+
             if (APIController.spin_count <= 1)
             {
-                Debug.Log("Spin " + APIController.spin_count);
                 DecreaseButton.interactable = false;
-                IncreaseButton.interactable = true;
             }
-            
+
         }
         public void EnableCloseButton()
         {            

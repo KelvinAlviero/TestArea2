@@ -104,7 +104,7 @@ public class APIController: MonoBehaviour
             response.draws[0].items.Count > 0)
             {
             var items = response.draws[0].items[0];
-            DebugText.text = "Reward spun " + items.name+"_"+ items.amount +"_"+ items.itemId;
+            DebugText.text = "Reward spun " + items.name+"_"+ items.amount +"_"+ items.itemId + "_" + spin_count;
             UnserializeditemId = items.itemId;
             UnserializedItems();
             Debug.Log(request.downloadHandler.text);
