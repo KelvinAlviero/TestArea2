@@ -193,35 +193,6 @@ public class SpinningScript : MonoBehaviour
         yield break;
     }
 
-    private string GetRewardName(int rewardId)
-    {
-        switch (rewardId)
-        {
-            case 6:
-                Debug.Log("Reward name" + rewardId);
-                return "10 Coins"; 
-            case 1: 
-                Debug.Log("Reward name" + rewardId);
-                return "Placeholder";
-            case 2: 
-                Debug.Log("Reward name" + rewardId);
-                return "Placeholder";  
-            case 3: 
-                Debug.Log("Reward name" + rewardId);
-                return "20 coins";
-            case 4: 
-                Debug.Log("Reward name" + rewardId);
-                return "Placeholder";
-            case 5: 
-                Debug.Log("Reward name" + rewardId);
-                return "Booster";
-            default: 
-                Debug.Log("Reward name" + rewardId);
-                return "Unknown Reward";
-            
-        }
-    }
-
 
     // ----- Processing while spinning ----- //
     private void ConfigureForcedReward(RewardType rewardType) // Forced reward section, calls from UnserialiedReward
@@ -373,7 +344,6 @@ public class SpinningScript : MonoBehaviour
     {
             //wheel naturally stopped at target due to calculated stopPower
             // Now smoothly center it on the reward before showing the delayed-win animation
-            Debug.Log(GetRewardName(activeRewardResult));
             rewardResult = activeRewardResult;
             StartCoroutine(SmoothRotateToThenDelayedWin(activeTargetAngle));
             activeForceReward = false;

@@ -603,7 +603,7 @@ MonoBehaviour:
   email: aaa@gmail.com
   password: qwerty123
   returnSecureToken: true
-  JWTToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODI5NzcxMjksInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.aGA_HnoSTFMVmKgJZR-7be6akcRbWBSWLOybcUgHQh4
+  JWTToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODI5ODE5MzAsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.heOffCxOa75X_JgSNgQPcIi2GgbR7TiDvrZO2YKFYT0
   DebugText: {fileID: 1072922596}
   ObtainedReward: 
   UnserializeditemId: 
