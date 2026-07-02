@@ -122,34 +122,34 @@ namespace Forgehub.SpookyBubbles
             switch(SpinningScript.rewardResult)
             {
             case 1:
-                    Debug.Log("Reward = Magnifying Glass");
+                    Debug.Log("Reward = Shield");
                     m_GlassReward.gameObject.SetActive(true); //Magnifying glass
-                    RewardText.text = "Magnifying glass x2";
+                    RewardText.text = "Shield";
                     break;
                 case 2:
-                    Debug.Log("Reward = Placeholder");
+                    Debug.Log("Reward = Magnet");
                     MagnetReward.gameObject.SetActive(true); //Magnet
-                    RewardText.text = "Placeholder";
+                    RewardText.text = "Magnet";
                     break;
                 case 3:
-                    Debug.Log("Reward = 20 coins");
+                    Debug.Log("Reward = Coins x20");
                     coinBigReward.gameObject.SetActive(true); //Coins300
                     RewardText.text = "Coins x20";
                     break;
                 case 4:
-                    Debug.Log("Reward = Placeholder");
+                    Debug.Log("Reward = Speed");
                     bombReward.gameObject.SetActive(true); //Bombs
-                    RewardText.text = "Placeholder";
+                    RewardText.text = "Speed";
                     break;
                 case 5:
-                    Debug.Log("Reward = Prebooster");
+                    Debug.Log("Reward = Booster");
                     movesReward.gameObject.SetActive(true); //Extramoves
-                    RewardText.text = "Prebooster";
+                    RewardText.text = "Booster";
                     break;
                 case 6:
-                    Debug.Log("Reward = 100 coins");
+                    Debug.Log("Reward = Gems x10");
                     coinReward.gameObject.SetActive(true); //Coins 100
-                    RewardText.text = "Coins x10";
+                    RewardText.text = "Gems x10";
                     break;
             }
         }

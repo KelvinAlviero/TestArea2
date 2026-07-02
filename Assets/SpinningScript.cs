@@ -36,7 +36,7 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float preSpinSpeed = 3000f; // deg/s during pre-spin
     [SerializeField] public float preSpinDamping = 5f; // small damping during pre-spin so it stays fast
     [SerializeField] public float switchAngularVelocity = 2000f; // angular velocity applied when switching to landing phase
-    private Coroutine preSpinCoroutine;
+    
     [SerializeField] public float smoothRotationDuration = 0.5f; // Duration for smooth rotation to center
     [SerializeField] private Coroutine lightAnimationCoroutine;
     [SerializeField] private int DelayedWinTime = 1000;
@@ -44,8 +44,9 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public bool ReceivedBackend;
     [SerializeField] private Dictionary<string, RewardType> rewardMap;
     [SerializeField] public string BackendReward;
-    
+    public RewardType rewardType;
     int inRotate;
+    private Coroutine preSpinCoroutine;
     private void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
@@ -73,8 +74,6 @@ public class SpinningScript : MonoBehaviour
         Speed //69fdaf030d3ceac0fa4715a1
          
     }
-
-    
 
     float t;
 
@@ -110,7 +109,8 @@ public class SpinningScript : MonoBehaviour
         }
     }
     
-    public RewardType rewardType;
+
+    // ----- Update function ----- //
     private void Update()
     {
         if (rbody.angularVelocity > 0f) 
@@ -125,7 +125,7 @@ public class SpinningScript : MonoBehaviour
             t += Time.deltaTime;
             if (t >= 0.5f)
             {
-                ResolveReward();
+                FinalizeSpinResults();
                 inRotate = 0;
                 t = 0f;
             }
@@ -136,8 +136,9 @@ public class SpinningScript : MonoBehaviour
         BackendReward = APIController.ObtainedReward;
         
     }
-    
-    public void Rotate() //rotate func
+
+    // ----- Spinning function, uses button to start ----- //
+    public void Rotate() 
     {
         if (inRotate == 0)
         {
@@ -154,7 +155,9 @@ public class SpinningScript : MonoBehaviour
         }
     }
 
-    private IEnumerator PreSpinThenSwitch() //Changes to new angle for forced rewards, leaves it running on off
+
+    // -----  During spin functions ----- //
+    private IEnumerator PreSpinThenSwitch() //Changes to new angle for forced rewards
     {
         // float previousStopPower = stopPower;
         stopPower = preSpinDamping;
@@ -167,7 +170,7 @@ public class SpinningScript : MonoBehaviour
             yield return null;
         }
 
-        if (ReceivedBackend == true)
+        if (ReceivedBackend == true) //Calls the change only once backend is received. 
         {
             Debug.Log("changing reward");
             // Set consistent angular velocity for the landing phase
@@ -188,37 +191,6 @@ public class SpinningScript : MonoBehaviour
         // cleanup coroutine handle
         preSpinCoroutine = null;
         yield break;
-    }
-
-    private float CalculateAngularDistanceToTarget()
-    {
-        float currentAngle = transform.eulerAngles.z;
-        float distance = (activeTargetAngle - currentAngle + 360f) % 360f;
-        return distance;
-    }
-
-    public void SetDebugReward(RewardType selectedReward)
-    {
-        rewardType = selectedReward;
-        if (inRotate == 0)
-        {
-            activeRewardType = selectedReward;
-            activeForceReward = selectedReward != RewardType.Normal;
-            ConfigureForcedReward(selectedReward);
-        }
-        
-    }
-    private void ApplyReward(int rewardId, float targetAngle, string debugText)
-    {
-        Debug.Log(debugText);
-        rewardResult = rewardId;
-        StartCoroutine(SmoothRotateToThenDelayedWin(targetAngle));
-    }
-
-    private IEnumerator SmoothRotateToThenDelayedWin(float targetAngle)
-    {
-        yield return SmoothRotateTo(targetAngle);
-        DelayedWin();
     }
 
     private string GetRewardName(int rewardId)
@@ -263,13 +235,13 @@ public class SpinningScript : MonoBehaviour
         }
         switch (rewardType) //This is connected to RewardType
         {
-            case RewardType.Magnet:
+            case RewardType.Shield:
                 activeTargetAngle = Reward1;//90f
                 activeRewardResult = 1;
                 Debug.Log("TargetAngle" + activeTargetAngle);
                 Debug.Log("RewardType forced" + rewardType);
                 break;
-            case RewardType.Shield:
+            case RewardType.Magnet:
                 activeTargetAngle = Reward2;//150f
                 activeRewardResult = 2;
                 Debug.Log("TargetAngle" + activeTargetAngle);
@@ -309,7 +281,14 @@ public class SpinningScript : MonoBehaviour
         }
     }
 
-    private void ResolveRandomReward() //Center reward back
+    private void ApplyReward(int rewardId, float targetAngle, string debugText)
+    {
+        Debug.Log(debugText);
+        rewardResult = rewardId;
+        StartCoroutine(SmoothRotateToThenDelayedWin(targetAngle));
+    }
+
+    private void WheelCenterizer() //Center reward back on spin end, depends on ApplyReward
     {
         float rot = transform.eulerAngles.z;
         float normalizedRot = (rot + 360f) % 360f;
@@ -318,7 +297,7 @@ public class SpinningScript : MonoBehaviour
         if (normalizedRot >= 0f && normalizedRot < 60f)
         {
             targetAngle = Reward6;
-            ApplyReward(6, targetAngle, "10 Coins");
+            ApplyReward(6, targetAngle, "10 Coins"); 
         }
         else if (normalizedRot < 120f)
         {
@@ -346,27 +325,7 @@ public class SpinningScript : MonoBehaviour
             ApplyReward(5, targetAngle, "Prebooster");
         }
     }
-    
-    // ----- Rewards processor ----- //
-    private void ResolveReward()
-    {
-        if (activeForceReward)
-        {
-            // In forced mode, wheel naturally stopped at target due to calculated stopPower
-            // Now smoothly center it on the reward before showing the delayed-win animation
-            Debug.Log(GetRewardName(activeRewardResult));
-            rewardResult = activeRewardResult;
-            StartCoroutine(SmoothRotateToThenDelayedWin(activeTargetAngle));
-            activeForceReward = false;
-            return;
-        }
-
-        ResolveRandomReward();
-    }
-
-    
-
-    
+        
     // ----- Afterspin stuffs ----- //
     public async void DelayedWin() 
     {
@@ -381,7 +340,11 @@ public class SpinningScript : MonoBehaviour
             StopCoroutine(lightAnimationCoroutine);
         }
     }
-
+    private IEnumerator SmoothRotateToThenDelayedWin(float targetAngle)
+    {
+        yield return SmoothRotateTo(targetAngle);
+        DelayedWin();
+    }
     private IEnumerator SmoothRotateTo(float targetAngle)
     {
         RectTransform rect = GetComponent<RectTransform>();
@@ -398,6 +361,24 @@ public class SpinningScript : MonoBehaviour
         }
 
         rect.eulerAngles = new Vector3(0, 0, targetAngle);
+    }
+    private float CalculateAngularDistanceToTarget()
+    {
+        float currentAngle = transform.eulerAngles.z;
+        float distance = (activeTargetAngle - currentAngle + 360f) % 360f;
+        return distance;
+    }
+
+    private void FinalizeSpinResults()
+    {
+            //wheel naturally stopped at target due to calculated stopPower
+            // Now smoothly center it on the reward before showing the delayed-win animation
+            Debug.Log(GetRewardName(activeRewardResult));
+            rewardResult = activeRewardResult;
+            StartCoroutine(SmoothRotateToThenDelayedWin(activeTargetAngle));
+            activeForceReward = false;
+            WheelCenterizer();
+            return;
     }
 
 
