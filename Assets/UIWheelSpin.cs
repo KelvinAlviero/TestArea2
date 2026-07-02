@@ -29,7 +29,6 @@ using Unity.VisualScripting;
         [SerializeField] public TMP_Text TimeText;
         private StringBuilder sb;
         private SimpleLongSave save;
-        
         [SerializeField] private RectTransform contentRectTransform;
         [SerializeField] public bool LightCheck;
         [SerializeField] public bool isSpinning = false;

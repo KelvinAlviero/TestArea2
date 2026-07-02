@@ -114,7 +114,6 @@ namespace Forgehub.SpookyBubbles
                 fadeImage.raycastTarget = false;
                 Debug.Log("Fade raycast target disabled");
             }
-
             backgroundImage.gameObject.SetActive(true);
             claimButton.gameObject.SetActive(true);
             claimButton.interactable = true;

@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 public class APIController: MonoBehaviour
 {
     public SpinningScript SpinningScript;
+    
     public string URL_GetUser = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70";
     public string URL_StartSpin = "http://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
     public string URL_RecieveReward = "http://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel";
@@ -21,6 +22,7 @@ public class APIController: MonoBehaviour
     public TMP_Text DebugText;
     public string ObtainedReward;
     public string UnserializeditemId;
+    
     
     [System.Serializable]
     public class SpinRequest
@@ -43,6 +45,7 @@ public class APIController: MonoBehaviour
     {
         public string package_id;
         public List<SpinItem> items;
+        
     }
     [System.Serializable]
     public class SpinResponse
@@ -100,11 +103,12 @@ public class APIController: MonoBehaviour
             response.draws[0].items.Count > 0)
             {
             var items = response.draws[0].items[0];
-            DebugText.text = "Reward spun " + items.itemType+"_"+ items.amount +"_"+ items.itemId;
+            DebugText.text = "Reward spun " + items.name+"_"+ items.amount +"_"+ items.itemId;
             UnserializeditemId = items.itemId;
             UnserializedItems();
             Debug.Log(request.downloadHandler.text);
             SpinningScript.ReceivedBackend = true;
+            SpinningScript.UnserializedReward(items.itemId);
             }
             else
             {
