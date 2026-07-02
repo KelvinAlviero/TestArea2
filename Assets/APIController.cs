@@ -22,6 +22,7 @@ public class APIController: MonoBehaviour
     public TMP_Text DebugText;
     public string ObtainedReward;
     public string UnserializeditemId;
+    public int spin_count = 1;
     
     
     [System.Serializable]
@@ -63,7 +64,7 @@ public class APIController: MonoBehaviour
         var data = new SpinRequest
         {
             spinwheel_config_name = "default_testing_spinwheel",
-            spin_count = 1
+            spin_count = spin_count 
         };
         string json = JsonUtility.ToJson(data);
         Debug.Log("Json files within" + json);

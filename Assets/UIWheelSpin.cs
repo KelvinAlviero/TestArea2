@@ -27,6 +27,7 @@ using Unity.VisualScripting;
         [SerializeField] int timerDurationInMinutes;
         [SerializeField] string saveID = "uniqueTimerSaveID";   
         [SerializeField] public TMP_Text TimeText;
+        [SerializeField] public TMP_Text SpinAmount;
         private StringBuilder sb;
         private SimpleLongSave save;
         [SerializeField] private RectTransform contentRectTransform;
@@ -185,11 +186,30 @@ using Unity.VisualScripting;
     
         public void OnIncreaseButtonClicked()
         {
+            APIController.spin_count= APIController.spin_count + 1;
             Debug.Log("AmountIncreased");
+            SpinAmount.text = "Spin " + APIController.spin_count;
+
+            if (APIController.spin_count >= 9)
+            {
+                Debug.Log("Spin " + APIController.spin_count);
+                IncreaseButton.interactable = false;
+                DecreaseButton.interactable = true;
+            }
+            
         }
         public void OnDecreaseButtonClicked()
         {
+            APIController.spin_count= APIController.spin_count - 1;
             Debug.Log("Amount Decreased");
+            SpinAmount.text = "Spin" + APIController.spin_count;
+            if (APIController.spin_count <= 1)
+            {
+                Debug.Log("Spin " + APIController.spin_count);
+                DecreaseButton.interactable = false;
+                IncreaseButton.interactable = true;
+            }
+            
         }
         public void EnableCloseButton()
         {            
@@ -206,6 +226,7 @@ using Unity.VisualScripting;
             Debug.Log("Spin button Enabled");
             spinningButton.interactable = true;
         }
+        
 
         // --- Light animation --- //
         public void StopLightAnimation()
