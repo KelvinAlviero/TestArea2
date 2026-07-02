@@ -50,7 +50,6 @@ namespace Forgehub.SpookyBubbles
             claimButton.onClick.AddListener(OnClaimButtonClicked);
             isInitialized = true;
             
-            
         }
 
         private void OnDestroy()
@@ -75,15 +74,13 @@ namespace Forgehub.SpookyBubbles
             Debug.Log("UIWheelReward: Claim button clicked");
             Debug.Log("UIWheelReward: closed UI");
             Debug.Log("UIWheelReward: Enable close button in UIWheelSpin");
-            
-            
+             
         }
 
         private void OnCloseButtonClicked()
         {
-            Debug.Log("CLOSE BUTTON CLICKED");
+            Debug.Log("Close button clicked");
             PlayHideAnimation();
-            Debug.Log("UIWheelReward: Close button clicked");
         }
 
         public override void PlayShowAnimation()
@@ -110,7 +107,7 @@ namespace Forgehub.SpookyBubbles
             FlashImage.gameObject.SetActive(true);
             Fade.gameObject.SetActive(true);
             
-            // IMPORTANT: Disable raycast on Fade so it doesn't block clicks
+            // Disable raycast on Fade so it doesn't block clicks
             Image fadeImage = Fade.GetComponent<Image>();
             if (fadeImage != null)
             {
@@ -119,10 +116,6 @@ namespace Forgehub.SpookyBubbles
             }
 
             backgroundImage.gameObject.SetActive(true);
-            
-            // closeButton.gameObject.SetActive(true);
-            // closeButton.interactable = true;
-            // Debug.Log($"closeButton active: {closeButton.gameObject.activeSelf}, interactable: {closeButton.interactable}");
             claimButton.gameObject.SetActive(true);
             claimButton.interactable = true;
             Debug.Log($"claimButton active: {claimButton.gameObject.activeSelf}, interactable: {claimButton.interactable}");
@@ -131,33 +124,33 @@ namespace Forgehub.SpookyBubbles
             {
             case 1:
                     Debug.Log("Reward = Magnifying Glass");
-                    m_GlassReward.gameObject.SetActive(true); //
+                    m_GlassReward.gameObject.SetActive(true); //Magnifying glass
                     RewardText.text = "Magnifying glass x2";
                     break;
                 case 2:
-                    Debug.Log("Reward = Magnet");
-                    MagnetReward.gameObject.SetActive(true); //
-                    RewardText.text = "Magnet x1";
+                    Debug.Log("Reward = Placeholder");
+                    MagnetReward.gameObject.SetActive(true); //Magnet
+                    RewardText.text = "Placeholder";
                     break;
                 case 3:
-                    Debug.Log("Reward = 300 coins");
-                    coinBigReward.gameObject.SetActive(true); //
-                    RewardText.text = "Coins x300";
+                    Debug.Log("Reward = 20 coins");
+                    coinBigReward.gameObject.SetActive(true); //Coins300
+                    RewardText.text = "Coins x20";
                     break;
                 case 4:
-                    Debug.Log("Reward = Bombs");
-                    bombReward.gameObject.SetActive(true); //
-                    RewardText.text = "Bombs x2";
+                    Debug.Log("Reward = Placeholder");
+                    bombReward.gameObject.SetActive(true); //Bombs
+                    RewardText.text = "Placeholder";
                     break;
                 case 5:
-                    Debug.Log("Reward = +5 Moves");
-                    movesReward.gameObject.SetActive(true); //
-                    RewardText.text = "Extra moves x1";
+                    Debug.Log("Reward = Prebooster");
+                    movesReward.gameObject.SetActive(true); //Extramoves
+                    RewardText.text = "Prebooster";
                     break;
                 case 6:
                     Debug.Log("Reward = 100 coins");
-                    coinReward.gameObject.SetActive(true); //
-                    RewardText.text = "Coins x100";
+                    coinReward.gameObject.SetActive(true); //Coins 100
+                    RewardText.text = "Coins x10";
                     break;
             }
         }

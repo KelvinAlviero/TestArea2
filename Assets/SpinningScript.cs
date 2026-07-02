@@ -17,8 +17,8 @@ public class SpinningScript : MonoBehaviour
     public UIWheelReward UIWheelReward;
     public UIWheelSpin UIWheelSpin;
     public APIController APIController;
-    [SerializeField] public int RewardShift = 0; //wheel adjustment
-    [SerializeField] private int Angle1, Angle2, Angle3, Angle4 ,Angle5 ,Angle6 ,Angle7;
+    // [SerializeField] public int RewardShift = 0; //wheel adjustment
+    [SerializeField] private int Reward1, Reward2, Reward3, Reward4 ,Reward5 ,Reward6 ,Reward7;
     [SerializeField] public float rotatePower ;
     [SerializeField] public float stopPower;
     [SerializeField] public Image DebugWheelPoint;
@@ -42,12 +42,9 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private int DelayedWinTime = 1000;
     [SerializeField] private float ChangeDelay = 3f;
     [SerializeField] public bool ReceivedBackend;
-    [SerializeField] public string Coin10,Coin20,Prebooster,Placeholder1,Placeholder2,Placeholder3;
     [SerializeField] private Dictionary<string, RewardType> rewardMap;
     
-
     int inRotate;
-    
     private void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
@@ -69,7 +66,7 @@ public class SpinningScript : MonoBehaviour
     
     public bool TryResolveReward(string incomingItemId, out RewardType resolvedReward)
     {
-        resolvedReward = RewardType.Random;
+        resolvedReward = RewardType.Normal;
 
         if (string.IsNullOrEmpty(incomingItemId))
             return false;
@@ -82,7 +79,7 @@ public class SpinningScript : MonoBehaviour
 
     public enum RewardType //List for rewards
     {
-        Random, //Pick this for random reward
+        Normal, //Pick this for random reward
         Coin10, //69fdaf4e0d3ceac0fa4715a7
         Placeholder1,
         Placeholder2,
@@ -92,7 +89,6 @@ public class SpinningScript : MonoBehaviour
     }
 
     public RewardType rewardType;
-
     private void Update()
     {
         if (rbody.angularVelocity > 0f)
@@ -113,23 +109,9 @@ public class SpinningScript : MonoBehaviour
             }
         }
         Debug.Log("Backend Reward: "+ APIController.ObtainedReward);
-        {
-            if (ChangeDelay > 0)
-            {
-                ChangeDelay -= Time.deltaTime;
-                Debug.Log("Countdown started");
-            }
-            else
-            {
-                Debug.Log("No timer");
-            }
-        }
-
-        
     }
-
     
-    public void Rotete() //rotate func
+    public void Rotate() //rotate func
     {
         if (inRotate == 0)
         {
@@ -158,8 +140,7 @@ public class SpinningScript : MonoBehaviour
             yield return null;
         }
 
-
-        if (activeForceReward && ReceivedBackend == true)
+        if (ReceivedBackend == true)
         {
             Debug.Log("changing reward");
             // Set consistent angular velocity for the landing phase
@@ -177,13 +158,6 @@ public class SpinningScript : MonoBehaviour
             // Apply tuner and guard against tiny/huge values
             stopPower = Mathf.Clamp(computedDecel * landingTuner, 10f, 20000f);
         }
-        else
-        {
-            // Random mode: apply a random starting velocity and damping
-            rbody.angularVelocity = Random.Range(6000f, 10000f);
-            stopPower = Random.Range(500f, 900f);
-        }
-
         // cleanup coroutine handle
         preSpinCoroutine = null;
         yield break;
@@ -205,37 +179,51 @@ public class SpinningScript : MonoBehaviour
             activeRewardResult = 0;
             return;
         }
-
         switch (rewardType) //This is connected to RewardType
         {
-            case RewardType.Coin10:
-                activeTargetAngle = 30f + RewardShift;
-                activeRewardResult = 6;
-                break;
+            
             case RewardType.Placeholder1:
-                activeTargetAngle = 90f + RewardShift;
+                activeTargetAngle = Reward1;//90f
                 activeRewardResult = 1;
+                Debug.Log("TargetAngle" + activeTargetAngle);
+                Debug.Log("RewardType forced" + rewardType);
                 break;
             case RewardType.Placeholder2:
-                activeTargetAngle = 150f + RewardShift;
+                activeTargetAngle = Reward2;//150f
                 activeRewardResult = 2;
+                Debug.Log("TargetAngle" + activeTargetAngle);
+                Debug.Log("RewardType forced" + rewardType);
                 break;
             case RewardType.Coin20:
-                activeTargetAngle = 210f + RewardShift;
+                activeTargetAngle = Reward3;//210f
                 activeRewardResult = 3;
+                Debug.Log("TargetAngle" + activeTargetAngle);
+                Debug.Log("RewardType forced" + rewardType);
                 break;
             case RewardType.Placeholder3:
-                activeTargetAngle = 270f + RewardShift;
+                activeTargetAngle = Reward4;//270f
                 activeRewardResult = 4;
+                Debug.Log("TargetAngle" + activeTargetAngle);
+                Debug.Log("RewardType forced" + rewardType);
                 break;
             case RewardType.Prebooster:
-                activeTargetAngle = 330f + RewardShift;
+                activeTargetAngle = Reward5;//330f
                 activeRewardResult = 5;
+                Debug.Log("TargetAngle" + activeTargetAngle);
+                Debug.Log("RewardType forced" + rewardType);
+                break;
+            case RewardType.Coin10:
+                activeTargetAngle = Reward6;//30f 
+                activeRewardResult = 6;
+                Debug.Log("TargetAngle" + activeTargetAngle);
+                Debug.Log("RewardType forced" + rewardType);
                 break;
             default:
                 activeForceReward = false;
                 activeTargetAngle = 0f;
                 activeRewardResult = 0;
+                Debug.Log("No angle targetted");
+                Debug.Log("RewardType forced" + rewardType);
                 break;
         }
     }
@@ -269,37 +257,37 @@ public class SpinningScript : MonoBehaviour
     private void ResolveRandomReward() //Center reward back
     {
         float rot = transform.eulerAngles.z;
-        float normalizedRot = (rot - RewardShift + 360f) % 360f;
+        float normalizedRot = (rot + 360f) % 360f;
         float targetAngle;
 
         if (normalizedRot >= 0f && normalizedRot < 60f)
         {
-            targetAngle = 30f + RewardShift;
+            targetAngle = Reward6;
             ApplyReward(6, targetAngle, "10 Coins");
         }
         else if (normalizedRot < 120f)
         {
-            targetAngle = 90f + RewardShift;
+            targetAngle = Reward1;
             ApplyReward(1, targetAngle, "Placeholder");
         }
         else if (normalizedRot < 180f)
         {
-            targetAngle = 150f + RewardShift;
+            targetAngle = Reward2;
             ApplyReward(2, targetAngle, "Placeholder");
         }
         else if (normalizedRot < 240f)
         {
-            targetAngle = 210f + RewardShift;
+            targetAngle = Reward3;
             ApplyReward(3, targetAngle, "20 coins");
         }
         else if (normalizedRot < 300f)
         {
-            targetAngle = 270f + RewardShift;
+            targetAngle = Reward4;
             ApplyReward(4, targetAngle, "Placeholder");
         }
         else
         {
-            targetAngle = 330f + RewardShift;
+            targetAngle = Reward5;
             ApplyReward(5, targetAngle, "Prebooster");
         }
     }
