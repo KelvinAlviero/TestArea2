@@ -60,14 +60,17 @@ namespace Forgehub.SpookyBubbles
 
         public void OnClaimButtonClicked()
         {
-            if (UIWheelSpin.SpinAgain == true)
-            {
-                Debug.Log("UIWheelReward spinning again");
-                UIWheelSpin.OnSpinButtonClicked();
-                UIWheelSpin.isSpinning = false;
-                PlayHideAnimation();
-            }   
+            bool hasMoreQueuedRewards = SpinningScript != null && SpinningScript.HasPendingRewards;
 
+            if (hasMoreQueuedRewards)
+            {
+                Debug.Log("UIWheelReward: starting next queued spin");
+                UIWheelSpin.OnSpinButtonClicked();
+                UIWheelSpin.EnableSpinButton();
+                UIWheelSpin.StopLightAnimation();
+                PlayHideAnimation();
+                
+            }
             else
             {
             Debug.Log("No more spins");

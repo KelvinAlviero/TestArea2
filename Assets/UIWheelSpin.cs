@@ -28,6 +28,7 @@ using Unity.VisualScripting;
         [SerializeField] string saveID = "uniqueTimerSaveID";   
         [SerializeField] public TMP_Text TimeText;
         [SerializeField] public TMP_Text SpinAmount;
+        [SerializeField] public TMP_Text SpinList;
         private StringBuilder sb;
         private SimpleLongSave save;
         [SerializeField] private RectTransform contentRectTransform;
@@ -45,8 +46,6 @@ using Unity.VisualScripting;
         [SerializeField] private Button DecreaseButton;
         [SerializeField] public bool SpinAgain;
         
-
-
         private void Awake()
         {
             CacheComponents();
@@ -163,27 +162,6 @@ using Unity.VisualScripting;
             backgroundImage.gameObject.SetActive(false);
         }
         
-        // ----- More spins -----//
-        private void MoreSpinsCheck()
-        {
-            if (APIController.spin_count > 1)
-            {
-            Debug.Log("Spinning again" + APIController.spin_count);
-            for (int i = 0; i < APIController.spin_count + 1; i++ )
-            {
-                SpinAgain = true;
-            }
-            }
-            else
-            {
-                SpinAgain = false;
-            }
-        }
-
-        public void RemainingSpins()
-        {
-            
-        }
 
         //-------- Buttons --------//
         public void OnCloseButtonClicked()
@@ -197,18 +175,27 @@ using Unity.VisualScripting;
         
         public void OnSpinButtonClicked()
         {
-            MoreSpinsCheck();
+            if (isSpinning)
+                return;
+
             isSpinning = true;
-            APIController.StartCoroutine(APIController.StartSpin());
             closeButton.interactable = false;
             spinningButton.interactable = false;
+
+            if (APIController != null && APIController.SpinningScript != null && APIController.SpinningScript.HasPendingRewards)
+            {
+                APIController.SpinningScript.StartNextQueuedSpin();
+                SpinAgain = APIController.SpinningScript.HasPendingRewards;
+            }
+            else
+            {
+                APIController.StartCoroutine(APIController.StartSpin());
+                SpinAgain = false;
+            }
+
             Debug.Log("UIWheelSpin: Spin button clicked");
             Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
             Debug.Log("UIWheelSpin Spin amount = " + APIController.spin_count);
-            if (SpinAgain == true)
-            {
-                isSpinning = false;
-            }
         }
     
         public void OnIncreaseButtonClicked()

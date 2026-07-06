@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Forgehub.SpookyBubbles;
 using JetBrains.Annotations;
 using Microsoft.Unity.VisualStudio.Editor;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -48,6 +49,8 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public List<string> rewardAmounts;
     [SerializeField] public int rewardResult;
     [SerializeField] private int activeRewardResult;
+    [SerializeField] private int rewardQueueIndex;
+    [SerializeField] private TMP_Text Debug_RewardList;
     [Space(10)]
 
     [Header("Others")]
@@ -68,6 +71,7 @@ public class SpinningScript : MonoBehaviour
         // Initialize reward angles
         rewardAngles = new List<float>();
         rewardAmounts = new List<string>();
+        rewardQueueIndex = 0;
         rewardMap = new Dictionary<string, RewardType>
     {
         { "69fdaf4e0d3ceac0fa4715a7", RewardType.Gems10 },
@@ -102,27 +106,84 @@ public class SpinningScript : MonoBehaviour
         return false;
     }
 
+    public void QueueRewards(IEnumerable<string> incomingItemIds)
+    {
+        if (rewardAmounts == null)
+            rewardAmounts = new List<string>();
+
+        rewardAmounts.Clear();
+        rewardQueueIndex = 0;
+
+        if (incomingItemIds == null)
+            return;
+
+        foreach (string incomingItemId in incomingItemIds)
+        {
+            if (string.IsNullOrEmpty(incomingItemId))
+                continue;
+
+            rewardAmounts.Add(incomingItemId);
+        }
+        Debug.Log("Queued reward IDs: " + string.Join(",", rewardAmounts));
+        
+    }
+
+    public bool HasPendingRewards => rewardAmounts != null && rewardQueueIndex < rewardAmounts.Count;
+
+    public void StartNextQueuedSpin()
+    {
+        if (!HasPendingRewards)
+        {
+            Debug.Log("No queued rewards left.");
+            return;
+        }
+
+        string incomingItemId = rewardAmounts[rewardQueueIndex];
+        rewardQueueIndex++;
+
+        if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
+        {
+            rewardType = resolvedReward;
+            activeRewardType = resolvedReward;
+            ConfigureForcedReward(resolvedReward);
+            ReceivedBackend = true;
+            Rotate(resolvedReward);
+            Debug.Log("Starting queued reward: " + incomingItemId + " -> " + resolvedReward);
+            
+            //Debug reward list
+            // string formattedText = "";
+            // foreach (string item in rewardAmounts)
+            // {
+            //     formattedText += "• <indent=5%>" + item + "</indent>\n";
+            // }
+
+            Debug_RewardList.text = rewardType.ToString();
+        }
+        else
+        {
+            ReceivedBackend = false;
+            Debug.LogWarning("Unknown queued reward ID: " + incomingItemId);
+        }
+    }
+
     public void UnserializedReward(string incomingItemId) //Translates ID into cases
     {
         if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
         {
-            rewardType = resolvedReward; //
+            rewardType = resolvedReward;
             activeRewardType = resolvedReward;
 
-            
             ConfigureForcedReward(resolvedReward);
             ReceivedBackend = true;
-            string combined = String.Join(",", rewardAmounts);
+            string combined = String.Join(",", rewardAmounts ?? new List<string>());
             Debug.Log("Reward Amounts " + combined);
         }
         else
         {
-            
             ReceivedBackend = false;
             Debug.LogWarning("Unknown reward ID: " + incomingItemId);
         }
     }
-    
 
     // ----- Update function ----- //
     private void Update()
@@ -151,12 +212,17 @@ public class SpinningScript : MonoBehaviour
     }
 
     // ----- Spinning function, uses button to start ----- //
-    public void Rotate() 
+    public void Rotate()
+    {
+        Rotate(rewardType);
+    }
+
+    public void Rotate(RewardType rewardToUse)
     {
         if (inRotate == 0)
         {
-            activeRewardType = rewardType;
-            
+            activeRewardType = rewardToUse;
+
             ConfigureForcedReward(activeRewardType);
 
             // Start pre-spin coroutine which will spin fast, then switch to landing phase

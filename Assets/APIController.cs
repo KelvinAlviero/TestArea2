@@ -7,6 +7,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEditor.PackageManager.Requests;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Search;
 
 public class APIController: MonoBehaviour
 {
@@ -19,7 +20,8 @@ public class APIController: MonoBehaviour
     public string password = "qwerty123";
     public string returnSecureToken = "true";
     public string JWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODI4OTUyODAsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.oUYNJWHmdQ1G8DG9U8diDC8gBkPxBfbGRynJCfuZDLg";
-    public TMP_Text DebugText;
+    public TMP_Text DebugText_SpinAmount;
+    public TMP_Text DebugText_ItemList;
     public string ObtainedReward;
     public string UnserializeditemId;
     public int spin_count = 1;
@@ -99,21 +101,46 @@ public class APIController: MonoBehaviour
             
             if (response != null &&
             response.draws != null &&
-            response.draws.Count > 0 &&
-            response.draws[0].items != null &&
-            response.draws[0].items.Count > 0)
+            response.draws.Count > 0)
             {
-            var items = response.draws[0].items[0];
-            DebugText.text = "Reward spun " + items.name+"_"+ items.amount +"_"+ items.itemId + "_" + spin_count;
-            UnserializeditemId = items.itemId;
-            UnserializedItems();
-            Debug.Log(request.downloadHandler.text);
-            SpinningScript.ReceivedBackend = true;
-            SpinningScript.UnserializedReward(items.itemId);
+                List<string> queuedItemIds = new List<string>();
+                SpinItem firstItem = null;
+
+                foreach (var draw in response.draws)
+                {
+                    if (draw == null || draw.items == null)
+                        continue;
+
+                    foreach (var item in draw.items)
+                    {
+                        if (item == null || string.IsNullOrEmpty(item.itemId))
+                            continue;
+
+                        queuedItemIds.Add(item.itemId);
+
+                        if (firstItem == null)
+                            firstItem = item;
+                    }
+                }
+
+                if (queuedItemIds.Count > 0 && firstItem != null)
+                {
+                    DebugText_SpinAmount.text = "Reward spun " + queuedItemIds.Count + " times";
+                    UnserializeditemId = firstItem.itemId;
+                    UnserializedItems();
+                    Debug.Log(request.downloadHandler.text);
+                    SpinningScript.ReceivedBackend = true;
+                    SpinningScript.QueueRewards(queuedItemIds);
+                    SpinningScript.StartNextQueuedSpin();
+                }
+                else
+                {
+                    DebugText_SpinAmount.text = "No rewards :(";
+                }
             }
             else
             {
-                DebugText.text = "No rewards :(";
+                DebugText_SpinAmount.text = "No rewards :(";
             }
         }
     
