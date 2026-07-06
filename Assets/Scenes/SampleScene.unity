@@ -155,9 +155,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 581
       objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: ReceivedBackend
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829007872880519265, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_text
+      value: Spin 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: JWTToken
-      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODMzMTQ5ODUsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.Un6AeW_NKEFVZsYzuC4GcRGHEOivWU6tVj3XgKMPukM
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODMzMjQzNjMsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.hiQ0M_l6ze6zFYbMhUKcfugL_CKrnDvAAKwSQrWRzxM
+      objectReference: {fileID: 0}
+    - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: spin_count
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3744812807869482192, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: m_Pivot.x

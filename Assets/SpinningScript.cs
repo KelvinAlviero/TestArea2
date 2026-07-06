@@ -102,7 +102,7 @@ public class SpinningScript : MonoBehaviour
         return false;
     }
 
-    public void UnserializedReward(string incomingItemId)
+    public void UnserializedReward(string incomingItemId) //Translates ID into cases
     {
         if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
         {
@@ -112,7 +112,8 @@ public class SpinningScript : MonoBehaviour
             
             ConfigureForcedReward(resolvedReward);
             ReceivedBackend = true;
-            rewardAmounts.Add(activeRewardType.ToString());
+            string combined = String.Join(",", rewardAmounts);
+            Debug.Log("Reward Amounts " + combined);
         }
         else
         {
