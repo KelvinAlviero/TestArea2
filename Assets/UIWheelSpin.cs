@@ -64,7 +64,6 @@ using Unity.VisualScripting;
         
         private void Update()
         {
-            Morespins();
             // if (TimerDebug == true)
             // {
             //     ResetTimerDebug();
@@ -165,12 +164,19 @@ using Unity.VisualScripting;
         }
         
         // ----- More spins -----//
-        private void Morespins()
+        private void MoreSpinsCheck()
         {
             if (APIController.spin_count > 1)
+            {
+            Debug.Log("Spinning again" + APIController.spin_count);
             for (int i = 0; i < APIController.spin_count + 1; i++ )
             {
                 SpinAgain = true;
+            }
+            }
+            else
+            {
+                SpinAgain = false;
             }
         }
 
@@ -191,14 +197,14 @@ using Unity.VisualScripting;
         
         public void OnSpinButtonClicked()
         {
+            MoreSpinsCheck();
             isSpinning = true;
-            // APIController.StartCoroutine(APIController.SignIn());
             APIController.StartCoroutine(APIController.StartSpin());
             closeButton.interactable = false;
             spinningButton.interactable = false;
-            Debug.Log("Spin button clicked");
-            Debug.Log("Close button Disabled");
-            Debug.Log("IsSpinning = " + isSpinning);
+            Debug.Log("UIWheelSpin: Spin button clicked");
+            Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
+            Debug.Log("UIWheelSpin Spin amount = " + APIController.spin_count);
             if (SpinAgain == true)
             {
                 isSpinning = false;

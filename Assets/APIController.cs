@@ -29,7 +29,7 @@ public class APIController: MonoBehaviour
     public class SpinRequest
     {
         public string spinwheel_config_name;
-        public int spin_count;
+        public int spin_count = 1;
     }
 
     [System.Serializable]

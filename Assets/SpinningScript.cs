@@ -32,11 +32,6 @@ public class SpinningScript : MonoBehaviour
     [Header("WheelSpin config")]
     [SerializeField] public float scalingFactor = 50f; // Physics tuning: higher = less deceleration
     [SerializeField] public float landingTuner = 0.55f; // >1 undershoots, <1 overshoots
-    [SerializeField] public int rewardResult;
-    [SerializeField] private float activeTargetAngle;
-    [SerializeField] private int activeRewardResult;
-    [SerializeField] private RewardType activeRewardType;
-    [SerializeField] private List<float> rewardAngles;   
     [SerializeField] public float preSpinDuration = 3f; // seconds to spin very fast before applying forced landing
     [SerializeField] public float preSpinSpeed = 3000f; // deg/s during pre-spin
     [SerializeField] public float preSpinDamping = 5f; // small damping during pre-spin so it stays fast
@@ -44,8 +39,16 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float smoothRotationDuration = 0.5f; // Duration for smooth rotation to center
     [SerializeField] private int DelayedWinTime = 1000;
     [SerializeField] private float ChangeDelay = 3f;
+    [SerializeField] private float activeTargetAngle;
     [Space(10)]
-    
+
+    [Header("Results Debug")]
+    [SerializeField] private RewardType activeRewardType;
+    [SerializeField] private List<float> rewardAngles;   
+    [SerializeField] public List<string> rewardAmounts;
+    [SerializeField] public int rewardResult;
+    [SerializeField] private int activeRewardResult;
+    [Space(10)]
 
     [Header("Others")]
     [SerializeField] public bool ReceivedBackend;
@@ -64,6 +67,7 @@ public class SpinningScript : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>();
         // Initialize reward angles
         rewardAngles = new List<float>();
+        rewardAmounts = new List<string>();
         rewardMap = new Dictionary<string, RewardType>
     {
         { "69fdaf4e0d3ceac0fa4715a7", RewardType.Gems10 },
@@ -84,7 +88,6 @@ public class SpinningScript : MonoBehaviour
         Magnet, //69fdaeed0d3ceac0fa47159f
         Shield, //69fdaf260d3ceac0fa4715a3
         Speed //69fdaf030d3ceac0fa4715a1
-         
     }
 
     float t;
@@ -92,10 +95,6 @@ public class SpinningScript : MonoBehaviour
     // ----- ID to case translator ----- //
     public bool TryResolveReward(string incomingItemId, out RewardType resolvedReward)
     {
-        resolvedReward = RewardType.Normal;
-
-        if (string.IsNullOrEmpty(incomingItemId))
-            return false;
 
         if (rewardMap.TryGetValue(incomingItemId, out resolvedReward))
             return true;
@@ -107,11 +106,13 @@ public class SpinningScript : MonoBehaviour
     {
         if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
         {
-            rewardType = resolvedReward;
+            rewardType = resolvedReward; //
             activeRewardType = resolvedReward;
+
             
             ConfigureForcedReward(resolvedReward);
             ReceivedBackend = true;
+            rewardAmounts.Add(activeRewardType.ToString());
         }
         else
         {
@@ -142,11 +143,10 @@ public class SpinningScript : MonoBehaviour
                 t = 0f;
             }
         }
-        Debug.Log("Backend Reward: "+ APIController.ObtainedReward);
-        Debug.Log("activeRewardType" + activeRewardType);
         activeRewardType = rewardType;
         BackendReward = APIController.ObtainedReward;
-        
+        Debug.Log("Backend Reward: "+ APIController.ObtainedReward);
+        Debug.Log("activeRewardType" + activeRewardType);
     }
 
     // ----- Spinning function, uses button to start ----- //
@@ -248,7 +248,6 @@ public class SpinningScript : MonoBehaviour
                 Debug.Log("RewardType forced" + rewardType);
                 break;
             default:
-                
                 activeTargetAngle = 0f;
                 activeRewardResult = 5;
                 Debug.Log("No angle targetted" + activeTargetAngle);
