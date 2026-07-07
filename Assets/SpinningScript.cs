@@ -23,16 +23,18 @@ public class SpinningScript : MonoBehaviour
 
     [Header("WheelSpin")]
     [SerializeField] private Rigidbody2D rbody;
-    [SerializeField] private int Reward1, Reward2, Reward3, Reward4 ,Reward5 ,Reward6 ,Reward7;
+    [SerializeField] private int Reward1, Reward2, Reward3, Reward4 ,Reward5 ,Reward6 ,Reward7, Reward8;
     [SerializeField] private Dictionary<string, RewardType> rewardMap;
-    [SerializeField] public float rotatePower ;
     [SerializeField] public float stopPower;
     [SerializeField] public Image DebugWheelPoint;
     [Space(10)]
 
     [Header("WheelSpin config")]
-    [SerializeField] public float scalingFactor = 50f; // Physics tuning: higher = less deceleration
     [SerializeField] public float landingTuner = 0.55f; // >1 undershoots, <1 overshoots
+    [SerializeField] public float minLandingStopPower = 10f; // minimum landing deceleration
+    [SerializeField] public float maxLandingStopPower = 8000f; // maximum landing deceleration
+    [SerializeField] public float softStopVelocityThreshold = 250f; // slow down final segment
+    [SerializeField] public float softStopFactor = 0.25f; // reduce braking strength near stop, <Less >more
     [SerializeField] public float preSpinDuration = 3f; // seconds to spin very fast before applying forced landing
     [SerializeField] public float preSpinSpeed = 3000f; // deg/s during pre-spin
     [SerializeField] public float preSpinDamping = 5f; // small damping during pre-spin so it stays fast
@@ -45,7 +47,8 @@ public class SpinningScript : MonoBehaviour
 
     [Header("Results Debug")]
     [SerializeField] private RewardType activeRewardType;
-    [SerializeField] private List<float> rewardAngles;   
+    [SerializeField] private List<float> RewardAngleBoundaries; 
+    [SerializeField] private List<float> RewardAngles;
     [SerializeField] public List<string> rewardAmounts;
     [SerializeField] public int rewardResult;
     [SerializeField] private int activeRewardResult;
@@ -69,17 +72,21 @@ public class SpinningScript : MonoBehaviour
     {
         rbody = GetComponent<Rigidbody2D>();
         // Initialize reward angles
-        rewardAngles = new List<float>();
+        RewardAngleBoundaries = new List<float>();
+        RewardAngles = new List<float>();
         rewardAmounts = new List<string>();
+        EnsureDebugAngles();
         rewardQueueIndex = 0;
         rewardMap = new Dictionary<string, RewardType>
     {
         { "69fdaf4e0d3ceac0fa4715a7", RewardType.Gems10 },
-        { "69fdaf380d3ceac0fa4715a5", RewardType.Coin20 },
-        { "6a2f6ece2754bd1e11ffcc90", RewardType.Booster },
+        { "69fdaf380d3ceac0fa4715a5", RewardType.Currency },
+        { "6a47cb262754bd1e11ffd778", RewardType.UltimateBooster },
         { "69fdaeed0d3ceac0fa47159f", RewardType.Magnet },
         { "69fdaf260d3ceac0fa4715a3", RewardType.Shield },
-        { "69fdaf030d3ceac0fa4715a1", RewardType.Speed }
+        { "69fdaf030d3ceac0fa4715a1", RewardType.Speed },
+        { "6a47cb262754bd1e11ffd776", RewardType.MagnetImmune},
+        { "6a47cb262754bd1e11ffd777", RewardType.DashImmune}
     };
     }
 
@@ -87,11 +94,13 @@ public class SpinningScript : MonoBehaviour
     {
         Normal, //Pick this for random reward
         Gems10, //69fdaf4e0d3ceac0fa4715a7
-        Coin20, //69fdaf380d3ceac0fa4715a5
-        Booster,//6a2f6ece2754bd1e11ffcc90
+        Currency, //69fdaf380d3ceac0fa4715a5
+        UltimateBooster,//6a47cb262754bd1e11ffd778
         Magnet, //69fdaeed0d3ceac0fa47159f
         Shield, //69fdaf260d3ceac0fa4715a3
-        Speed //69fdaf030d3ceac0fa4715a1
+        Speed, //69fdaf030d3ceac0fa4715a1
+        MagnetImmune, //6a47cb262754bd1e11ffd776
+        DashImmune //6a4b79d32754bd1e11ffdbbe
     }
 
     float t;
@@ -190,7 +199,11 @@ public class SpinningScript : MonoBehaviour
     {
         if (rbody.angularVelocity > 0f) 
         {
-            rbody.angularVelocity -= stopPower * Time.deltaTime;
+            float currentStopPower = stopPower;
+            if (rbody.angularVelocity < softStopVelocityThreshold)
+                currentStopPower *= softStopFactor;
+
+            rbody.angularVelocity -= currentStopPower * Time.deltaTime;
             rbody.angularVelocity = Mathf.Clamp(rbody.angularVelocity, 0f, 1440f);
         }
 
@@ -265,7 +278,7 @@ public class SpinningScript : MonoBehaviour
             float computedDecel = (v * v) / (2f * angularDistance);
 
             // Apply tuner and guard against tiny/huge values
-            stopPower = Mathf.Clamp(computedDecel * landingTuner, 10f, 20000f);
+            stopPower = Mathf.Clamp(computedDecel * landingTuner, minLandingStopPower, maxLandingStopPower);
         }
         // cleanup coroutine handle
         preSpinCoroutine = null;
@@ -278,45 +291,50 @@ public class SpinningScript : MonoBehaviour
     {
         switch (rewardType) //This is connected to RewardType
         {
-            case RewardType.Shield:
-                activeTargetAngle = Reward1;//90f
+            
+            case RewardType.UltimateBooster:
+                activeTargetAngle = Reward1;
                 activeRewardResult = 1;
-                Debug.Log("TargetAngle" + activeTargetAngle);
-                Debug.Log("RewardType forced" + rewardType);
-                break;
-            case RewardType.Magnet:
-                activeTargetAngle = Reward2;//150f
-                activeRewardResult = 2;
-                Debug.Log("TargetAngle" + activeTargetAngle);
-                Debug.Log("RewardType forced" + rewardType);
-                break;
-            case RewardType.Coin20:
-                activeTargetAngle = Reward3;//210f
-                activeRewardResult = 3;
-                Debug.Log("TargetAngle" + activeTargetAngle);
-                Debug.Log("RewardType forced" + rewardType);
-                break;
-            case RewardType.Speed:
-                activeTargetAngle = Reward4;//270f
-                activeRewardResult = 4;
-                Debug.Log("TargetAngle" + activeTargetAngle);
-                Debug.Log("RewardType forced" + rewardType);
-                break;
-            case RewardType.Booster:
-                activeTargetAngle = Reward5;//330f
-                activeRewardResult = 5;
-                Debug.Log("TargetAngle" + activeTargetAngle);
-                Debug.Log("RewardType forced" + rewardType);
+                
                 break;
             case RewardType.Gems10:
+                activeTargetAngle = Reward2;//
+                activeRewardResult = 2;
+                
+                break;
+            case RewardType.DashImmune:
+                activeTargetAngle = Reward3;//210f
+                activeRewardResult = 3;
+                
+                break;
+            case RewardType.Magnet:
+                activeTargetAngle = Reward4;//270f
+                activeRewardResult = 4;
+                
+                break;
+            case RewardType.Shield:
+                activeTargetAngle = Reward5;//330f
+                activeRewardResult = 5;
+                
+                break;
+            case RewardType.MagnetImmune:
                 activeTargetAngle = Reward6;//30f 
                 activeRewardResult = 6;
-                Debug.Log("TargetAngle" + activeTargetAngle);
-                Debug.Log("RewardType forced" + rewardType);
+                
+                break;
+            case RewardType.Currency:
+                activeTargetAngle = Reward7;//30f 
+                activeRewardResult = 7;// 7
+                
+                break;
+            case RewardType.Speed:
+                activeTargetAngle = Reward8;//30f 
+                activeRewardResult = 8; //8
+                
                 break;
             default:
                 activeTargetAngle = 0f;
-                activeRewardResult = 5;
+                activeRewardResult = 8;
                 Debug.Log("No angle targetted" + activeTargetAngle);
                 Debug.Log("RewardType forced" + rewardType);
                 break;
@@ -325,7 +343,7 @@ public class SpinningScript : MonoBehaviour
 
     private void ApplyReward(int rewardId, float targetAngle, string debugText)
     {
-        Debug.Log(debugText);
+        Debug.Log("Frontend: " +debugText);
         rewardResult = rewardId;
         StartCoroutine(SmoothRotateToThenDelayedWin(targetAngle));
     }
@@ -336,35 +354,45 @@ public class SpinningScript : MonoBehaviour
         float normalizedRot = (rot + 360f) % 360f;
         float targetAngle;
 
-        if (normalizedRot >= 0f && normalizedRot < 60f)
+        if (normalizedRot >= 0f && normalizedRot < 45f)
         {
-            targetAngle = Reward6;
-            ApplyReward(6, targetAngle, "10 Coins"); 
+            targetAngle = Reward8;
+            ApplyReward(8, targetAngle, "UltimateBooster"); 
         }
-        else if (normalizedRot < 120f)
+        else if (normalizedRot < 90f)
         {
             targetAngle = Reward1;
-            ApplyReward(1, targetAngle, "Placeholder");
+            ApplyReward(1, targetAngle, "Gems");
+        }
+        else if (normalizedRot < 135f)
+        {
+            targetAngle = Reward2;
+            ApplyReward(2, targetAngle, "DashImmune");
         }
         else if (normalizedRot < 180f)
         {
-            targetAngle = Reward2;
-            ApplyReward(2, targetAngle, "Placeholder");
-        }
-        else if (normalizedRot < 240f)
-        {
             targetAngle = Reward3;
-            ApplyReward(3, targetAngle, "20 coins");
+            ApplyReward(3, targetAngle, "Magnet");
         }
-        else if (normalizedRot < 300f)
+        else if (normalizedRot < 225f)
         {
             targetAngle = Reward4;
-            ApplyReward(4, targetAngle, "Placeholder");
+            ApplyReward(4, targetAngle, "Shield");
+        }
+        else if (normalizedRot < 270f)
+        {
+            targetAngle = Reward5;
+            ApplyReward(5, targetAngle, "MagnetImmune");
+        }
+        else if (normalizedRot < 315f)
+        {
+            targetAngle = Reward6;
+            ApplyReward(6, targetAngle, "Coins");
         }
         else
         {
-            targetAngle = Reward5;
-            ApplyReward(5, targetAngle, "Prebooster");
+            targetAngle = Reward7;
+            ApplyReward(7, targetAngle, "Speed");
         }
     }
         
@@ -422,19 +450,72 @@ public class SpinningScript : MonoBehaviour
     }
 
 
+    
+
 // ----- Debug draw for reward angles in the editor ----- //
+private void EnsureDebugAngles()
+    //I'll fix later
+    {
+        if (RewardAngleBoundaries == null)
+            RewardAngleBoundaries = new List<float>();
+
+        if (RewardAngles == null)
+            RewardAngles = new List<float>();
+
+        if (RewardAngleBoundaries.Count == 0)
+        {
+            RewardAngleBoundaries.Add(0f);
+            RewardAngleBoundaries.Add(45f);
+            RewardAngleBoundaries.Add(90f);
+            RewardAngleBoundaries.Add(135f);
+            RewardAngleBoundaries.Add(180f);
+            RewardAngleBoundaries.Add(225f);
+            RewardAngleBoundaries.Add(270f);
+            RewardAngleBoundaries.Add(315f);
+        }
+
+        if (RewardAngles.Count == 0)
+        {
+            if (Reward1 != 0f)
+                RewardAngles.Add(Reward1);
+            if (Reward2 != 0f)
+                RewardAngles.Add(Reward2);
+            if (Reward3 != 0f)
+                RewardAngles.Add(Reward3);
+            if (Reward4 != 0f)
+                RewardAngles.Add(Reward4);
+            if (Reward5 != 0f)
+                RewardAngles.Add(Reward5);
+            if (Reward6 != 0f)
+                RewardAngles.Add(Reward6);
+            if (Reward7 != 0f)
+                RewardAngles.Add(Reward7);
+            if (Reward8 != 0f)
+                RewardAngles.Add(Reward8);
+        }
+    }
     private void OnDrawGizmos()
     {
+        EnsureDebugAngles();
+
         //Debug for lines
         Gizmos.matrix = transform.localToWorldMatrix;
-    
-        
-        foreach (float angle in rewardAngles)
+        foreach (float angle in RewardAngleBoundaries)
         {
             float rad = angle * Mathf.Deg2Rad;
             Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 100;
             
             Gizmos.color = Color.green;
+            Gizmos.DrawLine(Vector3.zero, position);
+        }
+
+        //Debug boxes for each reward
+        foreach (float angle in RewardAngles)
+        {
+            float rad = angle * Mathf.Deg2Rad;
+            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 100;
+            
+            Gizmos.color = Color.red;
             Gizmos.DrawLine(Vector3.zero, position);
         }
     }

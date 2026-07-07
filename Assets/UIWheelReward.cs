@@ -132,34 +132,44 @@ namespace Forgehub.SpookyBubbles
             switch(SpinningScript.rewardResult)
             {
             case 1:
-                    Debug.Log("Reward = Shield");
+                    Debug.Log("Reward = UltiBooster");
                     m_GlassReward.gameObject.SetActive(true); //Magnifying glass
-                    RewardText.text = "Shield";
+                    RewardText.text = "Ultimate Booster";
                     break;
                 case 2:
-                    Debug.Log("Reward = Magnet");
+                    Debug.Log("Reward = Gems");
                     MagnetReward.gameObject.SetActive(true); //Magnet
-                    RewardText.text = "Magnet";
+                    RewardText.text = "Gems x50";
                     break;
                 case 3:
-                    Debug.Log("Reward = Coins x20");
+                    Debug.Log("Reward = DashImmune");
                     coinBigReward.gameObject.SetActive(true); //Coins300
-                    RewardText.text = "Coins x20";
+                    RewardText.text = "DashImmune";
                     break;
                 case 4:
-                    Debug.Log("Reward = Speed");
+                    Debug.Log("Reward = Magnet");
                     bombReward.gameObject.SetActive(true); //Bombs
-                    RewardText.text = "Speed";
+                    RewardText.text = "Magnet";
                     break;
                 case 5:
-                    Debug.Log("Reward = Booster");
+                    Debug.Log("Reward = Shield");
                     movesReward.gameObject.SetActive(true); //Extramoves
-                    RewardText.text = "Booster";
+                    RewardText.text = "Shield";
                     break;
                 case 6:
-                    Debug.Log("Reward = Gems x10");
+                    Debug.Log("Reward = MagnetImmune");
                     coinReward.gameObject.SetActive(true); //Coins 100
-                    RewardText.text = "Gems x10";
+                    RewardText.text = "MagnetImmune";
+                    break;
+                case 7:
+                    Debug.Log("Reward = Coins");
+                    coinReward.gameObject.SetActive(true); //Coins 100
+                    RewardText.text = "Coins x3000";
+                    break;
+                case 8:
+                    Debug.Log("Reward = Speed");
+                    coinReward.gameObject.SetActive(true); //Coins 100
+                    RewardText.text = "Speed";
                     break;
             }
         }

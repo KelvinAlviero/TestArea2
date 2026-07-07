@@ -87,7 +87,7 @@ using Unity.VisualScripting;
 
         public void Init()
         {
-            Debug.Log("Init everything");
+            // Debug.Log("Init everything");
             LightsON.gameObject.SetActive(false);
             closeButton.onClick.AddListener(OnCloseButtonClicked);
             spinningButton.onClick.AddListener(OnSpinButtonClicked);
@@ -196,6 +196,7 @@ using Unity.VisualScripting;
             Debug.Log("UIWheelSpin: Spin button clicked");
             Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
             Debug.Log("UIWheelSpin Spin amount = " + APIController.spin_count);
+        
         }
     
         public void OnIncreaseButtonClicked()
@@ -203,6 +204,7 @@ using Unity.VisualScripting;
             APIController.spin_count= APIController.spin_count + 1;
             Debug.Log("AmountIncreased");
             SpinAmount.text = "Spin " + APIController.spin_count;
+
             Debug.Log("Spin " + APIController.spin_count);
             DecreaseButton.interactable = true;
 
@@ -260,10 +262,10 @@ using Unity.VisualScripting;
             while (LightCheck == true)
             {
                 
-                LightsON.gameObject.SetActive(true);
+                // LightsON.gameObject.SetActive(true);
                 Debug.Log("Lights ON");
                 yield return new WaitForSeconds(0.5f);
-                LightsON.gameObject.SetActive(false);
+                // LightsON.gameObject.SetActive(false);
                 Debug.Log("Lights OFF");
                 yield return new WaitForSeconds(0.5f);
             }

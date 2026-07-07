@@ -267,6 +267,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spin amount
       objectReference: {fileID: 0}
+    - target: {fileID: 1210016895341978562, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a2dcc4d386fb84ab5a47a036a89e1657, type: 3}
     - target: {fileID: 1462657817611011885, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -296,8 +300,52 @@ PrefabInstance:
       value: 581
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: Reward1
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: Reward2
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: Reward3
+      value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: Reward4
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: Reward5
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: Reward6
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: Reward7
+      value: 295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: Reward8
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: stopPower
+      value: 143.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: landingTuner
-      value: 0.54
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: scalingFactor
+      value: 87.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: softStopFactor
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: ReceivedBackend
@@ -307,13 +355,97 @@ PrefabInstance:
       propertyPath: Debug_RewardList
       value: 
       objectReference: {fileID: 153220214}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: maxLandingStopPower
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: minLandingStopPower
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: switchAngularVelocity
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: RewardAngles.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: softStopVelocityThreshold
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngles.Array.data[0]'
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngles.Array.data[1]'
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngles.Array.data[2]'
+      value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngles.Array.data[3]'
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngles.Array.data[4]'
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngles.Array.data[5]'
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngles.Array.data[6]'
+      value: 295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngles.Array.data[7]'
+      value: 340
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: RewardAngleBoundaries.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngleBoundaries.Array.data[1]'
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngleBoundaries.Array.data[2]'
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngleBoundaries.Array.data[3]'
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngleBoundaries.Array.data[4]'
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngleBoundaries.Array.data[5]'
+      value: 225
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngleBoundaries.Array.data[6]'
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: 'RewardAngleBoundaries.Array.data[7]'
+      value: 315
+      objectReference: {fileID: 0}
     - target: {fileID: 1829007872880519265, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: m_text
       value: Spin 1
       objectReference: {fileID: 0}
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: JWTToken
-      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODMzMjg0NTUsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.iLKB272OUyGVv_SbTYDxThIk2JVq1lLJ15GmiKiDfZg
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODM5OTMxMjMsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.wM3L4z_UOLeeSZYKY_hpYU8WEH7VtNok5zYkueXhTkk
       objectReference: {fileID: 0}
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: spin_count
@@ -406,6 +538,38 @@ PrefabInstance:
     - target: {fileID: 3744812807869482192, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9816527
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.19067796
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.1899805
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.0000091
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 21.985
       objectReference: {fileID: 0}
     - target: {fileID: 7669331197100070470, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

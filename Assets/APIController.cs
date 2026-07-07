@@ -83,6 +83,10 @@ public class APIController: MonoBehaviour
         request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
         Debug.Log("JWT success:" + JWTToken);
         }
+        else
+        {
+            yield return null;
+        }
 
 
         yield return request.SendWebRequest();
