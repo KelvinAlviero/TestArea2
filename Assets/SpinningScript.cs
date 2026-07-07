@@ -294,42 +294,42 @@ public class SpinningScript : MonoBehaviour
             
             case RewardType.UltimateBooster:
                 activeTargetAngle = Reward1;
-                activeRewardResult = 1;
+                activeRewardResult = 8;
                 
                 break;
             case RewardType.Gems10:
-                activeTargetAngle = Reward2;//
-                activeRewardResult = 2;
+                activeTargetAngle = Reward1;//
+                activeRewardResult = 1;
                 
                 break;
             case RewardType.DashImmune:
-                activeTargetAngle = Reward3;//210f
-                activeRewardResult = 3;
+                activeTargetAngle = Reward2;//210f
+                activeRewardResult = 2;
                 
                 break;
             case RewardType.Magnet:
-                activeTargetAngle = Reward4;//270f
-                activeRewardResult = 4;
+                activeTargetAngle = Reward3;//270f
+                activeRewardResult = 3;
                 
                 break;
             case RewardType.Shield:
-                activeTargetAngle = Reward5;//330f
-                activeRewardResult = 5;
+                activeTargetAngle = Reward4;//330f
+                activeRewardResult = 4;
                 
                 break;
             case RewardType.MagnetImmune:
-                activeTargetAngle = Reward6;//30f 
-                activeRewardResult = 6;
+                activeTargetAngle = Reward5;//30f 
+                activeRewardResult = 5;
                 
                 break;
             case RewardType.Currency:
-                activeTargetAngle = Reward7;//30f 
-                activeRewardResult = 7;// 7
+                activeTargetAngle = Reward6;//30f 
+                activeRewardResult = 6;// 7
                 
                 break;
             case RewardType.Speed:
-                activeTargetAngle = Reward8;//30f 
-                activeRewardResult = 8; //8
+                activeTargetAngle = Reward7;//30f 
+                activeRewardResult = 7; //8
                 
                 break;
             default:
