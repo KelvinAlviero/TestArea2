@@ -5,6 +5,7 @@ using Forgehub.SpookyBubbles;
 using JetBrains.Annotations;
 using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -269,16 +270,16 @@ public class SpinningScript : MonoBehaviour
             rbody.angularVelocity = switchAngularVelocity;
 
             // Compute angular distance to active target and ensure at least one sector rotation
-            float angularDistance = CalculateAngularDistanceToTarget();
-            while (angularDistance < 60f)
-                angularDistance += 360f;
+            
+            // while (angularDistance < 60f)
+            //     angularDistance += 360f;
 
             // Using rotational kinematics: distance = v^2 / (2 * a) -> a = v^2 / (2 * distance)
             float v = Mathf.Abs(rbody.angularVelocity);
-            float computedDecel = (v * v) / (2f * angularDistance);
+            // float computedDecel = (v * v) / (2f * angularDistance);
 
             // Apply tuner and guard against tiny/huge values
-            stopPower = Mathf.Clamp(computedDecel * landingTuner, minLandingStopPower, maxLandingStopPower);
+            stopPower = Mathf.Clamp(landingTuner, minLandingStopPower, maxLandingStopPower);
         }
         // cleanup coroutine handle
         preSpinCoroutine = null;
@@ -294,42 +295,72 @@ public class SpinningScript : MonoBehaviour
             
             case RewardType.UltimateBooster:
                 activeTargetAngle = Reward1;
-                activeRewardResult = 8;
+                activeRewardResult = 1;
+                transform.rotation = quaternion.Euler(0,0,Reward1);
+                Debug.Log("Switch to" + Reward1);
                 
                 break;
             case RewardType.Gems10:
-                activeTargetAngle = Reward1;//
-                activeRewardResult = 1;
+                activeTargetAngle = Reward2;//
+                activeRewardResult = 2;
+                transform.rotation = quaternion.Euler(0,0,Reward2);
+                
+                Debug.Log("Switch to" + Reward2);
+                
                 
                 break;
             case RewardType.DashImmune:
-                activeTargetAngle = Reward2;//210f
-                activeRewardResult = 2;
+                activeTargetAngle = Reward3;//210f
+                activeRewardResult = 3;
+                transform.rotation = quaternion.Euler(0,0,Reward3);
+                
+                Debug.Log("Switch to" + Reward3);
+                
                 
                 break;
             case RewardType.Magnet:
-                activeTargetAngle = Reward3;//270f
-                activeRewardResult = 3;
+                activeTargetAngle = Reward4;//270f
+                activeRewardResult = 4;
+                transform.rotation = quaternion.Euler(0,0,Reward4);
+                
+                Debug.Log("Switch to" + Reward4);
+                
                 
                 break;
             case RewardType.Shield:
-                activeTargetAngle = Reward4;//330f
-                activeRewardResult = 4;
+                activeTargetAngle = Reward5;//330f
+                activeRewardResult = 5;
+                transform.rotation = quaternion.Euler(0,0,Reward5);
+               
+                Debug.Log("Switch to" + Reward5);
+                
                 
                 break;
             case RewardType.MagnetImmune:
-                activeTargetAngle = Reward5;//30f 
-                activeRewardResult = 5;
+                activeTargetAngle = Reward6;//30f 
+                activeRewardResult = 6;
+                transform.rotation = quaternion.Euler(0,0,Reward6);
+               
+                Debug.Log("Switch to" + Reward6);
+               
                 
                 break;
             case RewardType.Currency:
-                activeTargetAngle = Reward6;//30f 
-                activeRewardResult = 6;// 7
+                activeTargetAngle = Reward7;//30f 
+                activeRewardResult = 7;// 7
+                transform.rotation = quaternion.Euler(0,0,Reward7);
+                
+                Debug.Log("Switch to" + Reward7);
+                
                 
                 break;
             case RewardType.Speed:
-                activeTargetAngle = Reward7;//30f 
-                activeRewardResult = 7; //8
+                activeTargetAngle = Reward8;//30f 
+                activeRewardResult = 8; //8
+                transform.rotation = quaternion.Euler(0,0,Reward8);
+                
+                Debug.Log("Switch to" + Reward8);
+                
                 
                 break;
             default:
@@ -356,43 +387,43 @@ public class SpinningScript : MonoBehaviour
 
         if (normalizedRot >= 0f && normalizedRot < 45f)
         {
-            targetAngle = Reward8;
-            ApplyReward(8, targetAngle, "UltimateBooster"); 
+            targetAngle = Reward1;
+            ApplyReward(1, targetAngle, "UltimateBooster"); 
         }
         else if (normalizedRot < 90f)
         {
-            targetAngle = Reward1;
-            ApplyReward(1, targetAngle, "Gems");
+            targetAngle = Reward2;
+            ApplyReward(2, targetAngle, "Gems");
         }
         else if (normalizedRot < 135f)
         {
-            targetAngle = Reward2;
-            ApplyReward(2, targetAngle, "DashImmune");
+            targetAngle = Reward3;
+            ApplyReward(3, targetAngle, "DashImmune");
         }
         else if (normalizedRot < 180f)
         {
-            targetAngle = Reward3;
-            ApplyReward(3, targetAngle, "Magnet");
+            targetAngle = Reward4;
+            ApplyReward(4, targetAngle, "Magnet");
         }
         else if (normalizedRot < 225f)
         {
-            targetAngle = Reward4;
-            ApplyReward(4, targetAngle, "Shield");
+            targetAngle = Reward5;
+            ApplyReward(5, targetAngle, "Shield");
         }
         else if (normalizedRot < 270f)
         {
-            targetAngle = Reward5;
-            ApplyReward(5, targetAngle, "MagnetImmune");
+            targetAngle = Reward6;
+            ApplyReward(6, targetAngle, "MagnetImmune");
         }
         else if (normalizedRot < 315f)
         {
-            targetAngle = Reward6;
-            ApplyReward(6, targetAngle, "Coins");
+            targetAngle = Reward7;
+            ApplyReward(7, targetAngle, "Coins");
         }
         else
         {
-            targetAngle = Reward7;
-            ApplyReward(7, targetAngle, "Speed");
+            targetAngle = Reward8;
+            ApplyReward(8, targetAngle, "Speed");
         }
     }
         
@@ -433,11 +464,20 @@ public class SpinningScript : MonoBehaviour
         DelayedWin();
     }
     private float CalculateAngularDistanceToTarget()
-    {
-        float currentAngle = transform.eulerAngles.z;
-        float distance = (activeTargetAngle - currentAngle + 360f) % 360f;
-        return distance;
-    }
+{
+    float currentAngle = transform.eulerAngles.z;
+    float delta = activeTargetAngle - currentAngle;
+    Debug.Log("Spinning Calc"+ activeTargetAngle);
+    Debug.Log("oHTERS" + currentAngle);
+
+    while (delta < 0f)
+        delta += 360f;
+
+    while (delta >= 360f)
+        delta -= 360f;
+
+    return delta;
+}
     private void FinalizeSpinResults()
     {
             //wheel naturally stopped at target due to calculated stopPower
