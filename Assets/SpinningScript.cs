@@ -31,7 +31,7 @@ public class SpinningScript : MonoBehaviour
     [Space(10)]
 
     [Header("WheelSpin config")]
-    [SerializeField] public float landingTuner = 0.55f; // >1 undershoots, <1 overshoots
+    [SerializeField] public float landingTuner = 0.55f; // , <1 overshoots (Lower power), >1 undershoots(Higher power)
     [SerializeField] public float minLandingStopPower = 10f; // minimum landing deceleration
     [SerializeField] public float maxLandingStopPower = 8000f; // maximum landing deceleration
     // [SerializeField] public float softStopVelocityThreshold = 250f; // slow down final segment
@@ -44,6 +44,7 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private int DelayedWinTime = 1000;
     [SerializeField] private float ChangeDelay = 3f;
     [SerializeField] private float activeTargetAngle;
+    [SerializeField] private float angleDiff;
     [Space(10)]
 
     [Header("Results Debug")]
@@ -86,8 +87,10 @@ public class SpinningScript : MonoBehaviour
         { "69fdaeed0d3ceac0fa47159f", RewardType.Magnet },
         { "69fdaf260d3ceac0fa4715a3", RewardType.Shield },
         { "69fdaf030d3ceac0fa4715a1", RewardType.Speed },
+        
         { "6a47cb262754bd1e11ffd776", RewardType.MagnetImmune},
         { "6a47cb262754bd1e11ffd777", RewardType.DashImmune}
+        
     };
     }
 
@@ -198,6 +201,7 @@ public class SpinningScript : MonoBehaviour
     // ----- Update function ----- //
     private void Update()
     {
+        angleDiff = Mathf.DeltaAngle(transform.eulerAngles.z, 0f);
         if (rbody.angularVelocity > 0f) 
         {
             float currentStopPower = stopPower;
@@ -261,24 +265,42 @@ public class SpinningScript : MonoBehaviour
             yield return null;
         }
 
-        if (ReceivedBackend == true) //Calls the change only once backend is received. 
+        // after preSpinDuration
+        if (ReceivedBackend)
         {
-            Debug.Log("changing reward");
-            // Set consistent angular velocity for the landing phase
+            // wait a short time for backend/state to settle (avoid exiting early)
+            float waitTimeout = 3f;
+            float waited = 0f;
+            while (!ReceivedBackend && waited < waitTimeout)
+            {
+                waited += Time.deltaTime;
+                yield return null;
+            }
+
+            float approachThreshold = 120f; // tune this
+            float approachWaitTimeout = 5f; // safety timeout
+            float approached = 0f;
+
+            // Optionally reduce speed while waiting so wheel doesn't fly past
+            rbody.angularVelocity = Mathf.Min(rbody.angularVelocity, switchAngularVelocity);
+
+            // Wait until remaining angular distance to target is within threshold (or timeout)
+            while (CalculateAngularDistanceToTarget() > approachThreshold && approached < approachWaitTimeout)
+            {
+                approached += Time.deltaTime;
+                yield return null;
+            }
+
+            Debug.Log($"Landing switch: cur={transform.eulerAngles.z:F1} target={activeTargetAngle:F1} remaining={CalculateAngularDistanceToTarget():F1}");
+
+            // Now enter landing phase
             rbody.angularVelocity = switchAngularVelocity;
-
-            // Compute angular distance to active target and ensure at least one sector rotation
             float angularDistance = CalculateAngularDistanceToTarget();
-            while (angularDistance < 60f)
-                angularDistance += 360f;
-
-            // Using rotational kinematics: distance = v^2 / (2 * a) -> a = v^2 / (2 * distance)
+            while (angularDistance < 60f) angularDistance += 360f;
             float v = Mathf.Abs(rbody.angularVelocity);
             float computedDecel = (v * v) / (2f * angularDistance);
-
-            // Apply tuner and guard against tiny/huge values
             stopPower = Mathf.Clamp(computedDecel * landingTuner, minLandingStopPower, maxLandingStopPower);
-        }
+}
         // cleanup coroutine handle
         preSpinCoroutine = null;
         yield break;
