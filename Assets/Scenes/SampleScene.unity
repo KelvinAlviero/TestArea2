@@ -349,7 +349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: landingTuner
-      value: 0.94
+      value: 1.07
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: preSpinSpeed
@@ -409,7 +409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: maxLandingStopPower
-      value: 500
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: minLandingStopPower

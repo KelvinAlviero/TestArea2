@@ -31,7 +31,7 @@ public class SpinningScript : MonoBehaviour
     [Space(10)]
 
     [Header("WheelSpin config")]
-    [SerializeField] public float landingTuner = 0.55f; // , <1 overshoots (Lower power), >1 undershoots(Higher power)
+    [SerializeField] public float landingTuner = 0.55f; // , <1 Increase power (Lower Resistance),  >1 Decrease power (Higher Resitance)
     [SerializeField] public float minLandingStopPower = 10f; // minimum landing deceleration
     [SerializeField] public float maxLandingStopPower = 8000f; // maximum landing deceleration
     // [SerializeField] public float softStopVelocityThreshold = 250f; // slow down final segment
@@ -44,7 +44,6 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private int DelayedWinTime = 1000;
     [SerializeField] private float ChangeDelay = 3f;
     [SerializeField] private float activeTargetAngle;
-    [SerializeField] private float angleDiff;
     [Space(10)]
 
     [Header("Results Debug")]
@@ -201,7 +200,6 @@ public class SpinningScript : MonoBehaviour
     // ----- Update function ----- //
     private void Update()
     {
-        angleDiff = Mathf.DeltaAngle(transform.eulerAngles.z, 0f);
         if (rbody.angularVelocity > 0f) 
         {
             float currentStopPower = stopPower;
@@ -435,7 +433,7 @@ public class SpinningScript : MonoBehaviour
         }
         else
         {
-            targetAngle = Reward8;
+            targetAngle = 340f;
             ApplyReward(8, targetAngle, "Speed");
         }
     }
@@ -484,7 +482,8 @@ public class SpinningScript : MonoBehaviour
         if (target < 0f) target += 360f;
         currentAngle = Mathf.Repeat(currentAngle, 360f);
 
-        float delta = (target - currentAngle + 360f) % 360f;
+        float delta = (target - currentAngle + 720f) % 360f;
+        
         // Protect against near-zero distances
         if (delta < 0.001f) delta = 0f;
         return delta;
