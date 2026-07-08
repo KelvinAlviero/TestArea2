@@ -34,8 +34,8 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float landingTuner = 0.55f; // >1 undershoots, <1 overshoots
     [SerializeField] public float minLandingStopPower = 10f; // minimum landing deceleration
     [SerializeField] public float maxLandingStopPower = 8000f; // maximum landing deceleration
-    [SerializeField] public float softStopVelocityThreshold = 250f; // slow down final segment
-    [SerializeField] public float softStopFactor = 0.25f; // reduce braking strength near stop, <Less >more
+    // [SerializeField] public float softStopVelocityThreshold = 250f; // slow down final segment
+    // [SerializeField] public float softStopFactor = 0.25f; // reduce braking strength near stop, <Less >more
     [SerializeField] public float preSpinDuration = 3f; // seconds to spin very fast before applying forced landing
     [SerializeField] public float preSpinSpeed = 3000f; // deg/s during pre-spin
     [SerializeField] public float preSpinDamping = 5f; // small damping during pre-spin so it stays fast
@@ -201,8 +201,8 @@ public class SpinningScript : MonoBehaviour
         if (rbody.angularVelocity > 0f) 
         {
             float currentStopPower = stopPower;
-            if (rbody.angularVelocity < softStopVelocityThreshold)
-                currentStopPower *= softStopFactor;
+            // if (rbody.angularVelocity < softStopVelocityThreshold)
+            //     currentStopPower *= softStopFactor;
 
             rbody.angularVelocity -= currentStopPower * Time.deltaTime;
             rbody.angularVelocity = Mathf.Clamp(rbody.angularVelocity, 0f, 1440f);
@@ -221,8 +221,6 @@ public class SpinningScript : MonoBehaviour
         }
         activeRewardType = rewardType;
         BackendReward = APIController.ObtainedReward;
-        Debug.Log("Backend Reward: "+ APIController.ObtainedReward);
-        Debug.Log("activeRewardType" + activeRewardType);
     }
 
     // ----- Spinning function, uses button to start ----- //
@@ -270,16 +268,16 @@ public class SpinningScript : MonoBehaviour
             rbody.angularVelocity = switchAngularVelocity;
 
             // Compute angular distance to active target and ensure at least one sector rotation
-            
-            // while (angularDistance < 60f)
-            //     angularDistance += 360f;
+            float angularDistance = CalculateAngularDistanceToTarget();
+            while (angularDistance < 60f)
+                angularDistance += 360f;
 
             // Using rotational kinematics: distance = v^2 / (2 * a) -> a = v^2 / (2 * distance)
             float v = Mathf.Abs(rbody.angularVelocity);
-            // float computedDecel = (v * v) / (2f * angularDistance);
+            float computedDecel = (v * v) / (2f * angularDistance);
 
             // Apply tuner and guard against tiny/huge values
-            stopPower = Mathf.Clamp(landingTuner, minLandingStopPower, maxLandingStopPower);
+            stopPower = Mathf.Clamp(computedDecel * landingTuner, minLandingStopPower, maxLandingStopPower);
         }
         // cleanup coroutine handle
         preSpinCoroutine = null;
@@ -296,70 +294,63 @@ public class SpinningScript : MonoBehaviour
             case RewardType.UltimateBooster:
                 activeTargetAngle = Reward1;
                 activeRewardResult = 1;
-                transform.rotation = quaternion.Euler(0,0,Reward1);
-                Debug.Log("Switch to" + Reward1);
+                
+                
                 
                 break;
             case RewardType.Gems10:
                 activeTargetAngle = Reward2;//
                 activeRewardResult = 2;
-                transform.rotation = quaternion.Euler(0,0,Reward2);
                 
-                Debug.Log("Switch to" + Reward2);
+                
                 
                 
                 break;
             case RewardType.DashImmune:
                 activeTargetAngle = Reward3;//210f
                 activeRewardResult = 3;
-                transform.rotation = quaternion.Euler(0,0,Reward3);
                 
-                Debug.Log("Switch to" + Reward3);
+               
                 
                 
                 break;
             case RewardType.Magnet:
                 activeTargetAngle = Reward4;//270f
                 activeRewardResult = 4;
-                transform.rotation = quaternion.Euler(0,0,Reward4);
                 
-                Debug.Log("Switch to" + Reward4);
+                
                 
                 
                 break;
             case RewardType.Shield:
                 activeTargetAngle = Reward5;//330f
                 activeRewardResult = 5;
-                transform.rotation = quaternion.Euler(0,0,Reward5);
-               
-                Debug.Log("Switch to" + Reward5);
+                
+                
                 
                 
                 break;
             case RewardType.MagnetImmune:
                 activeTargetAngle = Reward6;//30f 
                 activeRewardResult = 6;
-                transform.rotation = quaternion.Euler(0,0,Reward6);
                
-                Debug.Log("Switch to" + Reward6);
+                
                
                 
                 break;
             case RewardType.Currency:
                 activeTargetAngle = Reward7;//30f 
                 activeRewardResult = 7;// 7
-                transform.rotation = quaternion.Euler(0,0,Reward7);
                 
-                Debug.Log("Switch to" + Reward7);
+                
                 
                 
                 break;
             case RewardType.Speed:
                 activeTargetAngle = Reward8;//30f 
                 activeRewardResult = 8; //8
-                transform.rotation = quaternion.Euler(0,0,Reward8);
                 
-                Debug.Log("Switch to" + Reward8);
+               
                 
                 
                 break;
@@ -443,8 +434,7 @@ public class SpinningScript : MonoBehaviour
     }
     private IEnumerator SmoothRotateTo(float targetAngle)
     {
-        RectTransform rect = GetComponent<RectTransform>();
-        float startAngle = rect.eulerAngles.z;
+        float startAngle = transform.eulerAngles.z;
         float elapsedTime = 0f;
 
         while (elapsedTime < smoothRotationDuration)
@@ -452,11 +442,11 @@ public class SpinningScript : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / smoothRotationDuration;
             float newAngle = Mathf.LerpAngle(startAngle, targetAngle, t);
-            rect.eulerAngles = new Vector3(0, 0, newAngle);
+            transform.eulerAngles = new Vector3(0, 0, newAngle);
             yield return null;
         }
 
-        rect.eulerAngles = new Vector3(0, 0, targetAngle);
+        transform.eulerAngles = new Vector3(0, 0, targetAngle);
     }
     private IEnumerator SmoothRotateToThenDelayedWin(float targetAngle) //rotate then win 
     {
@@ -465,28 +455,32 @@ public class SpinningScript : MonoBehaviour
     }
     private float CalculateAngularDistanceToTarget()
 {
-    float currentAngle = transform.eulerAngles.z;
-    float delta = activeTargetAngle - currentAngle;
-    Debug.Log("Spinning Calc"+ activeTargetAngle);
-    Debug.Log("oHTERS" + currentAngle);
+        // Normalize current and target to [0,360) and compute positive forward delta
+        float currentAngle = transform.eulerAngles.z % 360f;
+        if (currentAngle < 0f) currentAngle += 360f;
+        float target = activeTargetAngle % 360f;
+        if (target < 0f) target += 360f;
+        currentAngle = Mathf.Repeat(currentAngle, 360f);
 
-    while (delta < 0f)
-        delta += 360f;
-
-    while (delta >= 360f)
-        delta -= 360f;
-
-    return delta;
+        float delta = (target - currentAngle + 360f) % 360f;
+        // Protect against near-zero distances
+        if (delta < 0.001f) delta = 0f;
+        return delta;
 }
     private void FinalizeSpinResults()
     {
-            //wheel naturally stopped at target due to calculated stopPower
-            // Now smoothly center it on the reward before showing the delayed-win animation
+        // If we have a forced/backend-resolved reward, smoothly center to that target.
+        // Otherwise determine the sector and center to that.
+        if (rewardType != RewardType.Normal || ReceivedBackend)
+        {
             rewardResult = activeRewardResult;
             StartCoroutine(SmoothRotateToThenDelayedWin(activeTargetAngle));
-            
+        }
+        else
+        {
             WheelCenterizer();
-            return;
+        }
+        return;
     }
 
 
