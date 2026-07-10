@@ -40,9 +40,12 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float preSpinSpeed = 3000f; // deg/s during pre-spin
     [SerializeField] public float preSpinDamping = 5f; // small damping during pre-spin so it stays fast
     [SerializeField] public float switchAngularVelocity = 2000f; // angular velocity applied when switching to landing phase
+    [SerializeField] public float desiredLandingMinDecel = 400f; // desired min computed deceleration
+    [SerializeField] public float desiredLandingMaxDecel = 500f; // desired max computed deceleration
+    [SerializeField] public float landingAdjustmentWait = 0.5f; // seconds to wait before retrying decel check
+    [SerializeField] public int landingAdjustmentAttempts = 3; // max retries for adjusting landing
     [SerializeField] public float smoothRotationDuration = 0.5f; // Duration for smooth rotation to center
     [SerializeField] private int DelayedWinTime = 1000;
-    [SerializeField] private float ChangeDelay = 3f;
     [SerializeField] private float activeTargetAngle;
     [Space(10)]
 
@@ -50,8 +53,8 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private RewardType activeRewardType;
     [SerializeField] private List<float> RewardAngleBoundaries; 
     [SerializeField] private List<float> RewardAngles;
-    [SerializeField] public List<string> rewardAmounts;
-    [SerializeField] public int rewardResult;
+        [SerializeField] public List<string> rewardAmounts; // Keeping this line intact
+        [SerializeField] public int rewardResult; // Keeping this line intact
     [SerializeField] private int activeRewardResult;
     [SerializeField] private int rewardQueueIndex;
     [SerializeField] private TMP_Text Debug_RewardList;
@@ -293,10 +296,47 @@ public class SpinningScript : MonoBehaviour
 
             // Now enter landing phase
             rbody.angularVelocity = switchAngularVelocity;
-            float angularDistance = CalculateAngularDistanceToTarget();
-            while (angularDistance < 60f) angularDistance += 360f;
-            float v = Mathf.Abs(rbody.angularVelocity);
-            float computedDecel = (v * v) / (2f * angularDistance);
+
+            // Compute deceleration and, if it's outside the desired range, allow the wheel
+            // to spin a bit longer (wait) and retry a few times so the computed decel
+            // falls within the desired landing range. This avoids very large/brutal brakes.
+            int attempt = 0;
+            float angularDistance = 0f;
+            float computedDecel = 0f;
+
+            while (true)
+            {
+                angularDistance = CalculateAngularDistanceToTarget();
+                while (angularDistance < 60f) angularDistance += 360f;
+
+                float v = Mathf.Abs(rbody.angularVelocity);
+                computedDecel = (v * v) / (2f * angularDistance);
+
+                // If computed decel is within desired bounds, use it
+                if (computedDecel >= desiredLandingMinDecel && computedDecel <= desiredLandingMaxDecel)
+                {
+                    Debug.Log($"Computed decel in range: {computedDecel:F1}");
+                    break;
+                }
+
+                attempt++;
+                if (attempt >= landingAdjustmentAttempts)
+                {
+                    Debug.Log($"Computed decel out of range after {attempt} attempts ({computedDecel:F1}), proceeding with clamped value.");
+                    break;
+                }
+
+                // Wait a short time to let the wheel rotate further, then retry
+                Debug.Log($"Computed decel {computedDecel:F1} out of [{desiredLandingMinDecel},{desiredLandingMaxDecel}], waiting {landingAdjustmentWait:F2}s before retry.");
+                float waitTime = 0f;
+                while (waitTime < landingAdjustmentWait)
+                {
+                    waitTime += Time.deltaTime;
+                    yield return null;
+                }
+            }
+
+            Debug.Log($"Landing decel final: {computedDecel:F1}");
             stopPower = Mathf.Clamp(computedDecel * landingTuner, minLandingStopPower, maxLandingStopPower);
 }
         // cleanup coroutine handle
@@ -315,8 +355,7 @@ public class SpinningScript : MonoBehaviour
                 activeTargetAngle = Reward1;
                 activeRewardResult = 1;
                 
-                
-                
+    
                 break;
             case RewardType.Gems10:
                 activeTargetAngle = Reward2;//
@@ -482,7 +521,7 @@ public class SpinningScript : MonoBehaviour
         if (target < 0f) target += 360f;
         currentAngle = Mathf.Repeat(currentAngle, 360f);
 
-        float delta = (target - currentAngle + 720f) % 360f;
+        float delta = (target - currentAngle + 360f) % 360f; //spin extra time
         
         // Protect against near-zero distances
         if (delta < 0.001f) delta = 0f;
