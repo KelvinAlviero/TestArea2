@@ -1,11 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 using TMPro;
-using System.Text;
 using Extras;
 
 namespace Forgehub.SpookyBubbles
@@ -15,7 +10,6 @@ namespace Forgehub.SpookyBubbles
         [Header("Script References")]
         public SpinningScript SpinningScript; 
         public UIWheelSpin UIWheelSpin;
-        
         [Header("References")]
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Image FlashImage;
@@ -29,9 +23,8 @@ namespace Forgehub.SpookyBubbles
         [SerializeField] private Image movesReward;
         [SerializeField] private TMP_Text RewardText;
         [SerializeField] private RectTransform contentRectTransform;
-
+        [SerializeField] private bool hasMoreQueuedRewards;
         public RectTransform ContentRectTransform => contentRectTransform;
-
         [Header("Buttons")]
         // [SerializeField] private Button closeButton;
         [SerializeField] private Button claimButton;
@@ -45,7 +38,6 @@ namespace Forgehub.SpookyBubbles
         
         public void Init()
         {
-            Debug.Log("UIWheelReward.Init() called - registering button listeners");
             // closeButton.onClick.AddListener(OnCloseButtonClicked);
             claimButton.onClick.AddListener(OnClaimButtonClicked);
             isInitialized = true;
@@ -60,30 +52,28 @@ namespace Forgehub.SpookyBubbles
 
         public void OnClaimButtonClicked()
         {
-            bool hasMoreQueuedRewards = SpinningScript != null && SpinningScript.HasPendingRewards;
+            hasMoreQueuedRewards = SpinningScript.MoreSpins;
 
-            if (hasMoreQueuedRewards)
+            if (hasMoreQueuedRewards == true)
             {
                 Debug.Log("UIWheelReward: starting next queued spin");
                 UIWheelSpin.OnSpinButtonClicked();
-                UIWheelSpin.EnableSpinButton();
+                UIWheelSpin.DisableSpinButton();
                 UIWheelSpin.StopLightAnimation();
                 PlayHideAnimation();
                 
-            }
-            else
+            } 
+            else if (hasMoreQueuedRewards == false)
             {
-            Debug.Log("No more spins");
-            Debug.Log("UIWheelReward: Claim Button Clicked");
+            // Debug.Log("No more spins");
+            // Debug.Log("UIWheelReward: Claim Button Clicked");
             PlayHideAnimation();
             UIWheelSpin.EnableCloseButton();
             UIWheelSpin.EnableSpinButton();
             UIWheelSpin.StopLightAnimation();
             UIWheelSpin.isSpinning = false;
-            Debug.Log("IsSpinning = " + UIWheelSpin.isSpinning);
-            Debug.Log("UIWheelReward: Claim button clicked");
-            Debug.Log("UIWheelReward: closed UI");
-            Debug.Log("UIWheelReward: Enable close button in UIWheelSpin");
+            // Debug.Log("IsSpinning = " + UIWheelSpin.isSpinning);
+            
             }
         }
 
@@ -95,7 +85,7 @@ namespace Forgehub.SpookyBubbles
 
         public override void PlayShowAnimation()
         {
-            Debug.Log("PlayShowAnimation called ");
+            // Debug.Log("PlayShowAnimation called ");
             // Ensure Init is called to register button listeners
             if (!isInitialized)
             {
@@ -108,9 +98,6 @@ namespace Forgehub.SpookyBubbles
             MagnetReward.gameObject.SetActive(false);
             movesReward.gameObject.SetActive(false);
             m_GlassReward.gameObject.SetActive(false); 
-            
-            
-            Debug.Log("Show rewards");
 
             // Set initial positions for animation
             panelRectTransform.gameObject.SetActive(true);
@@ -122,12 +109,10 @@ namespace Forgehub.SpookyBubbles
             if (fadeImage != null)
             {
                 fadeImage.raycastTarget = false;
-                Debug.Log("Fade raycast target disabled");
             }
             backgroundImage.gameObject.SetActive(true);
             claimButton.gameObject.SetActive(true);
             claimButton.interactable = true;
-            Debug.Log($"claimButton active: {claimButton.gameObject.activeSelf}, interactable: {claimButton.interactable}");
 
             switch(SpinningScript.rewardResult)
             {
@@ -176,7 +161,7 @@ namespace Forgehub.SpookyBubbles
 
         public override void PlayHideAnimation()
         {
-            Debug.Log("Hiding");
+            // Debug.Log("Hiding");
             panelRectTransform.gameObject.SetActive(false);
             FlashImage.gameObject.SetActive(false);
             bombReward.gameObject.SetActive(false);

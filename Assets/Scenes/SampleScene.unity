@@ -337,11 +337,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: stopPower
-      value: 1000
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: rewardType
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: landingBrake
@@ -357,11 +357,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: rewardResult
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: BackendReward
-      value: 69fdaf4e0d3ceac0fa4715a7
+      value: 69fdaeed0d3ceac0fa47159f
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: scalingFactor
@@ -389,7 +389,7 @@ PrefabInstance:
       objectReference: {fileID: 153220214}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: activeRewardType
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: landingTolerance
@@ -401,35 +401,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: activeTargetAngle
-      value: 70
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: activeRewardResult
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: maxLandingStopPower
-      value: 500
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: minLandingStopPower
-      value: 400
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: landingAdjustmentWait
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: switchAngularVelocity
-      value: 350
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: desiredLandingMaxDecel
-      value: 600
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: desiredLandingMinDecel
-      value: 300
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: RewardAngles.Array.size
@@ -438,6 +438,10 @@ PrefabInstance:
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: rewardAmounts.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: landingAdjustmentAttempts
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: softStopVelocityThreshold
@@ -477,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: 'rewardAmounts.Array.data[0]'
-      value: 69fdaf4e0d3ceac0fa4715a7
+      value: 69fdaeed0d3ceac0fa47159f
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: 'rewardAmounts.Array.data[1]'
@@ -647,6 +651,10 @@ PrefabInstance:
       propertyPath: SpinAgain
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3757220459799194151, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: SpinningScript
+      value: 
+      objectReference: {fileID: 1262285965}
     - target: {fileID: 5241911431674448836, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: m_LocalScale.z
       value: 0

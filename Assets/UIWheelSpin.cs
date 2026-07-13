@@ -14,6 +14,7 @@ using Unity.VisualScripting;
         
         [Header("Script References")]
         [SerializeField] private APIController APIController;
+        [SerializeField] private SpinningScript SpinningScript;
         [SerializeField] private RectTransform wheelBackground;
         [SerializeField] private RectTransform wheel;
         [SerializeField] private RectTransform wheelPointer; 
@@ -38,7 +39,6 @@ using Unity.VisualScripting;
         [SerializeField] public bool TimerDebug = false;
         
         public RectTransform ContentRectTransform => contentRectTransform;
-        private int wheelpointershift = 330;
 
         [SerializeField] private Button closeButton;
         [SerializeField] private Button spinningButton; // X = 6, Y = -45, SCALE = 2
@@ -56,8 +56,8 @@ using Unity.VisualScripting;
             string timerData = PlayerPrefs.GetString($"TimerProduct_{saveID}", DateTime.Now.ToBinary().ToString());
             timerStartTime = DateTime.FromBinary(long.Parse(timerData));
             sb = new StringBuilder();
-            Debug.Log("UIWheelSpin showed");
             UIController.ShowPage<UIWheelSpin>();
+            DecreaseButton.interactable = false;
         }
 
         
@@ -182,10 +182,11 @@ using Unity.VisualScripting;
             closeButton.interactable = false;
             spinningButton.interactable = false;
 
-            if (APIController != null && APIController.SpinningScript != null && APIController.SpinningScript.HasPendingRewards)
+            if (APIController != null && SpinningScript != null && SpinningScript.HasPendingRewards)
             {
-                APIController.SpinningScript.StartNextQueuedSpin();
-                SpinAgain = APIController.SpinningScript.HasPendingRewards;
+                SpinningScript.StartNextQueuedSpin();
+                SpinAgain = SpinningScript.HasPendingRewards;
+                spinningButton.interactable = false;
             }
             else
             {
@@ -193,8 +194,8 @@ using Unity.VisualScripting;
                 SpinAgain = false;
             }
 
-            Debug.Log("UIWheelSpin: Spin button clicked");
-            Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
+            // Debug.Log("UIWheelSpin: Spin button clicked");
+            // Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
             Debug.Log("UIWheelSpin Spin amount = " + APIController.spin_count);
         
         }
@@ -244,12 +245,19 @@ using Unity.VisualScripting;
             Debug.Log("Spin button Enabled");
             spinningButton.interactable = true;
         }
+
+        public void DisableSpinButton()
+        {
+
+            Debug.Log("Spin disabled Enabled");
+            spinningButton.interactable = false;
+        }
         
 
         // --- Light animation --- //
         public void StopLightAnimation()
         {
-            Debug.Log("Stop Light Animation");
+            // Debug.Log("Stop Light Animation");
             StopCoroutine("LightAnimation");
             LightCheck = false;
             LightsON.gameObject.SetActive(false);
@@ -257,16 +265,16 @@ using Unity.VisualScripting;
 
         public IEnumerator LightAnimation() 
         {
-            Debug.Log("Light Animation Started");
+            // Debug.Log("Light Animation Started");
 
             while (LightCheck == true)
             {
                 
-                // LightsON.gameObject.SetActive(true);
-                Debug.Log("Lights ON");
+                LightsON.gameObject.SetActive(true);
+                // Debug.Log("Lights ON");
                 yield return new WaitForSeconds(0.5f);
-                // LightsON.gameObject.SetActive(false);
-                Debug.Log("Lights OFF");
+                LightsON.gameObject.SetActive(false);
+                // Debug.Log("Lights OFF");
                 yield return new WaitForSeconds(0.5f);
             }
             

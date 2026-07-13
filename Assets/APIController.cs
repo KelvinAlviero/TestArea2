@@ -2,12 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
-using UnityEngine.UI;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEditor.PackageManager.Requests;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Search;
+
 
 public class APIController: MonoBehaviour
 {
@@ -69,7 +65,7 @@ public class APIController: MonoBehaviour
             spin_count = spin_count 
         };
         string json = JsonUtility.ToJson(data);
-        Debug.Log("Json files within" + json);
+        // Debug.Log("Json files within" + json);
 
         using UnityWebRequest request = new UnityWebRequest(URL_StartSpin, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
@@ -81,7 +77,7 @@ public class APIController: MonoBehaviour
         if (!string.IsNullOrEmpty(JWTToken)) //JWT token 
         {
         request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
-        Debug.Log("JWT success:" + JWTToken);
+        // Debug.Log("JWT success:" + JWTToken);
         }
         else
         {
@@ -100,7 +96,7 @@ public class APIController: MonoBehaviour
         else
         {
             string rawJson = request.downloadHandler.text; // turn results into string
-            Debug.Log("rawJson file" + rawJson);
+            // Debug.Log("rawJson file" + rawJson);
             SpinResponse response = JsonUtility.FromJson<SpinResponse>(rawJson);
             
             if (response != null &&
@@ -132,7 +128,7 @@ public class APIController: MonoBehaviour
                     DebugText_SpinAmount.text = "Reward spun " + queuedItemIds.Count + " times";
                     UnserializeditemId = firstItem.itemId;
                     UnserializedItems();
-                    Debug.Log(request.downloadHandler.text);
+                    // Debug.Log(request.downloadHandler.text);
                     SpinningScript.ReceivedBackend = true;
                     SpinningScript.QueueRewards(queuedItemIds);
                     SpinningScript.StartNextQueuedSpin();
@@ -152,7 +148,7 @@ public class APIController: MonoBehaviour
     public void UnserializedItems()
     {
         ObtainedReward = UnserializeditemId;
-        Debug.Log("ObtainedReward" + ObtainedReward);
+        // Debug.Log("ObtainedReward" + ObtainedReward);
     }
 
 

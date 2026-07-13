@@ -2,13 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Forgehub.SpookyBubbles;
-using JetBrains.Annotations;
 using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using Random = UnityEngine.Random;
+
 
 
 public class SpinningScript : MonoBehaviour
@@ -34,8 +31,6 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float landingTuner = 0.55f; // , <1 Increase power (Lower Resistance),  >1 Decrease power (Higher Resitance)
     [SerializeField] public float minLandingStopPower = 10f; // minimum landing deceleration
     [SerializeField] public float maxLandingStopPower = 8000f; // maximum landing deceleration
-    // [SerializeField] public float softStopVelocityThreshold = 250f; // slow down final segment
-    // [SerializeField] public float softStopFactor = 0.25f; // reduce braking strength near stop, <Less >more
     [SerializeField] public float preSpinDuration = 3f; // seconds to spin very fast before applying forced landing
     [SerializeField] public float preSpinSpeed = 3000f; // deg/s during pre-spin
     [SerializeField] public float preSpinDamping = 5f; // small damping during pre-spin so it stays fast
@@ -47,14 +42,16 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float smoothRotationDuration = 0.5f; // Duration for smooth rotation to center
     [SerializeField] private int DelayedWinTime = 1000;
     [SerializeField] private float activeTargetAngle;
+    [SerializeField] public bool MoreSpins;
+
     [Space(10)]
 
     [Header("Results Debug")]
     [SerializeField] private RewardType activeRewardType;
     [SerializeField] private List<float> RewardAngleBoundaries; 
     [SerializeField] private List<float> RewardAngles;
-        [SerializeField] public List<string> rewardAmounts; // Keeping this line intact
-        [SerializeField] public int rewardResult; // Keeping this line intact
+    [SerializeField] public List<string> rewardAmounts; // Keeping this line intact
+     [SerializeField] public int rewardResult; // Keeping this line intact
     [SerializeField] private int activeRewardResult;
     [SerializeField] private int rewardQueueIndex;
     [SerializeField] private TMP_Text Debug_RewardList;
@@ -89,7 +86,6 @@ public class SpinningScript : MonoBehaviour
         { "69fdaeed0d3ceac0fa47159f", RewardType.Magnet },
         { "69fdaf260d3ceac0fa4715a3", RewardType.Shield },
         { "69fdaf030d3ceac0fa4715a1", RewardType.Speed },
-        
         { "6a47cb262754bd1e11ffd776", RewardType.MagnetImmune},
         { "6a47cb262754bd1e11ffd777", RewardType.DashImmune}
         
@@ -121,8 +117,11 @@ public class SpinningScript : MonoBehaviour
         return false;
     }
 
+
+    // ----- Input rewards Quue ----- //
     public void QueueRewards(IEnumerable<string> incomingItemIds)
     {
+        // Makes new list if null
         if (rewardAmounts == null)
             rewardAmounts = new List<string>();
 
@@ -145,10 +144,12 @@ public class SpinningScript : MonoBehaviour
 
     public bool HasPendingRewards => rewardAmounts != null && rewardQueueIndex < rewardAmounts.Count;
 
+    // ----- Start extra spins -- //
     public void StartNextQueuedSpin()
     {
         if (!HasPendingRewards)
         {
+            MoreSpins = false;
             Debug.Log("No queued rewards left.");
             return;
         }
@@ -163,16 +164,9 @@ public class SpinningScript : MonoBehaviour
             ConfigureForcedReward(resolvedReward);
             ReceivedBackend = true;
             Rotate(resolvedReward);
-            Debug.Log("Starting queued reward: " + incomingItemId + " -> " + resolvedReward);
-            
-            //Debug reward list
-            // string formattedText = "";
-            // foreach (string item in rewardAmounts)
-            // {
-            //     formattedText += "• <indent=5%>" + item + "</indent>\n";
-            // }
-
+            // Debug.Log("Starting queued reward: " + incomingItemId + " -> " + resolvedReward);
             Debug_RewardList.text = rewardType.ToString();
+            MoreSpins = true;
         }
         else
         {
@@ -206,8 +200,6 @@ public class SpinningScript : MonoBehaviour
         if (rbody.angularVelocity > 0f) 
         {
             float currentStopPower = stopPower;
-            // if (rbody.angularVelocity < softStopVelocityThreshold)
-            //     currentStopPower *= softStopFactor;
 
             rbody.angularVelocity -= currentStopPower * Time.deltaTime;
             rbody.angularVelocity = Mathf.Clamp(rbody.angularVelocity, 0f, 1440f);
@@ -255,7 +247,6 @@ public class SpinningScript : MonoBehaviour
     // -----  During spin functions ----- //
     private IEnumerator PreSpinThenSwitch() //Changes to new angle for forced rewards
     {
-        // float previousStopPower = stopPower;
         stopPower = preSpinDamping;
         rbody.angularVelocity = preSpinSpeed;
 
@@ -293,13 +284,11 @@ public class SpinningScript : MonoBehaviour
             }
 
             Debug.Log($"Landing switch: cur={transform.eulerAngles.z:F1} target={activeTargetAngle:F1} remaining={CalculateAngularDistanceToTarget():F1}");
-
-            // Now enter landing phase
             rbody.angularVelocity = switchAngularVelocity;
 
             // Compute deceleration and, if it's outside the desired range, allow the wheel
             // to spin a bit longer (wait) and retry a few times so the computed decel
-            // falls within the desired landing range. This avoids very large/brutal brakes.
+            // falls within the desired landing range. T
             int attempt = 0;
             float angularDistance = 0f;
             float computedDecel = 0f;
@@ -315,7 +304,6 @@ public class SpinningScript : MonoBehaviour
                 // If computed decel is within desired bounds, use it
                 if (computedDecel >= desiredLandingMinDecel && computedDecel <= desiredLandingMaxDecel)
                 {
-                    Debug.Log($"Computed decel in range: {computedDecel:F1}");
                     break;
                 }
 
@@ -327,7 +315,7 @@ public class SpinningScript : MonoBehaviour
                 }
 
                 // Wait a short time to let the wheel rotate further, then retry
-                Debug.Log($"Computed decel {computedDecel:F1} out of [{desiredLandingMinDecel},{desiredLandingMaxDecel}], waiting {landingAdjustmentWait:F2}s before retry.");
+                // Debug.Log($"Computed decel {computedDecel:F1} out of [{desiredLandingMinDecel},{desiredLandingMaxDecel}], waiting {landingAdjustmentWait:F2}s before retry.");
                 float waitTime = 0f;
                 while (waitTime < landingAdjustmentWait)
                 {
@@ -354,64 +342,34 @@ public class SpinningScript : MonoBehaviour
             case RewardType.UltimateBooster:
                 activeTargetAngle = Reward1;
                 activeRewardResult = 1;
-                
-    
                 break;
             case RewardType.Gems10:
                 activeTargetAngle = Reward2;//
                 activeRewardResult = 2;
-                
-                
-                
-                
                 break;
             case RewardType.DashImmune:
                 activeTargetAngle = Reward3;//210f
                 activeRewardResult = 3;
-                
-               
-                
-                
                 break;
             case RewardType.Magnet:
                 activeTargetAngle = Reward4;//270f
                 activeRewardResult = 4;
-                
-                
-                
-                
                 break;
             case RewardType.Shield:
                 activeTargetAngle = Reward5;//330f
-                activeRewardResult = 5;
-                
-                
-                
-                
+                activeRewardResult = 5; 
                 break;
             case RewardType.MagnetImmune:
                 activeTargetAngle = Reward6;//30f 
-                activeRewardResult = 6;
-               
-                
-               
-                
+                activeRewardResult = 6;   
                 break;
             case RewardType.Currency:
                 activeTargetAngle = Reward7;//30f 
                 activeRewardResult = 7;// 7
-                
-                
-                
-                
                 break;
             case RewardType.Speed:
                 activeTargetAngle = Reward8;//30f 
                 activeRewardResult = 8; //8
-                
-               
-                
-                
                 break;
             default:
                 activeTargetAngle = 0f;
@@ -482,7 +440,7 @@ public class SpinningScript : MonoBehaviour
     {
         UIWheelSpin.LightCheck = true;
         StartCoroutine(UIWheelSpin.LightAnimation());
-        Debug.Log("DelayedWin called");
+        // Debug.Log("DelayedWin called");
         await System.Threading.Tasks.Task.Delay(DelayedWinTime);
         UIWheelReward.PlayShowAnimation();
         
