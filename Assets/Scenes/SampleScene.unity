@@ -384,6 +384,10 @@ PrefabInstance:
       value: 87.2
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: DelayedWinTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: preSpinDamping
       value: 0
       objectReference: {fileID: 0}
@@ -446,6 +450,10 @@ PrefabInstance:
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: desiredLandingMinDecel
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: smoothRotationDuration
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1681753263109560815, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: RewardAngles.Array.size

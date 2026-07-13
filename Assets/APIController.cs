@@ -10,12 +10,12 @@ public class APIController: MonoBehaviour
     public SpinningScript SpinningScript;
     
     public string URL_GetUser = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70";
-    public string URL_StartSpin = "http://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
-    public string URL_RecieveReward = "http://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel";
+    public string URL_StartSpin = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
+    public string URL_RecieveReward = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel";
     public string email = "aaa@gmail.com";
     public string password = "qwerty123";
     public string returnSecureToken = "true";
-    public string JWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODI4OTUyODAsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.oUYNJWHmdQ1G8DG9U8diDC8gBkPxBfbGRynJCfuZDLg";
+    public string JWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODM5OTMxMjMsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.wM3L4z_UOLeeSZYKY_hpYU8WEH7VtNok5zYkueXhTkk";
     public TMP_Text DebugText_SpinAmount;
     public TMP_Text DebugText_ItemList;
     public string ObtainedReward;
@@ -130,12 +130,12 @@ public class APIController: MonoBehaviour
                 }
                 else
                 {
-                    DebugText_SpinAmount.text = "No rewards :(";
+                    DebugText_SpinAmount.text = "No rewards";
                 }
             }
             else
             {
-                DebugText_SpinAmount.text = "No rewards :(";
+                DebugText_SpinAmount.text = "No rewards(";
             }
         }
     

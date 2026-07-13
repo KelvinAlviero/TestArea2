@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Forgehub.SpookyBubbles;
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 
@@ -19,7 +19,7 @@ public class SpinningScript : MonoBehaviour
     public APIController APIController;
     [Space(10)]
 
-    [Header("WheelSpin")]
+    [Header("WheelSpin")] 
     [SerializeField] private Rigidbody2D rbody;
     [SerializeField] private int Reward1, Reward2, Reward3, Reward4 ,Reward5 ,Reward6 ,Reward7, Reward8;
     [SerializeField] private Dictionary<string, RewardType> rewardMap;
@@ -40,7 +40,8 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float landingAdjustmentWait = 0.5f; // seconds to wait before retrying decel check
     [SerializeField] public int landingAdjustmentAttempts; // max retries for adjusting landing
     [SerializeField] public float smoothRotationDuration = 0.5f; // Duration for smooth rotation to center
-    [SerializeField] private int DelayedWinTime = 1000;
+    [SerializeField] private float DelayedWinTime = 3f; //Delays popup
+    [SerializeField] private float DelayedSpinTime = 1f;
     [SerializeField] private float activeTargetAngle;
     [SerializeField] public bool MoreSpins;
 
@@ -207,7 +208,7 @@ public class SpinningScript : MonoBehaviour
         {
             rbody.angularVelocity = 0f;
             SpinEndTimer += Time.deltaTime;
-            if (SpinEndTimer >= 0.5f)
+            if (SpinEndTimer >= DelayedSpinTime)
             {
                 FinalizeSpinResults();
                 inRotate = false;
@@ -243,7 +244,7 @@ public class SpinningScript : MonoBehaviour
 
 
     // -----  During spin functions ----- //
-    private IEnumerator PreSpinThenSwitch() //Changes to new angle for forced rewards
+    private IEnumerator PreSpinThenSwitch() //Changes to new angle for forced rewards (Refactor needed because wtf is this)
     {
         stopPower = preSpinDamping;
         rbody.angularVelocity = preSpinSpeed;
@@ -286,7 +287,7 @@ public class SpinningScript : MonoBehaviour
 
             // Compute deceleration and, if it's outside the desired range, allow the wheel
             // to spin a bit longer (wait) and retry a few times so the computed decel
-            // falls within the desired landing range. T
+            // falls within the desired landing range. 
             int attempt = 0;
             float angularDistance = 0f;
             float computedDecel = 0f;
@@ -297,7 +298,7 @@ public class SpinningScript : MonoBehaviour
                 while (angularDistance < 60f) angularDistance += 360f;
 
                 float v = Mathf.Abs(rbody.angularVelocity);
-                computedDecel = (v * v) / (2f * angularDistance);
+                computedDecel = v * v / (2f * angularDistance);
 
                 // If computed decel is within desired bounds, use it
                 if (computedDecel >= desiredLandingMinDecel && computedDecel <= desiredLandingMaxDecel)
@@ -434,12 +435,12 @@ public class SpinningScript : MonoBehaviour
     }
         
     // ----- Afterspin stuffs ----- //
-    public async void DelayedWin() 
+    public IEnumerator DelayedWin() 
     {
         UIWheelSpin.LightCheck = true;
         StartCoroutine(UIWheelSpin.LightAnimation());
         // Debug.Log("DelayedWin called");
-        await System.Threading.Tasks.Task.Delay(DelayedWinTime);
+        yield return new WaitForSeconds(DelayedWinTime);
         UIWheelReward.PlayShowAnimation();
         
         if (lightAnimationCoroutine != null)
@@ -465,8 +466,9 @@ public class SpinningScript : MonoBehaviour
     }
     private IEnumerator SmoothRotateToThenDelayedWin(float targetAngle) //rotate then win 
     {
+
         yield return SmoothRotateTo(targetAngle);
-        DelayedWin();
+        StartCoroutine(DelayedWin());
     }
     private float CalculateAngularDistanceToTarget()
 {
