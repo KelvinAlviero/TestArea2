@@ -23,33 +23,30 @@ public class APIController: MonoBehaviour
     public int spin_count = 1;
     
     
-    [System.Serializable]
-    public class SpinRequest
+    
+    [System.Serializable] public class SpinRequest
     {
         public string spinwheel_config_name;
         public int spin_count = 1;
     }
-
-    [System.Serializable]
-    public class SpinItem
+    [System.Serializable] public class SpinItem
     {
-    public string name;
-    public string itemType;
-    public int amount;
-    public string itemId;
+        public string name;
+        public string itemType;
+        public int amount;
+        public string itemId;
     }
-
-    [System.Serializable]
-    public class SpinDraw
+    
+    [System.Serializable] public class SpinDraw
     {
         public string package_id;
         public List<SpinItem> items;
         
     }
-    [System.Serializable]
-    public class SpinResponse
+    
+   [System.Serializable] public class SpinResponse
     {
-         public string name;
+        public string name;
         public int spin_count;
         public int total_cost;
         public string currency;
@@ -73,7 +70,6 @@ public class APIController: MonoBehaviour
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
         
-        
         if (!string.IsNullOrEmpty(JWTToken)) //JWT token 
         {
         request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
@@ -83,7 +79,6 @@ public class APIController: MonoBehaviour
         {
             yield return null;
         }
-
 
         yield return request.SendWebRequest();
 

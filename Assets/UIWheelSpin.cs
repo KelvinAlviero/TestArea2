@@ -135,12 +135,8 @@ using Unity.VisualScripting;
 
             //Position of animation
             panelRectTransform.gameObject.SetActive(true);
-    
-            // wheelBackground.gameObject(new Vector3 (-14,-77,0), 0.3f).SetEasing(Ease.Type.SineOut);
             wheel.gameObject.SetActive(true);
-            // wheelPointer.DOAnchoredPosition(Vector2.up * wheelpointershift, 0.3f).SetEasing(Ease.Type.SineOut);
             spinningButton.gameObject.SetActive(true);
-            // WatchAdsButton.GetComponent<RectTransform>().DOAnchoredPosition(new Vector2(297, -375), 0.3f).SetEasing(Ease.Type.SineOut);
             LightsOFF.gameObject.SetActive(true);
             LightsON.gameObject.SetActive(true);
 
@@ -166,9 +162,6 @@ using Unity.VisualScripting;
         //-------- Buttons --------//
         public void OnCloseButtonClicked()
         {
-            //APIController.StartCoroutine(APIController.SignIn());
-            // APIController.StartCoroutine(APIController.RecieveSpin());
-            // UIController.HidePage<UIWheelSpin>();
             Debug.Log("Close button clicked");
             Debug.Log("UIWheelSpin closed");
         }

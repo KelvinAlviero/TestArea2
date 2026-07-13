@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Forgehub.SpookyBubbles;
 using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -16,7 +17,6 @@ public class SpinningScript : MonoBehaviour
     public UIWheelReward UIWheelReward;
     public UIWheelSpin UIWheelSpin;
     public APIController APIController;
-    // [SerializeField] public int RewardShift = 0; //wheel adjustment
     [Space(10)]
 
     [Header("WheelSpin")]
@@ -38,7 +38,7 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float desiredLandingMinDecel = 400f; // desired min computed deceleration
     [SerializeField] public float desiredLandingMaxDecel = 500f; // desired max computed deceleration
     [SerializeField] public float landingAdjustmentWait = 0.5f; // seconds to wait before retrying decel check
-    [SerializeField] public int landingAdjustmentAttempts = 3; // max retries for adjusting landing
+    [SerializeField] public int landingAdjustmentAttempts; // max retries for adjusting landing
     [SerializeField] public float smoothRotationDuration = 0.5f; // Duration for smooth rotation to center
     [SerializeField] private int DelayedWinTime = 1000;
     [SerializeField] private float activeTargetAngle;
@@ -54,6 +54,7 @@ public class SpinningScript : MonoBehaviour
      [SerializeField] public int rewardResult; // Keeping this line intact
     [SerializeField] private int activeRewardResult;
     [SerializeField] private int rewardQueueIndex;
+    [SerializeField] private float SpinEndTimer;
     [SerializeField] private TMP_Text Debug_RewardList;
     [Space(10)]
 
@@ -61,7 +62,7 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public bool ReceivedBackend;
     [SerializeField] public string BackendReward;
     [SerializeField] public RewardType rewardType;
-    [SerializeField] int inRotate;
+    [SerializeField] bool inRotate; 
     [Space(10)]
     [SerializeField] private Coroutine preSpinCoroutine;
     [SerializeField] private Coroutine lightAnimationCoroutine;
@@ -79,17 +80,16 @@ public class SpinningScript : MonoBehaviour
         EnsureDebugAngles();
         rewardQueueIndex = 0;
         rewardMap = new Dictionary<string, RewardType>
-    {
-        { "69fdaf4e0d3ceac0fa4715a7", RewardType.Gems10 },
-        { "69fdaf380d3ceac0fa4715a5", RewardType.Currency },
-        { "6a47cb262754bd1e11ffd778", RewardType.UltimateBooster },
-        { "69fdaeed0d3ceac0fa47159f", RewardType.Magnet },
-        { "69fdaf260d3ceac0fa4715a3", RewardType.Shield },
-        { "69fdaf030d3ceac0fa4715a1", RewardType.Speed },
-        { "6a47cb262754bd1e11ffd776", RewardType.MagnetImmune},
-        { "6a47cb262754bd1e11ffd777", RewardType.DashImmune}
-        
-    };
+        {
+            { "69fdaf4e0d3ceac0fa4715a7", RewardType.Gems10 },
+            { "69fdaf380d3ceac0fa4715a5", RewardType.Currency },
+            { "6a47cb262754bd1e11ffd778", RewardType.UltimateBooster },
+            { "69fdaeed0d3ceac0fa47159f", RewardType.Magnet },
+            { "69fdaf260d3ceac0fa4715a3", RewardType.Shield },
+            { "69fdaf030d3ceac0fa4715a1", RewardType.Speed },
+            { "6a47cb262754bd1e11ffd776", RewardType.MagnetImmune},
+            { "6a47cb262754bd1e11ffd777", RewardType.DashImmune}
+        };
     }
 
     public enum RewardType //List for rewards
@@ -104,8 +104,6 @@ public class SpinningScript : MonoBehaviour
         MagnetImmune, //6a47cb262754bd1e11ffd776
         DashImmune //6a4b79d32754bd1e11ffdbbe
     }
-
-    float t;
 
     // ----- ID to case translator ----- //
     public bool TryResolveReward(string incomingItemId, out RewardType resolvedReward)
@@ -205,15 +203,15 @@ public class SpinningScript : MonoBehaviour
             rbody.angularVelocity = Mathf.Clamp(rbody.angularVelocity, 0f, 1440f);
         }
 
-        if (rbody.angularVelocity <= 0f && inRotate == 1)
+        if (rbody.angularVelocity <= 0f && inRotate)
         {
             rbody.angularVelocity = 0f;
-            t += Time.deltaTime;
-            if (t >= 0.5f)
+            SpinEndTimer += Time.deltaTime;
+            if (SpinEndTimer >= 0.5f)
             {
                 FinalizeSpinResults();
-                inRotate = 0;
-                t = 0f;
+                inRotate = false;
+                SpinEndTimer = 0f;
             }
         }
         activeRewardType = rewardType;
@@ -221,14 +219,14 @@ public class SpinningScript : MonoBehaviour
     }
 
     // ----- Spinning function, uses button to start ----- //
-    public void Rotate()
+    public void Rotate() //used by Wheel button, don't delete pls
     {
         Rotate(rewardType);
     }
 
-    public void Rotate(RewardType rewardToUse)
+    public void Rotate(RewardType rewardToUse) 
     {
-        if (inRotate == 0)
+        if (inRotate == false)
         {
             activeRewardType = rewardToUse;
 
@@ -239,7 +237,7 @@ public class SpinningScript : MonoBehaviour
                 StopCoroutine(preSpinCoroutine);
 
             preSpinCoroutine = StartCoroutine(PreSpinThenSwitch());
-            inRotate = 1;
+            inRotate = true;
         }
     }
 
@@ -260,7 +258,7 @@ public class SpinningScript : MonoBehaviour
         // after preSpinDuration
         if (ReceivedBackend)
         {
-            // wait a short time for backend/state to settle (avoid exiting early)
+            // wait a short time for backend/state to settle 
             float waitTimeout = 3f;
             float waited = 0f;
             while (!ReceivedBackend && waited < waitTimeout)
@@ -269,8 +267,8 @@ public class SpinningScript : MonoBehaviour
                 yield return null;
             }
 
-            float approachThreshold = 120f; // tune this
-            float approachWaitTimeout = 5f; // safety timeout
+            float approachThreshold = 120f; 
+            float approachWaitTimeout = 5f; 
             float approached = 0f;
 
             // Optionally reduce speed while waiting so wheel doesn't fly past
