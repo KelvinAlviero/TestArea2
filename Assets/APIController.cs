@@ -21,6 +21,7 @@ public class APIController: MonoBehaviour
     public TMP_Text DebugText_Status;
     public TMP_Text JSON_Body;
     public TMP_Text JSON_Raw;
+
     public string ObtainedReward;
     public string UnserializeditemId;
     public int spin_count = 1;
