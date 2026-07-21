@@ -15,12 +15,14 @@ public class APIController: MonoBehaviour
     public string email = "aaa@gmail.com";
     public string password = "qwerty123";
     public string returnSecureToken = "true";
-    public string JWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODM5OTMxMjMsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.wM3L4z_UOLeeSZYKY_hpYU8WEH7VtNok5zYkueXhTkk";
+    public string JWTToken;
     public TMP_Text DebugText_SpinAmount;
     public TMP_Text DebugText_ItemList;
     public string ObtainedReward;
     public string UnserializeditemId;
     public int spin_count = 1;
+    [SerializeField] private TMP_Text JWT_Text;
+    [SerializeField] private TMP_Text JWT_Translated;
     
     
     
@@ -62,6 +64,7 @@ public class APIController: MonoBehaviour
             spin_count = spin_count 
         };
         string json = JsonUtility.ToJson(data);
+        JWT_Translated.text = json;
         // Debug.Log("Json files within" + json);
 
         using UnityWebRequest request = new UnityWebRequest(URL_StartSpin, "POST");
@@ -92,6 +95,7 @@ public class APIController: MonoBehaviour
         {
             string rawJson = request.downloadHandler.text; // turn results into string
             // Debug.Log("rawJson file" + rawJson);
+            JWT_Text.text = rawJson;
             SpinResponse response = JsonUtility.FromJson<SpinResponse>(rawJson);
             
             if (response != null &&
