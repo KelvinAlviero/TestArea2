@@ -581,7 +581,7 @@ PrefabInstance:
       objectReference: {fileID: 915008164}
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: JWTToken
-      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODUyMDkwMTIsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.D17-ai2URnKEhdt8mhol2IceuvMGAjNU9ZHY-Fd-DbU
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODUyMTkzODEsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.sCop4lEsRu2InbNdKULNjIDd_cBrdFQ4twlJ-SRycqw
       objectReference: {fileID: 0}
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: JWT_Text
@@ -594,6 +594,10 @@ PrefabInstance:
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: spin_count
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: URL_StartSpin
+      value: https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin
       objectReference: {fileID: 0}
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: JWT_Translated
