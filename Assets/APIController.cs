@@ -11,7 +11,7 @@ public class APIController: MonoBehaviour
     
     public string URL_GetUser = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70";
     public string URL_StartSpin = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
-    public string URL_RecieveReward = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel";
+    // public string URL_RecieveReward = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel";
     public string email = "aaa@gmail.com";
     public string password = "qwerty123";
     public string returnSecureToken = "true";
@@ -172,22 +172,22 @@ public class APIController: MonoBehaviour
     }
 
 
-    public IEnumerator RecieveSpin()
-    {
-        using (UnityWebRequest request = UnityWebRequest.Get(URL_RecieveReward))
-        {
-            yield return request.SendWebRequest();
+    // public IEnumerator RecieveSpin()
+    // {
+    //     using (UnityWebRequest request = UnityWebRequest.Get(URL_RecieveReward))
+    //     {
+    //         yield return request.SendWebRequest();
         
-            if (request.result == UnityWebRequest.Result.ConnectionError)
-            Debug.Log(request.error);
+    //         if (request.result == UnityWebRequest.Result.ConnectionError)
+    //         Debug.Log(request.error);
 
-            else
-            {
-                Debug.Log("ReceiveSpin: Request success");
+    //         else
+    //         {
+    //             Debug.Log("ReceiveSpin: Request success");
                 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
     // ----- Unused code ----- //
      // public IEnumerator SignIn()
