@@ -576,6 +576,10 @@ PrefabInstance:
       value: Spin 1
       objectReference: {fileID: 0}
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: JSON_Raw
+      value: 
+      objectReference: {fileID: 915008164}
+    - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: JWTToken
       value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODUyMDkwMTIsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.D17-ai2URnKEhdt8mhol2IceuvMGAjNU9ZHY-Fd-DbU
       objectReference: {fileID: 0}
@@ -583,6 +587,10 @@ PrefabInstance:
       propertyPath: JWT_Text
       value: 
       objectReference: {fileID: 915008164}
+    - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
+      propertyPath: JSON_Body
+      value: 
+      objectReference: {fileID: 787346156}
     - target: {fileID: 2343530897345754225, guid: c38080e2d060844438443f105c57a16c, type: 3}
       propertyPath: spin_count
       value: 1

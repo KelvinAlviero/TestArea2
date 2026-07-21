@@ -18,6 +18,9 @@ public class APIController: MonoBehaviour
     public string JWTToken;
     public TMP_Text DebugText_SpinAmount;
     public TMP_Text DebugText_ItemList;
+    public TMP_Text DebugText_Status;
+    public TMP_Text JSON_Body;
+    public TMP_Text JSON_Raw;
     public string ObtainedReward;
     public string UnserializeditemId;
     public int spin_count = 1;
@@ -57,26 +60,25 @@ public class APIController: MonoBehaviour
 
     public IEnumerator StartSpin()
     {
-        
         var data = new SpinRequest
         {
             spinwheel_config_name = "default_testing_spinwheel",
-            spin_count = spin_count 
+            spin_count = spin_count
         };
+
         string json = JsonUtility.ToJson(data);
-        JWT_Translated.text = json;
-        // Debug.Log("Json files within" + json);
+        if (JSON_Body != null)
+            JSON_Body.text = json;
 
         using UnityWebRequest request = new UnityWebRequest(URL_StartSpin, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        
-        if (!string.IsNullOrEmpty(JWTToken)) //JWT token 
+
+        if (!string.IsNullOrEmpty(JWTToken))
         {
-        request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
-        // Debug.Log("JWT success:" + JWTToken);
+            request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
         }
         else
         {
@@ -85,17 +87,23 @@ public class APIController: MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.ConnectionError ||
-            request.result == UnityWebRequest.Result.ProtocolError)
+        string rawJson = request.downloadHandler?.text ?? "";
+
+        if (JSON_Raw != null)
+            JSON_Raw.text = string.IsNullOrEmpty(rawJson) ? "<empty response>" : rawJson;
+
+        if (DebugText_Status != null)
         {
-            Debug.LogError(request.error);
-            Debug.LogError(request.downloadHandler.text);
+            DebugText_Status.text = "Result: " + request.result + "\n" +
+                                    "Code: " + request.responseCode + "\n" +
+                                    "Error: " + request.error + "\n";
         }
-        else
+
+        if (request.result == UnityWebRequest.Result.Success)
         {
-            string rawJson = request.downloadHandler.text; // turn results into string
-            // Debug.Log("rawJson file" + rawJson);
-            JWT_Text.text = rawJson;
+            Debug.Log("Request success");
+            Debug.Log(rawJson);
+
             SpinResponse response = JsonUtility.FromJson<SpinResponse>(rawJson);
             
             if (response != null &&
@@ -124,23 +132,35 @@ public class APIController: MonoBehaviour
 
                 if (queuedItemIds.Count > 0 && firstItem != null)
                 {
-                    DebugText_SpinAmount.text = "Reward spun " + queuedItemIds.Count + " times";
+                    if (DebugText_SpinAmount != null)
+                        DebugText_SpinAmount.text = "Reward spun " + queuedItemIds.Count + " times";
+
                     UnserializeditemId = firstItem.itemId;
                     UnserializedItems();
-                    // Debug.Log(request.downloadHandler.text);
-                    SpinningScript.ReceivedBackend = true;
-                    SpinningScript.QueueRewards(queuedItemIds);
-                    SpinningScript.StartNextQueuedSpin();
+
+                    if (SpinningScript != null)
+                    {
+                        SpinningScript.ReceivedBackend = true;
+                        SpinningScript.QueueRewards(queuedItemIds);
+                        SpinningScript.StartNextQueuedSpin();
+                    }
                 }
                 else
                 {
-                    DebugText_SpinAmount.text = "No rewards";
+                    if (DebugText_SpinAmount != null)
+                        DebugText_SpinAmount.text = "No rewards";
                 }
             }
             else
             {
-                DebugText_SpinAmount.text = "No rewards(";
+                if (DebugText_SpinAmount != null)
+                    DebugText_SpinAmount.text = "No rewards";
             }
+        }
+        else
+        {
+            Debug.LogError("Request failed: " + request.responseCode);
+            Debug.LogError(rawJson);
         }
     
     }
