@@ -100,7 +100,7 @@ using Unity.VisualScripting;
             wheelPointer.gameObject.SetActive(true);
             closeButton.gameObject.SetActive(true);
             spinningButton.gameObject.SetActive(true);
-            LightsOFF.gameObject.SetActive(true);
+            
             backgroundImage.gameObject.SetActive(true);
         }
 
@@ -138,7 +138,7 @@ using Unity.VisualScripting;
             wheel.gameObject.SetActive(true);
             spinningButton.gameObject.SetActive(true);
             LightsOFF.gameObject.SetActive(true);
-            LightsON.gameObject.SetActive(true);
+            ;
 
             backgroundImage.gameObject.SetActive(true);
         }
@@ -263,7 +263,7 @@ using Unity.VisualScripting;
             while (LightCheck == true)
             {
                 
-                LightsON.gameObject.SetActive(true);
+                ;
                 // Debug.Log("Lights ON");
                 yield return new WaitForSeconds(0.5f);
                 LightsON.gameObject.SetActive(false);
