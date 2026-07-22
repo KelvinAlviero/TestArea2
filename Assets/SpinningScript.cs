@@ -82,6 +82,7 @@ public class SpinningScript : MonoBehaviour
         rewardQueueIndex = 0;
         rewardMap = new Dictionary<string, RewardType>
         {
+            //
             { "69fdaf4e0d3ceac0fa4715a7", RewardType.Gems10 },
             { "69fdaf380d3ceac0fa4715a5", RewardType.Currency },
             { "6a47cb262754bd1e11ffd778", RewardType.UltimateBooster },
@@ -555,7 +556,7 @@ private void EnsureDebugAngles()
         foreach (float angle in RewardAngleBoundaries)
         {
             float rad = angle * Mathf.Deg2Rad;
-            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 100;
+            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 2000;
             
             Gizmos.color = Color.green;
             Gizmos.DrawLine(Vector3.zero, position);
@@ -565,7 +566,7 @@ private void EnsureDebugAngles()
         foreach (float angle in RewardAngles)
         {
             float rad = angle * Mathf.Deg2Rad;
-            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 100;
+            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 2000;
             
             Gizmos.color = Color.red;
             Gizmos.DrawLine(Vector3.zero, position);
