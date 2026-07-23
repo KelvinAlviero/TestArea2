@@ -24,7 +24,6 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private int Reward1, Reward2, Reward3, Reward4 ,Reward5 ,Reward6 ,Reward7, Reward8;
     [SerializeField] private Dictionary<string, RewardType> rewardMap;
     [SerializeField] public float stopPower;
-    [SerializeField] public Image DebugWheelPoint;
     [Space(10)]
 
     [Header("WheelSpin config")]

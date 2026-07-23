@@ -8,7 +8,10 @@ using TMPro;
 using Extras;
 using Unity.VisualScripting;
 
-
+public class Message
+{
+    public string message;
+}
     public class UIWheelSpin : UIPage
     {
         
@@ -158,12 +161,18 @@ using Unity.VisualScripting;
             backgroundImage.gameObject.SetActive(false);
         }
         
-
+        
         //-------- Buttons --------//
         public void OnCloseButtonClicked()
         {
             Debug.Log("Close button clicked");
             Debug.Log("UIWheelSpin closed");
+            UniWebViewBridge.Send("backHomeAction",null);//send, call, request. 
+            // UniWebViewBridge.Send("SpinItem",new SpinItem{itemId = "69fdaf4e0d3ceac0fa4715a7"});
+            // var UserData = UniWebViewBridge.Call("UserData",null);
+            // var CurrencyData = UniWebViewBridge.Call("UserData", new Currency(CurrencyType = "data"));
+            // var CurrencyData = UniWebViewBridge.Request("UserData", new Currency(CurrencyType = "data"));
+
         }
         
         public void OnSpinButtonClicked()
