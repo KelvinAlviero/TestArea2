@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 public class Message
 {
     public string message;
+    
 }
     public class UIWheelSpin : UIPage
     {
@@ -32,7 +33,8 @@ public class Message
         [SerializeField] string saveID = "uniqueTimerSaveID";   
         [SerializeField] public TMP_Text TimeText;
         [SerializeField] public TMP_Text SpinAmount;
-        [SerializeField] public TMP_Text SpinList;
+        private string PulledJWT;
+        [SerializeField] public TMP_Text PulledJWTText;
         private StringBuilder sb;
         private SimpleLongSave save;
         [SerializeField] private RectTransform contentRectTransform;
@@ -51,6 +53,7 @@ public class Message
         
         private void Awake()
         {
+            
             CacheComponents();
             Init();
             TimerDebug = false;
@@ -61,6 +64,9 @@ public class Message
             sb = new StringBuilder();
             UIController.ShowPage<UIWheelSpin>();
             DecreaseButton.interactable = false;
+            PulledJWT = UniWebViewBridge.Call("getUserToken",null);
+            PulledJWTText.text = "PulledJWT=" + PulledJWT;
+            Debug.Log(PulledJWT);
         }
 
         
@@ -113,6 +119,7 @@ public class Message
             spinningButton.onClick.RemoveListener(OnSpinButtonClicked);
             IncreaseButton.onClick.RemoveListener(OnIncreaseButtonClicked); 
             DecreaseButton.onClick.RemoveListener(OnDecreaseButtonClicked); 
+            
         }
         public void InitialPosition()
         {
@@ -169,7 +176,7 @@ public class Message
             Debug.Log("UIWheelSpin closed");
             UniWebViewBridge.Send("backHomeAction",null);//send, call, request. 
             // UniWebViewBridge.Send("SpinItem",new SpinItem{itemId = "69fdaf4e0d3ceac0fa4715a7"});
-            // var UserData = UniWebViewBridge.Call("UserData",null);
+            var UserData = UniWebViewBridge.Call("UserData",null);
             // var CurrencyData = UniWebViewBridge.Call("UserData", new Currency(CurrencyType = "data"));
             // var CurrencyData = UniWebViewBridge.Request("UserData", new Currency(CurrencyType = "data"));
 
