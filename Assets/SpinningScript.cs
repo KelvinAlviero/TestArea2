@@ -43,6 +43,7 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private float DelayedSpinTime = 1f;
     [SerializeField] private float activeTargetAngle;
     [SerializeField] public bool MoreSpins;
+    [SerializeField] public float AngleFix = 22f;
 
     [Space(10)]
 
@@ -392,37 +393,37 @@ public class SpinningScript : MonoBehaviour
         float normalizedRot = (rot + 360f) % 360f;
         float targetAngle;
 
-        if (normalizedRot >= 0f && normalizedRot < 45f)
+        if (normalizedRot >= 0f  && normalizedRot < 45f )
         {
             targetAngle = Reward1;
             ApplyReward(1, targetAngle, "UltimateBooster"); 
         }
-        else if (normalizedRot < 90f)
+        else if (normalizedRot < 90f )
         {
             targetAngle = Reward2;
             ApplyReward(2, targetAngle, "Gems");
         }
-        else if (normalizedRot < 135f)
+        else if (normalizedRot < 135f )
         {
             targetAngle = Reward3;
             ApplyReward(3, targetAngle, "DashImmune");
         }
-        else if (normalizedRot < 180f)
+        else if (normalizedRot < 180f )
         {
             targetAngle = Reward4;
             ApplyReward(4, targetAngle, "Magnet");
         }
-        else if (normalizedRot < 225f)
+        else if (normalizedRot < 225f )
         {
             targetAngle = Reward5;
             ApplyReward(5, targetAngle, "Shield");
         }
-        else if (normalizedRot < 270f)
+        else if (normalizedRot < 270f )
         {
             targetAngle = Reward6;
             ApplyReward(6, targetAngle, "MagnetImmune");
         }
-        else if (normalizedRot < 315f)
+        else if (normalizedRot < 315f )
         {
             targetAngle = Reward7;
             ApplyReward(7, targetAngle, "Coins");
