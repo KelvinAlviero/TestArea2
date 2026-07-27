@@ -52,19 +52,19 @@ namespace Forgehub.SpookyBubbles
 
         public void OnClaimButtonClicked()
         {
-            hasMoreQueuedRewards = SpinningScript.MoreSpins;
+            // hasMoreQueuedRewards = SpinningScript.MoreSpins;
 
-            if (hasMoreQueuedRewards == true)
-            {
-                Debug.Log("UIWheelReward: starting next queued spin");
-                UIWheelSpin.OnSpinButtonClicked();
-                UIWheelSpin.DisableSpinButton();
-                UIWheelSpin.StopLightAnimation();
-                PlayHideAnimation();
+            // if (hasMoreQueuedRewards == true)
+            // {
+            //     Debug.Log("UIWheelReward: starting next queued spin");
+            //     UIWheelSpin.OnSpinButtonClicked();
+            //     UIWheelSpin.DisableSpinButton();
+            //     UIWheelSpin.StopLightAnimation();
+            //     PlayHideAnimation();
                 
-            } 
-            else if (hasMoreQueuedRewards == false)
-            {
+            // } 
+            // else if (hasMoreQueuedRewards == false)
+            // {
             // Debug.Log("No more spins");
             // Debug.Log("UIWheelReward: Claim Button Clicked");
             PlayHideAnimation();
@@ -75,7 +75,7 @@ namespace Forgehub.SpookyBubbles
             // Debug.Log("IsSpinning = " + UIWheelSpin.isSpinning);
             
             }
-        }
+        //}
 
         private void OnCloseButtonClicked()
         {

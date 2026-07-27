@@ -33,8 +33,6 @@ public class Message
         [SerializeField] string saveID = "uniqueTimerSaveID";   
         [SerializeField] public TMP_Text TimeText;
         [SerializeField] public TMP_Text SpinAmount;
-        private string PulledJWT;
-        [SerializeField] public TMP_Text PulledJWTText;
         private StringBuilder sb;
         private SimpleLongSave save;
         [SerializeField] private RectTransform contentRectTransform;
@@ -64,9 +62,7 @@ public class Message
             sb = new StringBuilder();
             UIController.ShowPage<UIWheelSpin>();
             DecreaseButton.interactable = false;
-            PulledJWT = UniWebViewBridge.Call("getUserToken",null);
-            PulledJWTText.text = "PulledJWT=" + PulledJWT;
-            Debug.Log(PulledJWT);
+            APIController.JWTReciever();
         }
 
         
@@ -176,7 +172,7 @@ public class Message
             Debug.Log("UIWheelSpin closed");
             UniWebViewBridge.Send("backHomeAction",null);//send, call, request. 
             // UniWebViewBridge.Send("SpinItem",new SpinItem{itemId = "69fdaf4e0d3ceac0fa4715a7"});
-            var UserData = UniWebViewBridge.Call("UserData",null);
+            // var UserData = UniWebViewBridge.Call("UserData",null);
             // var CurrencyData = UniWebViewBridge.Call("UserData", new Currency(CurrencyType = "data"));
             // var CurrencyData = UniWebViewBridge.Request("UserData", new Currency(CurrencyType = "data"));
 
@@ -184,28 +180,16 @@ public class Message
         
         public void OnSpinButtonClicked()
         {
-            if (isSpinning)
-                return;
-
             isSpinning = true;
             closeButton.interactable = false;
             spinningButton.interactable = false;
-
-            if (APIController != null && SpinningScript != null && SpinningScript.HasPendingRewards)
-            {
-                SpinningScript.StartNextQueuedSpin();
-                SpinAgain = SpinningScript.HasPendingRewards;
-                spinningButton.interactable = false;
-            }
-            else
-            {
-                APIController.StartCoroutine(APIController.StartSpin());
-                SpinAgain = false;
-            }
+            APIController.StartCoroutine(APIController.StartSpin());
+            SpinAgain = false;
+            
 
             // Debug.Log("UIWheelSpin: Spin button clicked");
             // Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
-            Debug.Log("UIWheelSpin Spin amount = " + APIController.spin_count);
+            // Debug.Log("UIWheelSpin Spin amount = " + APIController.spin_count);
         
         }
     

@@ -43,7 +43,7 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private float DelayedSpinTime = 1f;
     [SerializeField] private float activeTargetAngle;
     [SerializeField] public bool MoreSpins;
-    [SerializeField] public float AngleFix = 22f;
+    // [SerializeField] public float AngleFix = 22f;
 
     [Space(10)]
 
@@ -119,61 +119,61 @@ public class SpinningScript : MonoBehaviour
 
 
     // ----- Input rewards Quue ----- //
-    public void QueueRewards(IEnumerable<string> incomingItemIds)
-    {
-        // Makes new list if null
-        if (rewardAmounts == null)
-            rewardAmounts = new List<string>();
+    // public void QueueRewards(IEnumerable<string> incomingItemIds)
+    // {
+    //     // Makes new list if null
+    //     if (rewardAmounts == null)
+    //         rewardAmounts = new List<string>();
 
-        rewardAmounts.Clear();
-        rewardQueueIndex = 0;
+    //     rewardAmounts.Clear();
+    //     rewardQueueIndex = 0;
 
-        if (incomingItemIds == null)
-            return;
+    //     if (incomingItemIds == null)
+    //         return;
 
-        foreach (string incomingItemId in incomingItemIds)
-        {
-            if (string.IsNullOrEmpty(incomingItemId))
-                continue;
+    //     foreach (string incomingItemId in incomingItemIds)
+    //     {
+    //         if (string.IsNullOrEmpty(incomingItemId))
+    //             continue;
 
-            rewardAmounts.Add(incomingItemId);
-        }
-        Debug.Log("Queued reward IDs: " + string.Join(",", rewardAmounts));
+    //         rewardAmounts.Add(incomingItemId);
+    //     }
+    //     Debug.Log("Queued reward IDs: " + string.Join(",", rewardAmounts));
         
-    }
+    // }
 
-    public bool HasPendingRewards => rewardAmounts != null && rewardQueueIndex < rewardAmounts.Count;
+    // public bool HasPendingRewards => rewardAmounts != null && rewardQueueIndex < rewardAmounts.Count;
 
     // ----- Start extra spins -- //
-    public void StartNextQueuedSpin()
-    {
-        if (!HasPendingRewards)
-        {
-            MoreSpins = false;
-            Debug.Log("No queued rewards left.");
-            return;
-        }
+    // public void StartNextQueuedSpin()
+    // {
+    //     if (!HasPendingRewards)
+    //     {
+    //         MoreSpins = false;
+    //         Debug.Log("No queued rewards left.");
+    //         return;
+    //     }
 
-        string incomingItemId = rewardAmounts[rewardQueueIndex];
-        rewardQueueIndex++;
+    //     string incomingItemId = rewardAmounts[rewardQueueIndex];
+    //     rewardQueueIndex++;
 
-        if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
-        {
-            rewardType = resolvedReward;
-            activeRewardType = resolvedReward;
-            ConfigureForcedReward(resolvedReward);
-            ReceivedBackend = true;
-            Rotate(resolvedReward);
-            // Debug.Log("Starting queued reward: " + incomingItemId + " -> " + resolvedReward);
-            Debug_RewardList.text = rewardType.ToString();
-            MoreSpins = true;
-        }
-        else
-        {
-            ReceivedBackend = false;
-            Debug.LogWarning("Unknown queued reward ID: " + incomingItemId);
-        }
-    }
+    //     if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
+    //     {
+    //         rewardType = resolvedReward;
+    //         activeRewardType = resolvedReward;
+    //         ConfigureForcedReward(resolvedReward);
+    //         ReceivedBackend = true;
+    //         Rotate(resolvedReward);
+    //         // Debug.Log("Starting queued reward: " + incomingItemId + " -> " + resolvedReward);
+    //         Debug_RewardList.text = rewardType.ToString();
+    //         MoreSpins = true;
+    //     }
+    //     else
+    //     {
+    //         ReceivedBackend = false;
+    //         Debug.LogWarning("Unknown queued reward ID: " + incomingItemId);
+    //     }
+    // }
 
     public void UnserializedReward(string incomingItemId) //Translates ID into cases
     {

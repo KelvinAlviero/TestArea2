@@ -3,24 +3,31 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 using System.Collections.Generic;
-
+using Newtonsoft.Json;
 
 public class APIController: MonoBehaviour
 {
     public SpinningScript SpinningScript;
-    
     public string URL_GetUser = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70";
     public string URL_StartSpin = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
+    // public string URL_GetGems = ""
     // public string URL_RecieveReward = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel";
+    public string URL_SendRewards = "https://mh-dev.dreamforgecreation.com/api/v1/mailbox/test";
     public string email = "aaa@gmail.com";
     public string password = "qwerty123";
     public string returnSecureToken = "true";
     public string JWTToken;
+    public string datadebug;
+    public TMP_Text MailSender;
     public TMP_Text DebugText_SpinAmount;
     public TMP_Text DebugText_ItemList;
     public TMP_Text DebugText_Status;
     public TMP_Text JSON_Body;
     public TMP_Text JSON_Raw;
+    private string PulledJWT;
+    public TMP_Text PulledJWTText;
+    public TMP_Text Debug1;
+    public TMP_Text Debug2;
 
     public string ObtainedReward;
     public string UnserializeditemId;
@@ -32,9 +39,19 @@ public class APIController: MonoBehaviour
     
     [System.Serializable] public class SpinRequest
     {
-        public string spinwheel_config_name;
-        public int spin_count = 1;
+        
+        [JsonProperty("spinwheel_config_name")]
+        public string SpinWheelConfigName;
+        [JsonProperty("spincount")]
+        public int SpinCount = 1;
+
     }
+
+    [System.Serializable] public class MailTest
+    {
+        public string JWT;
+    }
+
     [System.Serializable] public class SpinItem
     {
         public string name;
@@ -53,41 +70,38 @@ public class APIController: MonoBehaviour
    [System.Serializable] public class SpinResponse
     {
         public string name;
-        public int spin_count;
+        public int SpinCount;
         public int total_cost;
         public string currency;
         public List<SpinDraw> draws;
     }
 
-    public IEnumerator StartSpin()
+    public void JWTReciever()
     {
-        var data = new SpinRequest
+        PulledJWT = UniWebViewBridge.Call("getUserToken",null);
+        PulledJWTText.text = "PulledJWT=" + PulledJWT;
+        JWTToken = PulledJWT;
+        Debug.Log(PulledJWT);
+        Debug.Log(JWTToken);
+    }
+
+    public IEnumerator SendReward()
+    {
+        if (!string.IsNullOrEmpty(PulledJWT))
         {
-            spinwheel_config_name = "default_testing_spinwheel",
-            spin_count = spin_count
-        };
+            JWTToken = PulledJWT;
+        }
 
-        string json = JsonUtility.ToJson(data);
-        if (JSON_Body != null)
-            JSON_Body.text = json;
-
-        using UnityWebRequest request = new UnityWebRequest(URL_StartSpin, "POST");
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
+        using UnityWebRequest request = UnityWebRequest.Get(URL_SendRewards);
         request.SetRequestHeader("Content-Type", "application/json");
+      
 
         if (!string.IsNullOrEmpty(JWTToken))
         {
             request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
         }
-        else
-        {
-            yield return null;
-        }
 
         yield return request.SendWebRequest();
-
         string rawJson = request.downloadHandler?.text ?? "";
 
         if (JSON_Raw != null)
@@ -95,102 +109,161 @@ public class APIController: MonoBehaviour
 
         if (DebugText_Status != null)
         {
-            DebugText_Status.text = "Result: " + request.result + "\n" +
+            DebugText_Status.text = "GET Result: " + request.result + "\n" +
                                     "Code: " + request.responseCode + "\n" +
                                     "Error: " + request.error + "\n";
         }
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log("Request success");
+            Debug.Log("GET request success");
             Debug.Log(rawJson);
-
-            SpinResponse response = JsonUtility.FromJson<SpinResponse>(rawJson);
-            
-            if (response != null &&
-            response.draws != null &&
-            response.draws.Count > 0)
-            {
-                List<string> queuedItemIds = new List<string>();
-                SpinItem firstItem = null;
-
-                foreach (var draw in response.draws)
-                {
-                    if (draw == null || draw.items == null)
-                        continue;
-
-                    foreach (var item in draw.items)
-                    {
-                        if (item == null || string.IsNullOrEmpty(item.itemId))
-                            continue;
-
-                        queuedItemIds.Add(item.itemId);
-
-                        if (firstItem == null)
-                            firstItem = item;
-                    }
-                }
-
-                if (queuedItemIds.Count > 0 && firstItem != null)
-                {
-                    if (DebugText_SpinAmount != null)
-                        DebugText_SpinAmount.text = "Reward spun " + queuedItemIds.Count + " times";
-
-                    UnserializeditemId = firstItem.itemId;
-                    UnserializedItems();
-
-                    if (SpinningScript != null)
-                    {
-                        SpinningScript.ReceivedBackend = true;
-                        SpinningScript.QueueRewards(queuedItemIds);
-                        SpinningScript.StartNextQueuedSpin();
-                    }
-                }
-                else
-                {
-                    if (DebugText_SpinAmount != null)
-                        DebugText_SpinAmount.text = "No rewards";
-                }
-            }
-            else
-            {
-                if (DebugText_SpinAmount != null)
-                    DebugText_SpinAmount.text = "No rewards";
-            }
+            MailSender.text = "Success" + rawJson;
         }
         else
         {
-            Debug.LogError("Request failed: " + request.responseCode);
+            Debug.LogError("GET request failed: " + request.responseCode);
             Debug.LogError(rawJson);
+            MailSender.text = "Failed" + rawJson;
         }
+    }
+    public IEnumerator StartSpin()
+    {
+        var data = new SpinRequest
+        {
+            SpinWheelConfigName = "default_testing_spinwheel",
+            SpinCount = spin_count
+        };
+        // 
+        // string json = JsonUtility.ToJson(data);
+        
+        // if (JSON_Body != null)
+        //     JSON_Body.text = json;
+
+        // using UnityWebRequest request = new UnityWebRequest(URL_StartSpin, "POST");
+        // byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        // request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        // request.downloadHandler = new DownloadHandlerBuffer();
+        // request.SetRequestHeader("Content-Type", "application/json");
+
+        // if (!string.IsNullOrEmpty(JWTToken))
+        // {
+        //     request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
+        // }
+        // else
+        // {
+        //     yield return null;
+        // }
+
+        // yield return UniWebViewBridge.Request("SpinItem",new SpinItem{itemId = "69fdaf4e0d3ceac0fa4715a7"});
+        // var result = UniWebViewBridge.Request("SpinItem",new SpinItem{itemId = "69fdaf4e0d3ceac0fa4715a7"});
+
+        // string rawJson = request.downloadHandler?.text ?? "";
+
+        // if (JSON_Raw != null)
+        //     JSON_Raw.text = string.IsNullOrEmpty(rawJson) ? "<empty response>" : rawJson;
+
+        // if (DebugText_Status != null)
+        // {
+        //     DebugText_Status.text = "Result: " + request.result + "\n" +
+        //                             "Code: " + request.responseCode + "\n" +
+        //                             "Error: " + request.error + "\n";
+        // }
+
+        string resultJson = null;
+        string errorJson = null;
+        void OnSuccess(string json) => resultJson = json;
+        void OnError(string error) => errorJson = error;
+        UniWebViewBridge.OnRequestSuccess += OnSuccess;
+        UniWebViewBridge.OnRequestError += OnError;
+        // payload null → send JSON "null" (your jslib needs valid JSON)
+        UniWebViewBridge.Request("spinRequest", data);
+        // wait until one of them fires
+        yield return new WaitUntil(() => resultJson != null || errorJson != null);
+        UniWebViewBridge.OnRequestSuccess -= OnSuccess;
+        UniWebViewBridge.OnRequestError -= OnError;
+        
+        if (errorJson != null)  
+            Debug.LogError($"getUserToken failed: {errorJson}");
+            Debug1.text = errorJson;
+        var data2 = JsonUtility.FromJson<SpinResponse>(resultJson);
+        Debug.Log($"token = {data2.draws}");
+        var datadebug = data2.draws;
+        Debug2.text = resultJson;
+        yield break;
+       }
+        // if (request.result == UnityWebRequest.Result.Success)
+        // {
+        //     Debug.Log("Request success");
+        //     Debug.Log(rawJson);
+
+        //     SpinResponse response = JsonUtility.FromJson<SpinResponse>(rawJson);
+            
+        //     if (response != null &&
+        //     response.draws != null &&
+        //     response.draws.Count > 0)
+        //     {
+        //         List<string> queuedItemIds = new List<string>();
+        //         SpinItem firstItem = null;
+
+        //         foreach (var draw in response.draws)
+        //         {
+        //             if (draw == null || draw.items == null)
+        //                 continue;
+
+        //             foreach (var item in draw.items)
+        //             {
+        //                 if (item == null || string.IsNullOrEmpty(item.itemId))
+        //                     continue;
+
+        //                 queuedItemIds.Add(item.itemId);
+
+        //                 if (firstItem == null)
+        //                     firstItem = item;
+        //             }
+        //         }
+
+        //         if (queuedItemIds.Count > 0 && firstItem != null)
+        //         {
+        //             if (DebugText_SpinAmount != null)
+        //                 DebugText_SpinAmount.text = "Reward spun " + queuedItemIds.Count + " times";
+
+        //             UnserializeditemId = firstItem.itemId;
+        //             UnserializedItems();
+
+        //             if (SpinningScript != null)
+        //             {
+        //                 SpinningScript.ReceivedBackend = true;
+        //                 SpinningScript.QueueRewards(queuedItemIds);
+        //                 SpinningScript.StartNextQueuedSpin();
+        //             }
+        //         }
+        //         else
+        //         {
+        //             if (DebugText_SpinAmount != null)
+        //                 DebugText_SpinAmount.text = "No rewards";
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (DebugText_SpinAmount != null)
+        //             DebugText_SpinAmount.text = "No rewards";
+        //     }
+        // }
+        // else
+        // {
+        //     Debug.LogError("Request failed: " + request.responseCode);
+        //     Debug.LogError(rawJson);
+        //     JSON_Raw.text = rawJson;
+        // }
     
     }
-    public void UnserializedItems()
-    {
-        ObtainedReward = UnserializeditemId;
-        // Debug.Log("ObtainedReward" + ObtainedReward);
-    }
-
-
-    // public IEnumerator RecieveSpin()
+    // public void UnserializedItems()
     // {
-    //     using (UnityWebRequest request = UnityWebRequest.Get(URL_RecieveReward))
-    //     {
-    //         yield return request.SendWebRequest();
-        
-    //         if (request.result == UnityWebRequest.Result.ConnectionError)
-    //         Debug.Log(request.error);
-
-    //         else
-    //         {
-    //             Debug.Log("ReceiveSpin: Request success");
-                
-    //         }
-    //     }
+    //     ObtainedReward = UnserializeditemId;
+    //     // Debug.Log("ObtainedReward" + ObtainedReward);
     // }
-
-    // ----- Unused code ----- //
-     // public IEnumerator SignIn()
+    //      public IEnumerator SignIn()
     // {
     //     var data = new
     //     {
@@ -220,4 +293,21 @@ public class APIController: MonoBehaviour
     //     }
     // }    
 
-}
+    // public IEnumerator RecieveSpin()
+    // {
+    //     using (UnityWebRequest request = UnityWebRequest.Get(URL_RecieveReward))
+    //     {
+    //         yield return request.SendWebRequest();
+        
+    //         if (request.result == UnityWebRequest.Result.ConnectionError)
+    //         Debug.Log(request.error);
+
+    //         else
+    //         {
+    //             Debug.Log("ReceiveSpin: Request success");
+                
+    //         }
+    //     }
+    // }
+
+    // ----- Unused code ----- //
