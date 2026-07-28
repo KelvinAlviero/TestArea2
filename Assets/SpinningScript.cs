@@ -10,9 +10,8 @@ using UnityEngine.UI;
 
 
 public class SpinningScript : MonoBehaviour
-{
-
-    
+{ //oml man why did i make this script so bloated
+//I gotta ask the lads how to cut this down cuz this ain't company standard coding    
     [Header("Script References")]
     public UIWheelReward UIWheelReward;
     public UIWheelSpin UIWheelSpin;
@@ -24,7 +23,6 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private int Reward1, Reward2, Reward3, Reward4 ,Reward5 ,Reward6 ,Reward7, Reward8;
     [SerializeField] private Dictionary<string, RewardType> rewardMap;
     [SerializeField] public float stopPower;
-    [SerializeField] public Image DebugWheelPoint;
     [Space(10)]
 
     [Header("WheelSpin config")]
@@ -44,6 +42,7 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private float DelayedSpinTime = 1f;
     [SerializeField] private float activeTargetAngle;
     [SerializeField] public bool MoreSpins;
+    // [SerializeField] public float AngleFix = 22f;
 
     [Space(10)]
 
@@ -82,6 +81,7 @@ public class SpinningScript : MonoBehaviour
         rewardQueueIndex = 0;
         rewardMap = new Dictionary<string, RewardType>
         {
+            //
             { "69fdaf4e0d3ceac0fa4715a7", RewardType.Gems10 },
             { "69fdaf380d3ceac0fa4715a5", RewardType.Currency },
             { "6a47cb262754bd1e11ffd778", RewardType.UltimateBooster },
@@ -91,106 +91,6 @@ public class SpinningScript : MonoBehaviour
             { "6a47cb262754bd1e11ffd776", RewardType.MagnetImmune},
             { "6a47cb262754bd1e11ffd777", RewardType.DashImmune}
         };
-    }
-
-    public enum RewardType //List for rewards
-    {
-        Normal, //Pick this for random reward
-        Gems10, //69fdaf4e0d3ceac0fa4715a7
-        Currency, //69fdaf380d3ceac0fa4715a5
-        UltimateBooster,//6a47cb262754bd1e11ffd778
-        Magnet, //69fdaeed0d3ceac0fa47159f
-        Shield, //69fdaf260d3ceac0fa4715a3
-        Speed, //69fdaf030d3ceac0fa4715a1
-        MagnetImmune, //6a47cb262754bd1e11ffd776
-        DashImmune //6a4b79d32754bd1e11ffdbbe
-    }
-
-    // ----- ID to case translator ----- //
-    public bool TryResolveReward(string incomingItemId, out RewardType resolvedReward)
-    {
-
-        if (rewardMap.TryGetValue(incomingItemId, out resolvedReward))
-            return true;
-
-        return false;
-    }
-
-
-    // ----- Input rewards Quue ----- //
-    public void QueueRewards(IEnumerable<string> incomingItemIds)
-    {
-        // Makes new list if null
-        if (rewardAmounts == null)
-            rewardAmounts = new List<string>();
-
-        rewardAmounts.Clear();
-        rewardQueueIndex = 0;
-
-        if (incomingItemIds == null)
-            return;
-
-        foreach (string incomingItemId in incomingItemIds)
-        {
-            if (string.IsNullOrEmpty(incomingItemId))
-                continue;
-
-            rewardAmounts.Add(incomingItemId);
-        }
-        Debug.Log("Queued reward IDs: " + string.Join(",", rewardAmounts));
-        
-    }
-
-    public bool HasPendingRewards => rewardAmounts != null && rewardQueueIndex < rewardAmounts.Count;
-
-    // ----- Start extra spins -- //
-    public void StartNextQueuedSpin()
-    {
-        if (!HasPendingRewards)
-        {
-            MoreSpins = false;
-            Debug.Log("No queued rewards left.");
-            return;
-        }
-
-        string incomingItemId = rewardAmounts[rewardQueueIndex];
-        rewardQueueIndex++;
-
-        if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
-        {
-            rewardType = resolvedReward;
-            activeRewardType = resolvedReward;
-            ConfigureForcedReward(resolvedReward);
-            ReceivedBackend = true;
-            Rotate(resolvedReward);
-            // Debug.Log("Starting queued reward: " + incomingItemId + " -> " + resolvedReward);
-            Debug_RewardList.text = rewardType.ToString();
-            MoreSpins = true;
-        }
-        else
-        {
-            ReceivedBackend = false;
-            Debug.LogWarning("Unknown queued reward ID: " + incomingItemId);
-        }
-    }
-
-    public void UnserializedReward(string incomingItemId) //Translates ID into cases
-    {
-        if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
-        {
-            rewardType = resolvedReward;
-            activeRewardType = resolvedReward;
-
-            ConfigureForcedReward(resolvedReward);
-            ReceivedBackend = true;
-            string combined = String.Join(",", rewardAmounts ?? new List<string>());
-            Debug.Log("Reward Amounts " + combined);
-        }
-        else
-        {
-            ReceivedBackend = false;
-            Debug.LogWarning("Unknown reward ID: " + incomingItemId);
-        }
     }
 
     // ----- Update function ----- //
@@ -218,6 +118,107 @@ public class SpinningScript : MonoBehaviour
         activeRewardType = rewardType;
         BackendReward = APIController.ObtainedReward;
     }
+
+    public enum RewardType //List for rewards
+    {
+        Normal, //Pick this for random reward
+        Gems10, //69fdaf4e0d3ceac0fa4715a7
+        Currency, //69fdaf380d3ceac0fa4715a5
+        UltimateBooster,//6a47cb262754bd1e11ffd778
+        Magnet, //69fdaeed0d3ceac0fa47159f
+        Shield, //69fdaf260d3ceac0fa4715a3
+        Speed, //69fdaf030d3ceac0fa4715a1
+        MagnetImmune, //6a47cb262754bd1e11ffd776
+        DashImmune //6a4b79d32754bd1e11ffdbbe
+    }
+
+    // ----- ID to case translator ----- //
+    public bool TryResolveReward(string incomingItemId, out RewardType resolvedReward)
+    {
+
+        if (rewardMap.TryGetValue(incomingItemId, out resolvedReward))
+            return true;
+
+        return false;
+    }
+
+
+    // ----- Input rewards Quue ----- //
+    // public void QueueRewards(IEnumerable<string> incomingItemIds)
+    // {
+    //     // Makes new list if null
+    //     if (rewardAmounts == null)
+    //         rewardAmounts = new List<string>();
+
+    //     rewardAmounts.Clear();
+    //     rewardQueueIndex = 0;
+
+    //     if (incomingItemIds == null)
+    //         return;
+
+    //     foreach (string incomingItemId in incomingItemIds)
+    //     {
+    //         if (string.IsNullOrEmpty(incomingItemId))
+    //             continue;
+
+    //         rewardAmounts.Add(incomingItemId);
+    //     }
+    //     Debug.Log("Queued reward IDs: " + string.Join(",", rewardAmounts));
+        
+    // }
+
+    // public bool HasPendingRewards => rewardAmounts != null && rewardQueueIndex < rewardAmounts.Count;
+
+    // ----- Start extra spins -- //
+    // public void StartNextQueuedSpin()
+    // {
+    //     if (!HasPendingRewards)
+    //     {
+    //         MoreSpins = false;
+    //         Debug.Log("No queued rewards left.");
+    //         return;
+    //     }
+
+    //     string incomingItemId = rewardAmounts[rewardQueueIndex];
+    //     rewardQueueIndex++;
+
+    //     if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
+    //     {
+    //         rewardType = resolvedReward;
+    //         activeRewardType = resolvedReward;
+    //         ConfigureForcedReward(resolvedReward);
+    //         ReceivedBackend = true;
+    //         Rotate(resolvedReward);
+    //         // Debug.Log("Starting queued reward: " + incomingItemId + " -> " + resolvedReward);
+    //         Debug_RewardList.text = rewardType.ToString();
+    //         MoreSpins = true;
+    //     }
+    //     else
+    //     {
+    //         ReceivedBackend = false;
+    //         Debug.LogWarning("Unknown queued reward ID: " + incomingItemId);
+    //     }
+    // }
+
+    public void UnserializedReward(string incomingItemId) //Translates ID into cases
+    {
+        if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
+        {
+            rewardType = resolvedReward;
+            activeRewardType = resolvedReward;
+
+            ConfigureForcedReward(resolvedReward);
+            ReceivedBackend = true;
+            string combined = String.Join(",", rewardAmounts ?? new List<string>());
+            Debug.Log("Reward Amounts " + combined);
+        }
+        else
+        {
+            ReceivedBackend = false;
+            Debug.LogWarning("Unknown reward ID: " + incomingItemId);
+        }
+    }
+
 
     // ----- Spinning function, uses button to start ----- //
     public void Rotate() //used by Wheel button, don't delete pls
@@ -392,37 +393,37 @@ public class SpinningScript : MonoBehaviour
         float normalizedRot = (rot + 360f) % 360f;
         float targetAngle;
 
-        if (normalizedRot >= 0f && normalizedRot < 45f)
+        if (normalizedRot >= 0f  && normalizedRot < 45f )
         {
             targetAngle = Reward1;
             ApplyReward(1, targetAngle, "UltimateBooster"); 
         }
-        else if (normalizedRot < 90f)
+        else if (normalizedRot < 90f )
         {
             targetAngle = Reward2;
             ApplyReward(2, targetAngle, "Gems");
         }
-        else if (normalizedRot < 135f)
+        else if (normalizedRot < 135f )
         {
             targetAngle = Reward3;
             ApplyReward(3, targetAngle, "DashImmune");
         }
-        else if (normalizedRot < 180f)
+        else if (normalizedRot < 180f )
         {
             targetAngle = Reward4;
             ApplyReward(4, targetAngle, "Magnet");
         }
-        else if (normalizedRot < 225f)
+        else if (normalizedRot < 225f )
         {
             targetAngle = Reward5;
             ApplyReward(5, targetAngle, "Shield");
         }
-        else if (normalizedRot < 270f)
+        else if (normalizedRot < 270f )
         {
             targetAngle = Reward6;
             ApplyReward(6, targetAngle, "MagnetImmune");
         }
-        else if (normalizedRot < 315f)
+        else if (normalizedRot < 315f )
         {
             targetAngle = Reward7;
             ApplyReward(7, targetAngle, "Coins");
@@ -555,7 +556,7 @@ private void EnsureDebugAngles()
         foreach (float angle in RewardAngleBoundaries)
         {
             float rad = angle * Mathf.Deg2Rad;
-            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 100;
+            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 2000;
             
             Gizmos.color = Color.green;
             Gizmos.DrawLine(Vector3.zero, position);
@@ -565,7 +566,7 @@ private void EnsureDebugAngles()
         foreach (float angle in RewardAngles)
         {
             float rad = angle * Mathf.Deg2Rad;
-            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 100;
+            Vector3 position = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * 2000;
             
             Gizmos.color = Color.red;
             Gizmos.DrawLine(Vector3.zero, position);
