@@ -55,91 +55,177 @@ public class APIController : MonoBehaviour
         public string JWT;
     }
 
-    [System.Serializable]
-    public class SpinItem
-    {
-        public string name;
-        public string itemType;
-        public int amount;
-        public string itemId;
-    }
-
-    [System.Serializable]
-    public class SpinDraw
-    {
-        public string package_id;
-        public List<SpinItem> items;
-
-    }
-
-    [System.Serializable]
-    public class SpinResponse
-    {
-        public string name;
-        public int SpinCount;
-        public int total_cost;
-        public string currency;
-        public List<SpinDraw> draws;
-    }
-
     [Serializable]
     public class SpinWheelSpinResponse
     {
         public string Currency { get; set; }
+
         public List<SpinWheelDraw> Draws { get; set; }
+
         public string Name { get; set; }
+
         [JsonProperty("spin_count")]
         public int SpinCount { get; set; }
+
         [JsonProperty("total_cost")]
         public int TotalCost { get; set; }
     }
+
     [Serializable]
     public class SpinWheelDraw
     {
         [JsonProperty("package_id")]
         public string PackageId { get; set; }
+
         public List<SpinWheelRewardItem> Items { get; set; }
+
         public List<SpinWheelRewardCharacter> Characters { get; set; }
+
         public List<SpinWheelRewardAvatar> Avatars { get; set; }
+
         public List<SpinWheelRewardFrame> Frames { get; set; }
+
         public List<SpinWheelRewardSkin> Skins { get; set; }
     }
+
     [Serializable]
     public class SpinWheelRewardItem
     {
         public int Amount { get; set; }
+
         public string ItemId { get; set; }
+
         public string ItemType { get; set; }
+
         public string LogId { get; set; }
+
         public string Name { get; set; }
     }
+
     [Serializable]
     public class SpinWheelRewardCharacter
     {
         public int CharacterId { get; set; }
+
         public string LogId { get; set; }
+
         public string Name { get; set; }
     }
+
     [Serializable]
     public class SpinWheelRewardAvatar
     {
         public string AvatarId { get; set; }
+
         public string LogId { get; set; }
+
         public string Name { get; set; }
     }
+
     [Serializable]
     public class SpinWheelRewardFrame
     {
         public string FrameId { get; set; }
+
         public string LogId { get; set; }
+
         public string Name { get; set; }
     }
+
     [Serializable]
     public class SpinWheelRewardSkin
     {
         public int CharacterId { get; set; }
+
         public string Name { get; set; }
+
         public int SkinId { get; set; }
+    }
+
+    [Serializable]
+    public class SpinWheelRewardsResponse
+    {
+        public string Currency { get; set; }
+
+        public string Name { get; set; }
+
+        public int Price { get; set; }
+
+        public List<SpinWheelRewardPackageResult> Result { get; set; }
+
+        public string Type { get; set; }
+    }
+
+    [Serializable]
+    public class SpinWheelRewardPackageResult
+    {
+        [JsonProperty("package_id")]
+        public string PackageId { get; set; }
+
+        public List<SpinWheelRewardsAvatarData> Avatars { get; set; }
+
+        public List<SpinWheelRewardsCharacterData> Characters { get; set; }
+
+        public List<SpinWheelRewardsFrameData> Frames { get; set; }
+
+        public List<SpinWheelRewardsItemData> Items { get; set; }
+
+        public List<SpinWheelRewardsSkinData> Skins { get; set; }
+    }
+
+    [Serializable]
+    public class SpinWheelRewardsItemData
+    {
+        public int Amount { get; set; }
+
+        [JsonProperty("item_id")]
+        public string ItemId { get; set; }
+
+        [JsonProperty("item_type")]
+        public string ItemType { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    [Serializable]
+    public class SpinWheelRewardsCharacterData
+    {
+        [JsonProperty("character_id")]
+        public int CharacterId { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    [Serializable]
+    public class SpinWheelRewardsAvatarData
+    {
+        [JsonProperty("avatar_id")]
+        public string AvatarId { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    [Serializable]
+    public class SpinWheelRewardsFrameData
+    {
+        [JsonProperty("frame_id")]
+        public string FrameId { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    [Serializable]
+    public class SpinWheelRewardsSkinData
+    {
+        [JsonProperty("character_id")]
+        public int CharacterId { get; set; }
+
+        public string Name { get; set; }
+
+        [JsonProperty("skin_id")]
+        public int SkinId { get; set; }
+
+        public string Type { get; set; }
     }
 
     public IEnumerator SendReward()
@@ -250,9 +336,8 @@ public class APIController : MonoBehaviour
         },
         onSuccess: json =>
         {
-            var data = JsonUtility.FromJson<SpinResponse>(json);
-            // do something with data
-            Debug.Log("spin ok: " + json);
+            var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
+            Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
         },
         onError: err =>
         {
