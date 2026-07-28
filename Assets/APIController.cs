@@ -142,15 +142,6 @@ public class APIController : MonoBehaviour
         public int SkinId { get; set; }
     }
 
-    public void JWTReciever()
-    {
-        PulledJWT = UniWebViewBridge.Call("getUserToken", null);
-        PulledJWTText.text = "PulledJWT=" + PulledJWT;
-        JWTToken = PulledJWT;
-        Debug.Log(PulledJWT);
-        Debug.Log(JWTToken);
-    }
-
     public IEnumerator SendReward()
     {
         if (!string.IsNullOrEmpty(PulledJWT))

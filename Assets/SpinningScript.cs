@@ -438,8 +438,6 @@ public class SpinningScript : MonoBehaviour
     // ----- Afterspin stuffs ----- //
     public IEnumerator DelayedWin() 
     {
-        UIWheelSpin.LightCheck = true;
-        StartCoroutine(UIWheelSpin.LightAnimation());
         // Debug.Log("DelayedWin called");
         yield return new WaitForSeconds(DelayedWinTime);
         UIWheelReward.PlayShowAnimation();

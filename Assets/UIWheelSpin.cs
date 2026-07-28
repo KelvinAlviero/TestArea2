@@ -21,10 +21,7 @@ public class Message
         [SerializeField] private SpinningScript SpinningScript;
         [SerializeField] private RectTransform wheelBackground;
         [SerializeField] private RectTransform wheel;
-        [SerializeField] private RectTransform wheelPointer; 
         [SerializeField] private Image backgroundImage;
-        [SerializeField] private Image LightsOFF;
-        [SerializeField] private Image LightsON;
         // [SerializeField] private Image LightsON_Single;
         [SerializeField] private RectTransform panelRectTransform;
         
@@ -32,12 +29,10 @@ public class Message
         [SerializeField] int timerDurationInMinutes;
         [SerializeField] string saveID = "uniqueTimerSaveID";   
         [SerializeField] public TMP_Text TimeText;
-        [SerializeField] public TMP_Text SpinAmount;
         [SerializeField] public TMP_Text FlagAmount;
         private StringBuilder sb;
         private SimpleLongSave save;
         [SerializeField] private RectTransform contentRectTransform;
-        [SerializeField] public bool LightCheck;
         [SerializeField] public bool isSpinning = false;
         [SerializeField] public bool ispagedisplayed = false;
         [SerializeField] public bool TimerDebug = false;
@@ -46,8 +41,6 @@ public class Message
 
         [SerializeField] private Button closeButton;
         [SerializeField] private Button spinningButton; // X = 6, Y = -45, SCALE = 2
-        [SerializeField] private Button IncreaseButton; // X = 6, Y = -45, SCALE = 2
-        [SerializeField] private Button DecreaseButton; 
         [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
         [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
         [SerializeField] public bool SpinAgain;
@@ -63,7 +56,6 @@ public class Message
             public int amount;
         }
 
-         private string pendingAction;
         private void Awake()
         {
             
@@ -76,8 +68,6 @@ public class Message
             timerStartTime = DateTime.FromBinary(long.Parse(timerData));
             sb = new StringBuilder();
             UIController.ShowPage<UIWheelSpin>();
-            DecreaseButton.interactable = false;
-            APIController.JWTReciever();
             GetFlagTicket();
 
         }
@@ -101,7 +91,7 @@ public class Message
 
         public void OnFlagTicketChange(int value )
         {
-            FlagAmount.text = value.ToString();
+            FlagAmount.text = "<sprite name=flag>" + value.ToString();
         }
 
     //     public async Task RequestIncreaseFlagBalance()
@@ -159,18 +149,14 @@ public class Message
         public void Init()
         {
             // Debug.Log("Init everything");
-            LightsON.gameObject.SetActive(false);
             closeButton.onClick.AddListener(OnCloseButtonClicked);
             spinningButton.onClick.AddListener(OnSpinButtonClicked);
-            IncreaseButton.onClick.AddListener(OnIncreaseButtonClicked); 
-            DecreaseButton.onClick.AddListener(OnDecreaseButtonClicked); 
             AddFlagButton.onClick.AddListener(OnAddFlagButtonClicked);
             MissionButton.onClick.AddListener(OnMissionButtonClicked);
 
             panelRectTransform.gameObject.SetActive(true);
             wheelBackground.gameObject.SetActive(true);
             wheel.gameObject.SetActive(true);
-            wheelPointer.gameObject.SetActive(true);
             closeButton.gameObject.SetActive(true);
             spinningButton.gameObject.SetActive(true);
             MissionButton.gameObject.SetActive(true);
@@ -184,9 +170,6 @@ public class Message
         {
             closeButton.onClick.RemoveListener(OnCloseButtonClicked);
             spinningButton.onClick.RemoveListener(OnSpinButtonClicked);
-            IncreaseButton.onClick.RemoveListener(OnIncreaseButtonClicked); 
-            DecreaseButton.onClick.RemoveListener(OnDecreaseButtonClicked); 
-            DecreaseButton.onClick.RemoveListener(OnAddFlagButtonClicked);
             MissionButton.onClick.RemoveListener(OnMissionButtonClicked);
            
 
@@ -206,21 +189,14 @@ public class Message
             panelRectTransform.anchoredPosition = Vector2.down * 2000;
             wheelBackground.anchoredPosition = Vector2.down * 2000;
             wheel.anchoredPosition = Vector2.down * 2000;
-            wheelPointer.anchoredPosition = Vector2.down * 2000;
             spinningButton.transform.localPosition = Vector2.down * 2000;
             spinningButton.transform.localScale = new Vector3(2, 2, 2);
-            IncreaseButton.transform.localScale = new Vector3(1, 1, 1);
-            IncreaseButton.transform.localPosition = Vector2.down * 2000;
-            DecreaseButton.transform.localScale = new Vector3(1, 1, 1);
-            DecreaseButton.transform.localPosition = Vector2.down * 2000;
             TimeText.gameObject.SetActive(false);
 
             //Position of animation
             panelRectTransform.gameObject.SetActive(true);
             wheel.gameObject.SetActive(true);
             spinningButton.gameObject.SetActive(true);
-            LightsOFF.gameObject.SetActive(true);
-            ;
 
             backgroundImage.gameObject.SetActive(true);
         }
@@ -230,13 +206,7 @@ public class Message
             panelRectTransform.gameObject.SetActive(false);
             wheelBackground.gameObject.SetActive(false);
             wheel.gameObject.SetActive(false);
-            wheelPointer.gameObject.SetActive(false);
-            LightsOFF.gameObject.SetActive(false);
-            LightsON.gameObject.SetActive(false);
             spinningButton.gameObject.SetActive(false);
-            IncreaseButton.gameObject.SetActive(false);
-            DecreaseButton.gameObject.SetActive(false);
-
             backgroundImage.gameObject.SetActive(false);
         }
         
@@ -281,43 +251,11 @@ public class Message
         
         }
     
-        public void OnIncreaseButtonClicked()
-        {
-            APIController.spin_count= APIController.spin_count + 1;
-            Debug.Log("AmountIncreased");
-            SpinAmount.text = "Spin " + APIController.spin_count;
-
-            Debug.Log("Spin " + APIController.spin_count);
-            DecreaseButton.interactable = true;
-
-            if (APIController.spin_count >= 10)
-            {
-                IncreaseButton.interactable = false;
-            }
-            
-            
-        }
-        public void OnDecreaseButtonClicked()
-        {
-            APIController.spin_count= APIController.spin_count - 1;
-            Debug.Log("Amount Decreased");
-            SpinAmount.text = "Spin " + APIController.spin_count;
-            Debug.Log("Spin " + APIController.spin_count);
-            IncreaseButton.interactable = true;
-
-            if (APIController.spin_count <= 1)
-            {
-                DecreaseButton.interactable = false;
-            }
-
-        }
         public void EnableCloseButton()
         {            
             Debug.Log("Close button Enabled");
             
             closeButton.interactable = true;
-            StopLightAnimation();
-            LightCheck = false;
         }
 
         public void EnableSpinButton()
@@ -334,32 +272,6 @@ public class Message
             spinningButton.interactable = false;
         }
         
-
-        // --- Light animation --- //
-        public void StopLightAnimation()
-        {
-            // Debug.Log("Stop Light Animation");
-            StopCoroutine("LightAnimation");
-            LightCheck = false;
-            LightsON.gameObject.SetActive(false);
-        }
-
-        public IEnumerator LightAnimation() 
-        {
-            // Debug.Log("Light Animation Started");
-
-            while (LightCheck == true)
-            {
-                
-                ;
-                // Debug.Log("Lights ON");
-                yield return new WaitForSeconds(0.5f);
-                LightsON.gameObject.SetActive(false);
-                // Debug.Log("Lights OFF");
-                yield return new WaitForSeconds(0.5f);
-            }
-            
-        }
 
         // ------ Debug code -----//
         #if UNITY_EDITOR

@@ -70,7 +70,6 @@ namespace Forgehub.SpookyBubbles
             PlayHideAnimation();
             UIWheelSpin.EnableCloseButton();
             UIWheelSpin.EnableSpinButton();
-            UIWheelSpin.StopLightAnimation();
             UIWheelSpin.isSpinning = false;
             // Debug.Log("IsSpinning = " + UIWheelSpin.isSpinning);
             
