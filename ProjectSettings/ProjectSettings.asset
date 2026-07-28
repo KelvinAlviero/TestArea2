@@ -70,6 +70,7 @@ PlayerSettings:
   androidStartInFullscreen: 1
   androidRenderOutsideSafeArea: 1
   androidUseSwappy: 0
+  androidDisplayOptions: 1
   androidBlitType: 0
   androidResizeableActivity: 1
   androidDefaultWindowWidth: 1920
@@ -829,7 +830,24 @@ PlayerSettings:
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   webWasm2023: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: TextMeshPro
+    EmbeddedLinux: TextMeshPro
+    GameCoreScarlett: TextMeshPro
+    GameCoreXboxOne: TextMeshPro
+    Kepler: TextMeshPro
+    LinuxHeadlessSimulation: TextMeshPro
+    Nintendo Switch: TextMeshPro
+    Nintendo Switch 2: TextMeshPro
+    PS4: TextMeshPro
+    PS5: TextMeshPro
+    QNX: TextMeshPro
+    Standalone: TextMeshPro
+    VisionOS: TextMeshPro
+    WebGL: TextMeshPro
+    XboxOne: TextMeshPro
+    iPhone: TextMeshPro
+    tvOS: TextMeshPro
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

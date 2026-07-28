@@ -22,25 +22,20 @@ public class Message
         [SerializeField] private RectTransform wheelBackground;
         [SerializeField] private RectTransform wheel;
         [SerializeField] private Image backgroundImage;
+        [SerializeField] private Timer timer;
         // [SerializeField] private Image LightsON_Single;
         [SerializeField] private RectTransform panelRectTransform;
-        
-        [SerializeField] private DateTime timerStartTime = DateTime.Now;
-        [SerializeField] int timerDurationInMinutes;
-        [SerializeField] string saveID = "uniqueTimerSaveID";   
-        [SerializeField] public TMP_Text TimeText;
         [SerializeField] public TMP_Text FlagAmount;
-        private StringBuilder sb;
-        private SimpleLongSave save;
+        
         [SerializeField] private RectTransform contentRectTransform;
         [SerializeField] public bool isSpinning = false;
         [SerializeField] public bool ispagedisplayed = false;
-        [SerializeField] public bool TimerDebug = false;
+        
         
         public RectTransform ContentRectTransform => contentRectTransform;
 
         [SerializeField] private Button closeButton;
-        [SerializeField] private Button spinningButton; // X = 6, Y = -45, SCALE = 2
+        [SerializeField] public Button spinningButton; // X = 6, Y = -45, SCALE = 2
         [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
         [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
         [SerializeField] public bool SpinAgain;
@@ -59,14 +54,11 @@ public class Message
         private void Awake()
         {
             
+            timer.Initializer();
             CacheComponents();
             Init();
-            TimerDebug = false;
             ispagedisplayed = false;
             EnableCanvas();
-            string timerData = PlayerPrefs.GetString($"TimerProduct_{saveID}", DateTime.Now.ToBinary().ToString());
-            timerStartTime = DateTime.FromBinary(long.Parse(timerData));
-            sb = new StringBuilder();
             UIController.ShowPage<UIWheelSpin>();
             GetFlagTicket();
 
@@ -94,21 +86,6 @@ public class Message
             FlagAmount.text = "<sprite name=flag>" + value.ToString();
         }
 
-    //     public async Task RequestIncreaseFlagBalance()
-    //     {
-        
-
-    //     try
-    //     {
-    //         // Same pattern as your leaderboard call
-    //         IncreaseFlagTicketRequest response = UniWebViewBridge.Request("spinRequest",request);
-    //         Debug.Log($"[SpinWheel] OK name={response.name}, cost={response.total_cost}, currency={response.currency}");
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Debug.LogError($"[SpinWheel] Failed: {e.Message}");
-    //     }
-    // }
 
         public void IncreaseFlagTicket()
         {
@@ -124,26 +101,7 @@ public class Message
 
         private void Update()
         {
-            // if (TimerDebug == true)
-            // {
-            //     ResetTimerDebug();
-            //     TimerDebug = false;
-            // }
-
-            // TimeSpan timer = DateTime.Now - timerStartTime;
-            // TimeSpan duration = TimeSpan.FromMinutes(timerDurationInMinutes);
-            // if (timer > duration && isSpinning == false)
-            // {  
-            //     spinningButton.interactable = true;
-            //     TimeText.gameObject.SetActive(false);
-            
-            // }
-            // else
-            // {
-
-            //     spinningButton.interactable = false;
-            //     TimeText.text = "You can spin the wheel again in: " + FormatTimer(duration - timer);
-            // }
+            timer.TimerConstant();
         }
 
         public void Init()
@@ -191,7 +149,7 @@ public class Message
             wheel.anchoredPosition = Vector2.down * 2000;
             spinningButton.transform.localPosition = Vector2.down * 2000;
             spinningButton.transform.localScale = new Vector3(2, 2, 2);
-            TimeText.gameObject.SetActive(false);
+            timer.TimeText.gameObject.SetActive(false);
 
             //Position of animation
             panelRectTransform.gameObject.SetActive(true);
@@ -272,61 +230,4 @@ public class Message
             spinningButton.interactable = false;
         }
         
-
-        // ------ Debug code -----//
-        #if UNITY_EDITOR
-        [ContextMenu("Reset Timer (Debug)")]
-        public void ResetTimerDebug()
-        {
-            timerStartTime = DateTime.Now.AddMinutes(-timerDurationInMinutes);
-            PlayerPrefs.SetString($"TimerProduct_{saveID}", timerStartTime.ToBinary().ToString());
-            PlayerPrefs.Save();
-            Debug.Log("Timer reset for debugging purposes.");
-        }
-        #endif
-
-
-                
-        //-------Timer Code -------//
-    //     public void StartTimer(bool skipCooldown = false)
-    //     {
-    //         if (skipCooldown)
-    //             timerStartTime = DateTime.Now.AddMinutes(-timerDurationInMinutes);
-    //         else
-    //             timerStartTime = DateTime.Now;
-            
-    //         PlayerPrefs.SetString($"TimerProduct_{saveID}", timerStartTime.ToBinary().ToString());
-    //         PlayerPrefs.Save();
-    //     }
-
-    //     public void ShowTimeText()
-    //     {
-    //         TimeText.gameObject.SetActive(true);
-    //         Debug.Log("TimeText SpinCooldown shown");
-    //     }
-
-    //     private string FormatTimer(TimeSpan timeSpan)
-    //             {
-    //                 sb.Clear();
-
-    //                 if(timeSpan.Hours > 0)
-    //                 {
-    //                     sb.Append(timeSpan.Hours);
-    //                     sb.Append(':');
-    //                 }
-
-    //                 sb.Append(timeSpan.Minutes.ToString("00"));
-    //                 sb.Append(':');
-
-    //                 sb.Append(timeSpan.Seconds.ToString("00"));
-
-    //                 return sb.ToString();
-    //             }
-    //     public bool IsAvailable()
-    //             {
-    //                 TimeSpan timer = DateTime.Now - timerStartTime;
-    //                 TimeSpan duration = TimeSpan.FromMinutes(timerDurationInMinutes);
-
-    //                 return timer > duration;
-    //             }
 }

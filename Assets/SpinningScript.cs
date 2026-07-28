@@ -53,7 +53,6 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public List<string> rewardAmounts; // Keeping this line intact
      [SerializeField] public int rewardResult; // Keeping this line intact
     [SerializeField] private int activeRewardResult;
-    [SerializeField] private int rewardQueueIndex;
     [SerializeField] private float SpinEndTimer;
     [SerializeField] private TMP_Text Debug_RewardList;
     [Space(10)]
@@ -78,7 +77,6 @@ public class SpinningScript : MonoBehaviour
         RewardAngles = new List<float>();
         rewardAmounts = new List<string>();
         EnsureDebugAngles();
-        rewardQueueIndex = 0;
         rewardMap = new Dictionary<string, RewardType>
         {
             //
