@@ -10,9 +10,8 @@ using UnityEngine.UI;
 
 
 public class SpinningScript : MonoBehaviour
-{
-
-    
+{ //oml man why did i make this script so bloated
+//I gotta ask the lads how to cut this down cuz this ain't company standard coding    
     [Header("Script References")]
     public UIWheelReward UIWheelReward;
     public UIWheelSpin UIWheelSpin;
@@ -92,6 +91,32 @@ public class SpinningScript : MonoBehaviour
             { "6a47cb262754bd1e11ffd776", RewardType.MagnetImmune},
             { "6a47cb262754bd1e11ffd777", RewardType.DashImmune}
         };
+    }
+
+    // ----- Update function ----- //
+    private void Update()
+    {
+        if (rbody.angularVelocity > 0f) 
+        {
+            float currentStopPower = stopPower;
+
+            rbody.angularVelocity -= currentStopPower * Time.deltaTime;
+            rbody.angularVelocity = Mathf.Clamp(rbody.angularVelocity, 0f, 1440f);
+        }
+
+        if (rbody.angularVelocity <= 0f && inRotate)
+        {
+            rbody.angularVelocity = 0f;
+            SpinEndTimer += Time.deltaTime;
+            if (SpinEndTimer >= DelayedSpinTime)
+            {
+                FinalizeSpinResults();
+                inRotate = false;
+                SpinEndTimer = 0f;
+            }
+        }
+        activeRewardType = rewardType;
+        BackendReward = APIController.ObtainedReward;
     }
 
     public enum RewardType //List for rewards
@@ -194,31 +219,6 @@ public class SpinningScript : MonoBehaviour
         }
     }
 
-    // ----- Update function ----- //
-    private void Update()
-    {
-        if (rbody.angularVelocity > 0f) 
-        {
-            float currentStopPower = stopPower;
-
-            rbody.angularVelocity -= currentStopPower * Time.deltaTime;
-            rbody.angularVelocity = Mathf.Clamp(rbody.angularVelocity, 0f, 1440f);
-        }
-
-        if (rbody.angularVelocity <= 0f && inRotate)
-        {
-            rbody.angularVelocity = 0f;
-            SpinEndTimer += Time.deltaTime;
-            if (SpinEndTimer >= DelayedSpinTime)
-            {
-                FinalizeSpinResults();
-                inRotate = false;
-                SpinEndTimer = 0f;
-            }
-        }
-        activeRewardType = rewardType;
-        BackendReward = APIController.ObtainedReward;
-    }
 
     // ----- Spinning function, uses button to start ----- //
     public void Rotate() //used by Wheel button, don't delete pls

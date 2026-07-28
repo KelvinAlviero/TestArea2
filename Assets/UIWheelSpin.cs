@@ -7,6 +7,7 @@ using System.Text;
 using TMPro;
 using Extras;
 using Unity.VisualScripting;
+using System.Threading.Tasks;
 
 public class Message
 {
@@ -15,7 +16,6 @@ public class Message
 }
     public class UIWheelSpin : UIPage
     {
-        
         [Header("Script References")]
         [SerializeField] private APIController APIController;
         [SerializeField] private SpinningScript SpinningScript;
@@ -33,6 +33,7 @@ public class Message
         [SerializeField] string saveID = "uniqueTimerSaveID";   
         [SerializeField] public TMP_Text TimeText;
         [SerializeField] public TMP_Text SpinAmount;
+        [SerializeField] public TMP_Text FlagAmount;
         private StringBuilder sb;
         private SimpleLongSave save;
         [SerializeField] private RectTransform contentRectTransform;
@@ -46,9 +47,23 @@ public class Message
         [SerializeField] private Button closeButton;
         [SerializeField] private Button spinningButton; // X = 6, Y = -45, SCALE = 2
         [SerializeField] private Button IncreaseButton; // X = 6, Y = -45, SCALE = 2
-        [SerializeField] private Button DecreaseButton;
+        [SerializeField] private Button DecreaseButton; 
+        [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
+        [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
         [SerializeField] public bool SpinAgain;
         
+
+        public class FlagTicketBalanceResponse
+        {
+            public int balance;
+        }
+
+        public class IncreaseFlagTicketRequest
+        {
+            public int amount;
+        }
+
+         private string pendingAction;
         private void Awake()
         {
             
@@ -63,9 +78,60 @@ public class Message
             UIController.ShowPage<UIWheelSpin>();
             DecreaseButton.interactable = false;
             APIController.JWTReciever();
+            GetFlagTicket();
+
         }
 
         
+        public void GetFlagTicket()
+        {
+            var data = UniWebViewBridge.Call("getFlagTicketBalance",null);
+            var data2 = JsonUtility.FromJson<FlagTicketBalanceResponse>(data);
+            if (data2 == null)
+            {
+                Debug.LogWarning($"[UIWheelSpin] Unable to parse flag ticket balance response: {data}");
+                FlagAmount.text = "0";
+                return;
+            }
+
+            OnFlagTicketChange(data2.balance);
+
+
+        }
+
+        public void OnFlagTicketChange(int value )
+        {
+            FlagAmount.text = value.ToString();
+        }
+
+    //     public async Task RequestIncreaseFlagBalance()
+    //     {
+        
+
+    //     try
+    //     {
+    //         // Same pattern as your leaderboard call
+    //         IncreaseFlagTicketRequest response = UniWebViewBridge.Request("spinRequest",request);
+    //         Debug.Log($"[SpinWheel] OK name={response.name}, cost={response.total_cost}, currency={response.currency}");
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Debug.LogError($"[SpinWheel] Failed: {e.Message}");
+    //     }
+    // }
+
+        public void IncreaseFlagTicket()
+        {
+            UniWebViewBridge.Request("increaseFlagTicket",new IncreaseFlagTicketRequest { amount = 10 },
+            onSuccess: json =>
+            {
+                 var data = JsonUtility.FromJson<FlagTicketBalanceResponse>(json);
+                OnFlagTicketChange(data.balance);
+            },
+            onError: err => Debug.Log("increase error: " + err),
+            timeout: 10000);
+        }
+
         private void Update()
         {
             // if (TimerDebug == true)
@@ -98,6 +164,8 @@ public class Message
             spinningButton.onClick.AddListener(OnSpinButtonClicked);
             IncreaseButton.onClick.AddListener(OnIncreaseButtonClicked); 
             DecreaseButton.onClick.AddListener(OnDecreaseButtonClicked); 
+            AddFlagButton.onClick.AddListener(OnAddFlagButtonClicked);
+            MissionButton.onClick.AddListener(OnMissionButtonClicked);
 
             panelRectTransform.gameObject.SetActive(true);
             wheelBackground.gameObject.SetActive(true);
@@ -105,8 +173,11 @@ public class Message
             wheelPointer.gameObject.SetActive(true);
             closeButton.gameObject.SetActive(true);
             spinningButton.gameObject.SetActive(true);
+            MissionButton.gameObject.SetActive(true);
             
             backgroundImage.gameObject.SetActive(true);
+            
+
         }
 
         private void OnDestroy()
@@ -115,6 +186,11 @@ public class Message
             spinningButton.onClick.RemoveListener(OnSpinButtonClicked);
             IncreaseButton.onClick.RemoveListener(OnIncreaseButtonClicked); 
             DecreaseButton.onClick.RemoveListener(OnDecreaseButtonClicked); 
+            DecreaseButton.onClick.RemoveListener(OnAddFlagButtonClicked);
+            MissionButton.onClick.RemoveListener(OnMissionButtonClicked);
+           
+
+            
             
         }
         public void InitialPosition()
@@ -166,11 +242,23 @@ public class Message
         
         
         //-------- Buttons --------//
+        public void OnMissionButtonClicked()
+        {
+            UniWebViewBridge.Send("openMissionPage",null);
+        }
+
+        public void OnAddFlagButtonClicked()
+        {
+            Debug.Log("Addflag tapped");
+            IncreaseFlagTicket();
+        }
+
         public void OnCloseButtonClicked()
         {
             Debug.Log("Close button clicked");
             Debug.Log("UIWheelSpin closed");
-            UniWebViewBridge.Send("backHomeAction",null);//send, call, request. 
+            UniWebViewBridge.Send("backHomeAction",null);//send, call, request.  
+            // UniWebViewBridge.Send("openMissionPage",null);
             // UniWebViewBridge.Send("SpinItem",new SpinItem{itemId = "69fdaf4e0d3ceac0fa4715a7"});
             // var UserData = UniWebViewBridge.Call("UserData",null);
             // var CurrencyData = UniWebViewBridge.Call("UserData", new Currency(CurrencyType = "data"));
@@ -183,7 +271,7 @@ public class Message
             isSpinning = true;
             closeButton.interactable = false;
             spinningButton.interactable = false;
-            APIController.StartCoroutine(APIController.StartSpin());
+            APIController.StartSpin();
             SpinAgain = false;
             
 
@@ -284,6 +372,8 @@ public class Message
             Debug.Log("Timer reset for debugging purposes.");
         }
         #endif
+
+
                 
         //-------Timer Code -------//
     //     public void StartTimer(bool skipCooldown = false)
