@@ -5,11 +5,13 @@ using TMPro;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
+using Forgehub.SpookyBubbles;
 
 public class APIController : MonoBehaviour
 {
     public SpinningScript SpinningScript;
     public UIWheelSpin uIWheelSpin;
+    public UIWheelReward uiWheelReward;
     public string URL_GetUser = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70";
     public string URL_StartSpin = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
     // public string URL_GetGems = ""
@@ -222,45 +224,58 @@ public class APIController : MonoBehaviour
     public void StartSpin()
     {
         UniWebViewBridge.Request(
-        "spinRequest",
-        new SpinWheelSpinRequest
+            "spinRequest",
+            new SpinWheelSpinRequest
+            {
+                SpinWheelConfigName = "default_testing_spinwheel",
+                SpinCount = 1
+            },
+            onSuccess: json =>
+            {
+                var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
+                Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
+                var flag = uIWheelSpin.flagAmount - data.TotalCost;
+                uIWheelSpin.OnFlagTicketChange(flag);
+                ShowWonReward(data);
+            },
+            onError: err =>
+            {
+                Debug.LogError("spin error: " + err);
+                uIWheelSpin.EnableSpinButton();
+                uIWheelSpin.EnableCloseButton();
+            },
+            timeout: 10000);
+    }
+    
+    private void ShowWonReward(SpinWheelSpinResponse data)
+    {
+        var item = GetFirstItem(data);
+        if (item == null)
         {
-            SpinWheelConfigName = "default_testing_spinwheel",
-            SpinCount = 1
-        },
-        onSuccess: json =>
+            Debug.LogWarning("Spin returned no items");
+            return;
+        }
+        var database = uIWheelSpin.rewardDatabase ?? uIWheelSpin.rewardDatabase;
+        var matchingSO = database.Find(so => so.itemId == item.ItemId);
+        if (matchingSO == null)
         {
-            var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
-            Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
-            var flag = uIWheelSpin.flagAmount - 1;
-            uIWheelSpin.OnFlagTicketChange(flag);
-        },
-        onError: err =>
-        {
-            Debug.Log("spin error: " + err);
-        },
-        timeout: 10000);
-
+            Debug.LogWarning($"No RewardSO for itemId={item.ItemId}");
+            return;
+        }
+        SelectedReward = matchingSO;
+        uiWheelReward.SetReward(matchingSO);
     }
 
-    // private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
-    // {
-    //     if (data?.Result == null) return;
-    //     int slotIndex = 0;
-    //     foreach (var package in data.Result)
-    //     {
-    //         if (package.Items == null) continue;
-    //         foreach (var item in package.Items)
-    //         {
-    //             if (slotIndex >= slot.Count) return;
-    //             var matchingSO = rewardDatabase.Find(so => so.itemId == item.ItemId);
-    //             if (matchingSO == null) continue;
-    //             var rewardUI = Instantiate(reward, Vector2.zero, Quaternion.identity, slot[slotIndex].transform);
-    //             rewardUI.SetReward(matchingSO);
-    //             slotIndex++;
-    //         }
-    //     }
-    // }
+    private static SpinWheelDrawItem GetFirstItem(SpinWheelSpinResponse data)
+    {
+        if (data?.Draws == null) return null;
+        foreach (var draw in data.Draws)
+        {
+            if (draw?.Items == null || draw.Items.Count == 0) continue;
+            return draw.Items[0];
+        }
+        return null;
+    }
 }
 
 //PUT OTHER CODE BLOCK UNDER ME PLEAAAASEEEE

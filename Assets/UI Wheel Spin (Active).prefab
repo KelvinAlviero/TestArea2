@@ -1210,6 +1210,13 @@ MonoBehaviour:
   reward: {fileID: -2343386700000185286, guid: 39dea3d332165c146837691174b9b689, type: 3}
   rewardDatabase:
   - {fileID: 11400000, guid: 11e2d77ec10b24e69852ca00facb7013, type: 2}
+  - {fileID: 11400000, guid: eff5d8ff8594d4975b30afe5d9cdffbb, type: 2}
+  - {fileID: 11400000, guid: 5373e11fa220f421ca11662ede13d394, type: 2}
+  - {fileID: 11400000, guid: 2d4ab1218d8804a278680ed3ba9fed4b, type: 2}
+  - {fileID: 11400000, guid: 76f0a13ef2f404d719a9bb85f8d9f836, type: 2}
+  - {fileID: 11400000, guid: f133b22bf98cb413abe20bde9f54cd17, type: 2}
+  - {fileID: 11400000, guid: 8c7705f3894f64a60bf18085784b9e68, type: 2}
+  - {fileID: 11400000, guid: 146aa312bbe4549b8ae9d71744aeb0c3, type: 2}
   closeButton: {fileID: 6503996170453036949}
   spinningButton: {fileID: 2445904170868763293}
   spinPaid: {fileID: 741316284379382875}
@@ -2557,6 +2564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpinningScript: {fileID: 8605470602749666370}
   uIWheelSpin: {fileID: 3054531206331287848}
+  uiWheelReward: {fileID: 4709202714120967704}
   URL_GetUser: https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70
   URL_StartSpin: https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin
   URL_SendRewards: https://mh-dev.dreamforgecreation.com/api/v1/mailbox/test

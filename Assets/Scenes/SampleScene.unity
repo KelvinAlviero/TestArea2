@@ -228,42 +228,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: rewardDatabase.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: 'rewardDatabase.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: eff5d8ff8594d4975b30afe5d9cdffbb, type: 2}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: 'rewardDatabase.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 5373e11fa220f421ca11662ede13d394, type: 2}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: 'rewardDatabase.Array.data[3]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 2d4ab1218d8804a278680ed3ba9fed4b, type: 2}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: 'rewardDatabase.Array.data[4]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 76f0a13ef2f404d719a9bb85f8d9f836, type: 2}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: 'rewardDatabase.Array.data[5]'
-      value: 
-      objectReference: {fileID: 11400000, guid: f133b22bf98cb413abe20bde9f54cd17, type: 2}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: 'rewardDatabase.Array.data[6]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 8c7705f3894f64a60bf18085784b9e68, type: 2}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: 'rewardDatabase.Array.data[7]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 146aa312bbe4549b8ae9d71744aeb0c3, type: 2}
-    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: 'rewardDatabase.Array.data[8]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 146aa312bbe4549b8ae9d71744aeb0c3, type: 2}
     - target: {fileID: 3136722360775618520, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: m_Name
       value: UI Wheel Spin (Active)
@@ -279,14 +243,6 @@ PrefabInstance:
     - target: {fileID: 4144271723967713959, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4144271723967713959, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5344721758870946459, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6849223511671270505, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: mLocalizeTarget
