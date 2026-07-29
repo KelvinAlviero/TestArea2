@@ -333,7 +333,7 @@ public class APIController : MonoBehaviour
         {
             var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
             Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
-            uIWheelSpin.GetFlagTicket();
+            uIWheelSpin.OnFlagTicketChange(uIWheelSpin.flagAmount--);
         },
         onError: err =>
         {

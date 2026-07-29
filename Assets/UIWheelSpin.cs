@@ -32,6 +32,7 @@ public class Message
         [SerializeField] private RectTransform contentRectTransform;
         [SerializeField] public bool isSpinning = false;
         [SerializeField] public bool ispagedisplayed = false;
+        [SerializeField] public int flagAmount;
         
         
         public RectTransform ContentRectTransform => contentRectTransform;
@@ -52,6 +53,11 @@ public class Message
         public class IncreaseFlagTicketRequest
         {
             public int amount;
+        }
+
+        public class LanguageResponse
+        {
+            public string language;
         }
 
         private void Awake()
@@ -82,11 +88,13 @@ public class Message
             OnFlagTicketChange(data2.balance);
 
 
+
         }
 
         public void OnFlagTicketChange(int value )
         {
-            FlagAmount.text = "<sprite name=flag>" + value.ToString();
+            flagAmount = value;
+            FlagAmount.text = "<sprite name=flag>" + flagAmount.ToString();
         }
 
 
@@ -240,16 +248,17 @@ public class Message
         public void SetAppLanguage()
         {
             var lang = UniWebViewBridge.Call("getAppLanguage",null);
+            var data = JsonUtility.FromJson<LanguageResponse>(lang);
             if (lang != null)
             {
-                if (LocalizationManager.HasLanguage(lang.ToString()))
+                if (LocalizationManager.HasLanguage(data.language))
                 {
-                    LocalizationManager.CurrentLanguage = lang;
-                    Debug.Log($"[LanguageController] Change to {lang} language");
+                    LocalizationManager.CurrentLanguage = data.language;
+                    Debug.Log($"[LanguageController] Change to {data.language} language");
                 }
                 else
                 {
-                    Debug.LogError($"[LanguageController] Language {lang} Not found");
+                    Debug.LogError($"[LanguageController] Language {data.language} Not found");
                 }
             }
         }
