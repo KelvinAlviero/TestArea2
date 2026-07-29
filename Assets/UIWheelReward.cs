@@ -27,7 +27,7 @@ namespace Forgehub.SpookyBubbles
         public RectTransform ContentRectTransform => contentRectTransform;
         [Header("Buttons")]
         // [SerializeField] private Button closeButton;
-        [SerializeField] private Button claimButton;
+        [SerializeField] private Button closeButton;
         private bool isInitialized;
         
 
@@ -39,7 +39,7 @@ namespace Forgehub.SpookyBubbles
         public void Init()
         {
             // closeButton.onClick.AddListener(OnCloseButtonClicked);
-            claimButton.onClick.AddListener(OnClaimButtonClicked);
+            closeButton.onClick.AddListener(OnCloseButtonClicked);
             isInitialized = true;
             
         }
@@ -47,10 +47,10 @@ namespace Forgehub.SpookyBubbles
         private void OnDestroy()
         {
             // closeButton.onClick.RemoveListener(OnCloseButtonClicked);
-            claimButton.onClick.RemoveListener(OnClaimButtonClicked);
+            closeButton.onClick.RemoveListener(OnCloseButtonClicked);
         }
 
-        public void OnClaimButtonClicked()
+        public void OnCloseButtonClicked()
         {
             if (UIWheelSpin == null)
             {
@@ -63,11 +63,6 @@ namespace Forgehub.SpookyBubbles
             // Keep the wheel in its current cooldown state.
             UIWheelSpin.DisableSpinButton();
             UIWheelSpin.EnableCloseButton();
-        }
-        private void OnCloseButtonClicked()
-        {
-            Debug.Log("Close button clicked");
-            PlayHideAnimation();
         }
 
         public override void PlayShowAnimation()
@@ -98,8 +93,8 @@ namespace Forgehub.SpookyBubbles
                 fadeImage.raycastTarget = false;
             }
             backgroundImage.gameObject.SetActive(true);
-            claimButton.gameObject.SetActive(true);
-            claimButton.interactable = true;
+            closeButton.gameObject.SetActive(true);
+            closeButton.interactable = true;
 
             switch(SpinningScript.rewardResult)
             {
@@ -158,7 +153,7 @@ namespace Forgehub.SpookyBubbles
             m_GlassReward.gameObject.SetActive(false);
             movesReward.gameObject.SetActive(false);
             // closeButton.gameObject.SetActive(false);
-            claimButton.gameObject.SetActive(false);
+            closeButton.gameObject.SetActive(false);
             Fade.gameObject.SetActive(false);
             backgroundImage.gameObject.SetActive(false);
         }
