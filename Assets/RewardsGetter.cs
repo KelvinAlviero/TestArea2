@@ -11,6 +11,6 @@ public class RewardsGetter : MonoBehaviour
     public void SetReward(RewardSO reward)
     {
         rewardImage.sprite = reward.sprite;
-        rewardText.text = reward.amount.ToString();
+        rewardText.text = reward.amount.ToString() + "x";
     }
 }

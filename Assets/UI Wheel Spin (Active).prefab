@@ -1222,7 +1222,7 @@ MonoBehaviour:
   spinPaid: {fileID: 741316284379382875}
   AddFlagButton: {fileID: 2673756494095979086}
   MissionButton: {fileID: 8422542409945773152}
-  SpinAgain: 0
+  FreeSpinAvailable: 0
 --- !u!114 &8857346105107906864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1515,7 +1515,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.05
+  m_fontSize: 92
   m_fontSizeBase: 83.65
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2452,7 +2452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4157058189758562441
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3645,7 +3645,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.35
+  m_fontSize: 54.3
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
