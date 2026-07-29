@@ -46,8 +46,6 @@ public class UIWheelSpin : UIPage
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] public bool FreeSpinAvailable;
 
-
-
     public class FlagTicketBalanceResponse
     {
         public int balance;
@@ -83,22 +81,7 @@ public class UIWheelSpin : UIPage
             new { spinwheel_config_name = "default_testing_spinwheel" },
             onSuccess: json =>
             {
-                APIController.SpinWheelRewardsResponse data = null;
-
-                if (string.IsNullOrWhiteSpace(json) || json.Contains("\"simulated\""))
-                {
-#if UNITY_EDITOR
-                    Debug.LogWarning("Using editor fallback rewards because the bridge returned a simulated payload.");
-                    data = BuildFallbackRewards();
-#else
-                Debug.LogWarning("Reward response was empty.");
-                return;
-#endif
-                }
-                else
-                {
-                    data = JsonConvert.DeserializeObject<APIController.SpinWheelRewardsResponse>(json);
-                }
+                var data = JsonConvert.DeserializeObject<APIController.SpinWheelRewardsResponse>(json);
 
                 PopulateRewards(data);
                 FreeSpinAvailable = data?.FreeSpinAvailable ?? false;
@@ -107,24 +90,6 @@ public class UIWheelSpin : UIPage
             timeout: 10000);
     }
 
-    private APIController.SpinWheelRewardsResponse BuildFallbackRewards()
-    {
-        return new APIController.SpinWheelRewardsResponse
-        {
-            FreeSpinAvailable = true,
-            Result = new List<APIController.SpinWheelRewardPackageResult>
-        {
-            new APIController.SpinWheelRewardPackageResult
-            {
-                Items = new List<APIController.SpinWheelDrawItem>
-                {
-                    new APIController.SpinWheelDrawItem { ItemId = "69fdaf4e0d3ceac0fa4715a7", Amount = 50, Name = "Gems" },
-                    new APIController.SpinWheelDrawItem { ItemId = "69fdaf380d3ceac0fa4715a5", Amount = 3000, Name = "Coin" }
-                }
-            }
-        }
-        };
-    }
     private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
     {
         if (data?.Result == null)

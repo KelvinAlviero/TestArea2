@@ -79,11 +79,10 @@ public class APIController : MonoBehaviour
     }
 
     [Serializable]
-    public class SpinWheelDrawItem 
+    public class SpinWheelDrawItem
     {
         public int Amount { get; set; }
-       
-        [JsonProperty("item_id")]
+
         public string ItemId { get; set; }
 
         public string ItemType { get; set; }
@@ -115,8 +114,17 @@ public class APIController : MonoBehaviour
     {
         [JsonProperty("package_id")]
         public string PackageId { get; set; }
-
-        public List<SpinWheelDrawItem> Items { get; set; }
+        public List<SpinWheelRewardsItemData> Items { get; set; }
+    }
+    [Serializable]
+    public class SpinWheelRewardsItemData
+    {
+        public int Amount { get; set; }
+        [JsonProperty("item_id")]
+        public string ItemId { get; set; }
+        [JsonProperty("item_type")]
+        public string ItemType { get; set; }
+        public string Name { get; set; }
     }
 
     public IEnumerator SendReward()
@@ -254,7 +262,7 @@ public class APIController : MonoBehaviour
             },
             timeout: 10000);
     }
-    
+
     private void ShowWonReward(SpinWheelSpinResponse data)
     {
         var item = GetFirstItem(data);
