@@ -33,11 +33,13 @@ public class Timer : MonoBehaviour
     }
     public void TimerConstant()
     {
+#if UNITY_EDITOR
         if (TimerDebug == true)
         {
             ResetTimerDebug();
             TimerDebug = false;
         }
+#endif
 
         if (uIWheelSpin == null)
         {

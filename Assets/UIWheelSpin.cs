@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using System.Threading.Tasks;
 using I2.Loc;
 
+
 public class Message
 {
     public string message;
@@ -37,6 +38,7 @@ public class Message
 
         [SerializeField] private Button closeButton;
         [SerializeField] public Button spinningButton; // X = 6, Y = -45, SCALE = 2
+        [SerializeField] public Button spinPaid;
         [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
         [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
         [SerializeField] public bool SpinAgain;
@@ -54,7 +56,7 @@ public class Message
 
         private void Awake()
         {
-            
+            UniWebViewBridge.Send("applicationReady",null); /// check
             timer.Initializer();
             CacheComponents();
             Init();
@@ -110,6 +112,7 @@ public class Message
             // Debug.Log("Init everything");
             closeButton.onClick.AddListener(OnCloseButtonClicked);
             spinningButton.onClick.AddListener(OnSpinButtonClicked);
+            spinPaid.onClick.AddListener(OnSpinButtonClicked);
             AddFlagButton.onClick.AddListener(OnAddFlagButtonClicked);
             MissionButton.onClick.AddListener(OnMissionButtonClicked);
 
@@ -118,6 +121,7 @@ public class Message
             wheel.gameObject.SetActive(true);
             closeButton.gameObject.SetActive(true);
             spinningButton.gameObject.SetActive(true);
+            spinPaid.gameObject.SetActive(true);
             MissionButton.gameObject.SetActive(true);
             
             backgroundImage.gameObject.SetActive(true);
@@ -130,11 +134,9 @@ public class Message
             closeButton.onClick.RemoveListener(OnCloseButtonClicked);
             spinningButton.onClick.RemoveListener(OnSpinButtonClicked);
             MissionButton.onClick.RemoveListener(OnMissionButtonClicked);
-           
-
-            
-            
+            spinPaid.onClick.RemoveListener(OnSpinButtonClicked);
         }
+
         public void InitialPosition()
         {
             wheel.gameObject.SetActive(false);
@@ -200,14 +202,20 @@ public class Message
             isSpinning = true;
             closeButton.interactable = false;
             spinningButton.interactable = false;
+            spinPaid.interactable = false;
             APIController.StartSpin();
             SpinAgain = false;
-            
+            timer.StartTimer();
 
             // Debug.Log("UIWheelSpin: Spin button clicked");
             // Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
             // Debug.Log("UIWheelSpin Spin amount = " + APIController.spin_count);
         
+        }
+
+        public void OnSpinPaidButtonClicked()
+        {
+            //Spin Paid code
         }
     
         public void EnableCloseButton()
@@ -233,16 +241,18 @@ public class Message
 
         public void SetAppLanguage()
         {
-            var lang = UniWebViewBridge.Call("getAppLanguage",null).ToString();
-
-            if (LocalizationManager.HasLanguage(lang))
+            var lang = UniWebViewBridge.Call("getAppLanguage",null);
+            if (lang != null)
             {
-                LocalizationManager.CurrentLanguage = lang;
-                Debug.Log($"[LanguageController] Change to {lang} language");
-            }
-            else
-            {
-                Debug.LogError($"[LanguageController] Language {lang} Not found");
+                if (LocalizationManager.HasLanguage(lang.ToString()))
+                {
+                    LocalizationManager.CurrentLanguage = lang;
+                    Debug.Log($"[LanguageController] Change to {lang} language");
+                }
+                else
+                {
+                    Debug.LogError($"[LanguageController] Language {lang} Not found");
+                }
             }
         }
         

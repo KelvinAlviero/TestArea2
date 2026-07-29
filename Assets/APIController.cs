@@ -9,6 +9,7 @@ using System;
 public class APIController : MonoBehaviour
 {
     public SpinningScript SpinningScript;
+    public UIWheelSpin uIWheelSpin;
     public string URL_GetUser = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70";
     public string URL_StartSpin = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
     // public string URL_GetGems = ""
@@ -47,12 +48,6 @@ public class APIController : MonoBehaviour
         [JsonProperty("spincount")]
         public int SpinCount = 1;
 
-    }
-
-    [System.Serializable]
-    public class MailTest
-    {
-        public string JWT;
     }
 
     [Serializable]
@@ -338,6 +333,7 @@ public class APIController : MonoBehaviour
         {
             var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
             Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
+            uIWheelSpin.GetFlagTicket();
         },
         onError: err =>
         {
