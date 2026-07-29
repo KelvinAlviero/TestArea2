@@ -57,7 +57,6 @@ public class Message
         private void Awake()
         {
             UniWebViewBridge.Send("applicationReady",null); /// check
-            timer.Initializer();
             CacheComponents();
             Init();
             ispagedisplayed = false;
