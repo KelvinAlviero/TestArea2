@@ -8,6 +8,7 @@ using TMPro;
 using Extras;
 using Unity.VisualScripting;
 using System.Threading.Tasks;
+using I2.Loc;
 
 public class Message
 {
@@ -61,7 +62,7 @@ public class Message
             EnableCanvas();
             UIController.ShowPage<UIWheelSpin>();
             GetFlagTicket();
-
+            SetAppLanguage();
         }
 
         
@@ -228,6 +229,21 @@ public class Message
 
             Debug.Log("Spin disabled Enabled");
             spinningButton.interactable = false;
+        }
+
+        public void SetAppLanguage()
+        {
+            var lang = UniWebViewBridge.Call("getAppLanguage",null).ToString();
+
+            if (LocalizationManager.HasLanguage(lang))
+            {
+                LocalizationManager.CurrentLanguage = lang;
+                Debug.Log($"[LanguageController] Change to {lang} language");
+            }
+            else
+            {
+                Debug.LogError($"[LanguageController] Language {lang} Not found");
+            }
         }
         
 }
