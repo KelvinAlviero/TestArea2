@@ -1855,6 +1855,15 @@ MonoBehaviour:
   UIWheelSpin: {fileID: 3054531206331287848}
   APIController: {fileID: 7152944613695529808}
   rbody: {fileID: 4615571469960341665}
+  slots:
+  - {fileID: 7377022001716181950}
+  - {fileID: 6893730935949017684}
+  - {fileID: 1720106074851849617}
+  - {fileID: 74147341646750865}
+  - {fileID: 202861711599864065}
+  - {fileID: 5091839514934245594}
+  - {fileID: 7977428922956219762}
+  - {fileID: 6038123263288288771}
   Reward1: 0
   Reward2: 45
   Reward3: 90
@@ -3197,7 +3206,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7838646698582680092}
-  - component: {fileID: 6922629387007253293}
   m_Layer: 5
   m_Name: WheelSlots
   m_TagString: Untagged
@@ -3232,20 +3240,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6922629387007253293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6904434986133151984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2779e63e896451d8540882445b5d82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rewardImage: {fileID: 0}
-  rewardText: {fileID: 0}
 --- !u!1 &7104288417297338031
 GameObject:
   m_ObjectHideFlags: 0

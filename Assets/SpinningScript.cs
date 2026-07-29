@@ -20,6 +20,7 @@ public class SpinningScript : MonoBehaviour
 
     [Header("WheelSpin")] 
     [SerializeField] private Rigidbody2D rbody;
+    [SerializeField] private RectTransform[] slots;
     [SerializeField] private int Reward1, Reward2, Reward3, Reward4 ,Reward5 ,Reward6 ,Reward7, Reward8;
     [SerializeField] private Dictionary<string, RewardType> rewardMap;
     [SerializeField] public float stopPower;
@@ -115,6 +116,26 @@ public class SpinningScript : MonoBehaviour
         }
         activeRewardType = rewardType;
         BackendReward = APIController.ObtainedReward;
+    }
+
+    private void LateUpdate()
+    {
+        KeepSlotsUpright();
+    }
+
+    private void KeepSlotsUpright()
+    {
+        if (slots == null || slots.Length == 0)
+            return;
+
+        float counterZ = -transform.localEulerAngles.z;
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i] == null)
+                continue;
+
+            slots[i].localEulerAngles = new Vector3(0f, 0f, counterZ);
+        }
     }
 
     public enum RewardType //List for rewards
