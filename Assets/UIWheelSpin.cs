@@ -1,16 +1,15 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Text;
 using TMPro;
 using Extras;
-using Unity.VisualScripting;
-using System.Threading.Tasks;
 using I2.Loc;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+
 
 
 public class Message
@@ -45,7 +44,8 @@ public class UIWheelSpin : UIPage
     [SerializeField] public Button spinPaid;
     [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
-    [SerializeField] public bool SpinAgain;
+    [SerializeField] public bool FreeSpinAvailable;
+
 
 
     public class FlagTicketBalanceResponse
@@ -74,6 +74,7 @@ public class UIWheelSpin : UIPage
         GetFlagTicket();
         SetAppLanguage();
         timer.Initializer();
+        GetReward();
     }
 
     public void GetReward()
@@ -82,26 +83,99 @@ public class UIWheelSpin : UIPage
             new { spinwheel_config_name = "default_testing_spinwheel" },
             onSuccess: json =>
             {
-                var data = JsonConvert.DeserializeObject<APIController.SpinWheelRewardsResponse>(json);
+                APIController.SpinWheelRewardsResponse data = null;
+
+                if (string.IsNullOrWhiteSpace(json) || json.Contains("\"simulated\""))
+                {
+#if UNITY_EDITOR
+                    Debug.LogWarning("Using editor fallback rewards because the bridge returned a simulated payload.");
+                    data = BuildFallbackRewards();
+#else
+                Debug.LogWarning("Reward response was empty.");
+                return;
+#endif
+                }
+                else
+                {
+                    data = JsonConvert.DeserializeObject<APIController.SpinWheelRewardsResponse>(json);
+                }
+
                 PopulateRewards(data);
+                FreeSpinAvailable = data?.FreeSpinAvailable ?? false;
             },
             onError: err => Debug.LogError("getRewards error: " + err),
             timeout: 10000);
     }
+
+    private APIController.SpinWheelRewardsResponse BuildFallbackRewards()
+    {
+        return new APIController.SpinWheelRewardsResponse
+        {
+            FreeSpinAvailable = true,
+            Result = new List<APIController.SpinWheelRewardPackageResult>
+        {
+            new APIController.SpinWheelRewardPackageResult
+            {
+                Items = new List<APIController.SpinWheelDrawItem>
+                {
+                    new APIController.SpinWheelDrawItem { ItemId = "69fdaf4e0d3ceac0fa4715a7", Amount = 50, Name = "Gems" },
+                    new APIController.SpinWheelDrawItem { ItemId = "69fdaf380d3ceac0fa4715a5", Amount = 3000, Name = "Coin" }
+                }
+            }
+        }
+        };
+    }
     private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
     {
-        if (data?.Result == null) return;
+        if (data?.Result == null)
+        {
+            Debug.LogWarning("No reward result payload.");
+            return;
+        }
+
+        if (slot == null || slot.Count == 0)
+        {
+            Debug.LogError("No reward slots assigned in UIWheelSpin.");
+            return;
+        }
+
+        if (rewardDatabase == null || rewardDatabase.Count == 0)
+        {
+            Debug.LogError("No reward database assigned in UIWheelSpin.");
+            return;
+        }
+
         int slotIndex = 0;
         foreach (var package in data.Result)
         {
-            if (package.Items == null) continue;
+            if (package?.Items == null) continue;
+
             foreach (var item in package.Items)
             {
                 if (slotIndex >= slot.Count) return;
-                var matchingSO = rewardDatabase.Find(so => so.itemId == item.ItemId);
-                if (matchingSO == null) continue;
-                var rewardUI = Instantiate(reward, Vector2.zero, Quaternion.identity, slot[slotIndex].transform);
+
+                Debug.Log($"[UIWheelSpin] Processing reward item: ItemId={item?.ItemId}, Name={item?.Name}, Amount={item?.Amount}");
+
+                var matchingSO = rewardDatabase.Find(so => so != null && so.itemId == item.ItemId);
+                if (matchingSO == null)
+                {
+                    Debug.LogWarning($"[UIWheelSpin] No RewardSO found for itemId={item?.ItemId}. Available IDs: {string.Join(", ", rewardDatabase.Where(so => so != null).Select(so => so.itemId).ToArray())}");
+                    continue;
+                }
+
+                Debug.Log($"[UIWheelSpin] Matched RewardSO: itemId={matchingSO.itemId}, name={matchingSO.itemName}");
+
+                var rewardUI = Instantiate(reward, Vector3.zero, Quaternion.identity, slot[slotIndex].transform);
                 rewardUI.SetReward(matchingSO);
+
+                var rect = rewardUI.GetComponent<RectTransform>();
+                if (rect != null)
+                {
+                    rect.anchoredPosition3D = Vector3.zero;
+                    rect.localPosition = Vector3.zero;
+                    rect.localScale = Vector3.one;
+                }
+
                 slotIndex++;
             }
         }
@@ -236,7 +310,7 @@ public class UIWheelSpin : UIPage
         spinningButton.interactable = false;
         spinPaid.interactable = false;
         APIController.StartSpin();
-        SpinAgain = false;
+
         timer.StartTimer();
 
         // Debug.Log("UIWheelSpin: Spin button clicked");

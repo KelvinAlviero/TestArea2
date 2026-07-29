@@ -79,10 +79,11 @@ public class APIController : MonoBehaviour
     }
 
     [Serializable]
-    public class SpinWheelDrawItem
+    public class SpinWheelDrawItem 
     {
         public int Amount { get; set; }
-
+       
+        [JsonProperty("item_id")]
         public string ItemId { get; set; }
 
         public string ItemType { get; set; }
@@ -234,8 +235,15 @@ public class APIController : MonoBehaviour
             {
                 var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
                 Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
-                var flag = uIWheelSpin.flagAmount - data.TotalCost;
-                uIWheelSpin.OnFlagTicketChange(flag);
+                if (uIWheelSpin.FreeSpinAvailable)
+                {
+                    uIWheelSpin.FreeSpinAvailable = false;
+                }
+                else
+                {
+                    var flag = uIWheelSpin.flagAmount - data.TotalCost;
+                    uIWheelSpin.OnFlagTicketChange(flag);
+                }
                 ShowWonReward(data);
             },
             onError: err =>
