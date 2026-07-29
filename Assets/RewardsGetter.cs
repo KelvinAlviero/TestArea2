@@ -1,21 +1,16 @@
+using System;
+
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RewardsGetter : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Image rewardImage;
+    public TMP_Text rewardText;
+    public void SetReward(RewardSO reward)
     {
-        
-    }
-
-    private void RewardsSorter()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        rewardImage.sprite = reward.sprite;
+        rewardText.text = reward.amount.ToString();
     }
 }

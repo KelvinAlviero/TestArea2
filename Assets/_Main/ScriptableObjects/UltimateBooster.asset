@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2950c18ba678e4a918573dfce4f1dc63, type: 3}
   m_Name: UltimateBooster
   m_EditorClassIdentifier: 
-  PowerupImage: {fileID: 21300000, guid: b85ce5c5b699c458083d760f081166e8, type: 3}
-  package_id: 6a4b79d42754bd1e11ffdbc1
-  item_id: 6a47cb262754bd1e11ffd778
-  powerupName: UltimateBooster
-  item_type: Prebooster
+  sprite: {fileID: 21300000, guid: b85ce5c5b699c458083d760f081166e8, type: 3}
+  itemId: 6a47cb262754bd1e11ffd778
+  itemName: UltimateBooster
   amount: 2

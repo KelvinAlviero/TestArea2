@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2950c18ba678e4a918573dfce4f1dc63, type: 3}
   m_Name: Gems
   m_EditorClassIdentifier: 
-  PowerupImage: {fileID: 21300000, guid: dc34ea96160574ef2b7a439adb6a4937, type: 3}
-  package_id: 6a4331a9abaea885c602cf6f
-  item_id: 69fdaf4e0d3ceac0fa4715a7
-  powerupName: Gem
-  item_type: Currency
+  sprite: {fileID: 21300000, guid: dc34ea96160574ef2b7a439adb6a4937, type: 3}
+  itemId: 69fdaf4e0d3ceac0fa4715a7
+  itemName: Gem
   amount: 50

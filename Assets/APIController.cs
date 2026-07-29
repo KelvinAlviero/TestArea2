@@ -37,17 +37,14 @@ public class APIController : MonoBehaviour
     [SerializeField] private TMP_Text JWT_Text;
     [SerializeField] private TMP_Text JWT_Translated;
 
-
-
-    [System.Serializable]
-    public class SpinRequest
+    [Serializable]
+    public class SpinWheelSpinRequest
     {
-
         [JsonProperty("spinwheel_config_name")]
-        public string SpinWheelConfigName;
-        [JsonProperty("spin_count")]
-        public int SpinCount = 1;
+        public string SpinWheelConfigName { get; set; }
 
+        [JsonProperty("spin_count")]
+        public int SpinCount { get; set; }
     }
 
     [Serializable]
@@ -56,6 +53,9 @@ public class APIController : MonoBehaviour
         public string Currency { get; set; }
 
         public List<SpinWheelDraw> Draws { get; set; }
+
+        [JsonProperty("free_spin_used")]
+        public bool FreeSpinUsed { get; set; }
 
         public string Name { get; set; }
 
@@ -72,19 +72,11 @@ public class APIController : MonoBehaviour
         [JsonProperty("package_id")]
         public string PackageId { get; set; }
 
-        public List<SpinWheelRewardItem> Items { get; set; }
-
-        public List<SpinWheelRewardCharacter> Characters { get; set; }
-
-        public List<SpinWheelRewardAvatar> Avatars { get; set; }
-
-        public List<SpinWheelRewardFrame> Frames { get; set; }
-
-        public List<SpinWheelRewardSkin> Skins { get; set; }
+        public List<SpinWheelDrawItem> Items { get; set; }
     }
 
     [Serializable]
-    public class SpinWheelRewardItem
+    public class SpinWheelDrawItem
     {
         public int Amount { get; set; }
 
@@ -98,49 +90,12 @@ public class APIController : MonoBehaviour
     }
 
     [Serializable]
-    public class SpinWheelRewardCharacter
-    {
-        public int CharacterId { get; set; }
-
-        public string LogId { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SpinWheelRewardAvatar
-    {
-        public string AvatarId { get; set; }
-
-        public string LogId { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SpinWheelRewardFrame
-    {
-        public string FrameId { get; set; }
-
-        public string LogId { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SpinWheelRewardSkin
-    {
-        public int CharacterId { get; set; }
-
-        public string Name { get; set; }
-
-        public int SkinId { get; set; }
-    }
-
-    [Serializable]
     public class SpinWheelRewardsResponse
     {
         public string Currency { get; set; }
+
+        [JsonProperty("free_spin_available")]
+        public bool FreeSpinAvailable { get; set; }
 
         public string Name { get; set; }
 
@@ -318,13 +273,19 @@ public class APIController : MonoBehaviour
     //             JSON_Raw.text = rawJson;
     //         }
     //     }
-    // }
+    // }    
+
+    public void RewardObtainer()
+    {
+        var data = UniWebViewBridge.Call("getFlagTicketBalance", null);
+        var data2 = JsonUtility.FromJson<SpinWheelRewardsResponse>(data);
+    }
 
     public void StartSpin()
     {
         UniWebViewBridge.Request(
         "spinRequest",
-        new SpinRequest
+        new SpinWheelSpinRequest
         {
             SpinWheelConfigName = "default_testing_spinwheel",
             SpinCount = 1
@@ -333,7 +294,8 @@ public class APIController : MonoBehaviour
         {
             var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
             Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
-            uIWheelSpin.OnFlagTicketChange(uIWheelSpin.flagAmount--);
+            var flag = uIWheelSpin.flagAmount - 1;
+            uIWheelSpin.OnFlagTicketChange(flag);
         },
         onError: err =>
         {

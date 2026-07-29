@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2950c18ba678e4a918573dfce4f1dc63, type: 3}
   m_Name: Magnet
   m_EditorClassIdentifier: 
-  PowerupImage: {fileID: 21300000, guid: de2e652f5810f43f686b919051ac2e86, type: 3}
-  package_id: 6a45e3c12754bd1e11ffd557
-  item_id: 69fdaeed0d3ceac0fa47159f
-  powerupName: Magnet
-  item_type: Prebooster
+  sprite: {fileID: 21300000, guid: eb17e4785513b4004a6a3184ac1816fd, type: 3}
+  itemId: 69fdaeed0d3ceac0fa47159f
+  itemName: Magnet
   amount: 3

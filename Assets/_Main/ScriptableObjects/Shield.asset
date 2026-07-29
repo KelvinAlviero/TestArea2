@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2950c18ba678e4a918573dfce4f1dc63, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
-  PowerupImage: {fileID: 21300000, guid: de2e652f5810f43f686b919051ac2e86, type: 3}
-  package_id: 6a45e3c12754bd1e11ffd559
-  item_id: 69fdaf260d3ceac0fa4715a3
-  powerupName: Shield
-  item_type: Prebooster
+  sprite: {fileID: 21300000, guid: dd890a855f2dfaa4c9dadae7c87bca18, type: 3}
+  itemId: 69fdaf260d3ceac0fa4715a3
+  itemName: Shield
   amount: 3

@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2950c18ba678e4a918573dfce4f1dc63, type: 3}
-  m_Name: Powerup Data
+  m_Name: DashImmune
   m_EditorClassIdentifier: 
-  PowerupImage: {fileID: 21300000, guid: 83e350693abd644a5bbdfb18cd88da49, type: 3}
-  package_id: 6a4b79d32754bd1e11ffdbbe
-  item_id: 6a47cb262754bd1e11ffd777
-  powerupName: Dashimune
-  item_type: Prebooster
+  sprite: {fileID: 21300000, guid: 83e350693abd644a5bbdfb18cd88da49, type: 3}
+  itemId: 6a47cb262754bd1e11ffd777
+  itemName: Dashimune
   amount: 2
