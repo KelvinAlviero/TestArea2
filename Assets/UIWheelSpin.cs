@@ -98,21 +98,11 @@ public class UIWheelSpin : UIPage
             return;
         }
 
-        if (slot == null || slot.Count == 0)
-        {
-            Debug.LogError("No reward slots assigned in UIWheelSpin.");
-            return;
-        }
-
-        if (rewardDatabase == null || rewardDatabase.Count == 0)
-        {
-            Debug.LogError("No reward database assigned in UIWheelSpin.");
-            return;
-        }
-
         int slotIndex = 0;
         foreach (var package in data.Result)
         {
+            if (package?.Items == null) continue;
+
             if (package?.Items == null) continue;
 
             foreach (var item in package.Items)
@@ -140,7 +130,6 @@ public class UIWheelSpin : UIPage
                     rect.localPosition = Vector3.zero;
                     rect.localScale = Vector3.one;
                 }
-
                 slotIndex++;
             }
         }

@@ -79,10 +79,11 @@ public class APIController : MonoBehaviour
     }
 
     [Serializable]
-    public class SpinWheelDrawItem
+    public class SpinWheelDrawItem 
     {
         public int Amount { get; set; }
-
+       
+        [JsonProperty("item_id")]
         public string ItemId { get; set; }
 
         public string ItemType { get; set; }
