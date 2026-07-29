@@ -2618,6 +2618,14 @@ MonoBehaviour:
       - Merdeka Rush
       Flags: 0000
       Languages_Touch: []
+    - Term: event/hari_game_indonesia_title
+      TermType: 0
+      Description: 
+      Languages:
+      - Hari Game Indonesia
+      - 
+      Flags: 0000
+      Languages_Touch: []
     - Term: daily_login/claimed
       TermType: 0
       Description: 
@@ -2901,6 +2909,22 @@ MonoBehaviour:
       - Webview tidak dapat dibuka
       Flags: 0000
       Languages_Touch: []
+    - Term: webview/spin
+      TermType: 0
+      Description: 
+      Languages:
+      - SPIN 1X <sprite name=flag>
+      - PUTAR 1X <sprite name=flag>
+      Flags: 0000
+      Languages_Touch: []
+    - Term: webview/spinfree
+      TermType: 0
+      Description: 
+      Languages:
+      - 'SPIN 1X '
+      - PUTAR 1X
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -2916,7 +2940,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbzmZNQS8PVZLrPgMKpHpCzd5RIQQ0lo03Ch-0WI_n4vTf6cR0P2-Hhr3_gQ5MzDsy2K/exec
     Google_SpreadsheetKey: 1tWjL09Zo5VTbOEIV4bsyj46-pJZGO2BGHFE5ixOhx-Y
     Google_SpreadsheetName: 'I2Loc Maple Haven: City Rush Localization'
-    Google_LastUpdatedVersion: 1785231192618
+    Google_LastUpdatedVersion: 1785295399648
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
