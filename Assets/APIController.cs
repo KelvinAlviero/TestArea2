@@ -36,6 +36,7 @@ public class APIController : MonoBehaviour
     public int spin_count = 1;
     [SerializeField] private TMP_Text JWT_Text;
     [SerializeField] private TMP_Text JWT_Translated;
+    public RewardSO SelectedReward;
 
     [Serializable]
     public class SpinWheelSpinRequest
@@ -112,70 +113,7 @@ public class APIController : MonoBehaviour
         [JsonProperty("package_id")]
         public string PackageId { get; set; }
 
-        public List<SpinWheelRewardsAvatarData> Avatars { get; set; }
-
-        public List<SpinWheelRewardsCharacterData> Characters { get; set; }
-
-        public List<SpinWheelRewardsFrameData> Frames { get; set; }
-
-        public List<SpinWheelRewardsItemData> Items { get; set; }
-
-        public List<SpinWheelRewardsSkinData> Skins { get; set; }
-    }
-
-    [Serializable]
-    public class SpinWheelRewardsItemData
-    {
-        public int Amount { get; set; }
-
-        [JsonProperty("item_id")]
-        public string ItemId { get; set; }
-
-        [JsonProperty("item_type")]
-        public string ItemType { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SpinWheelRewardsCharacterData
-    {
-        [JsonProperty("character_id")]
-        public int CharacterId { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SpinWheelRewardsAvatarData
-    {
-        [JsonProperty("avatar_id")]
-        public string AvatarId { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SpinWheelRewardsFrameData
-    {
-        [JsonProperty("frame_id")]
-        public string FrameId { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SpinWheelRewardsSkinData
-    {
-        [JsonProperty("character_id")]
-        public int CharacterId { get; set; }
-
-        public string Name { get; set; }
-
-        [JsonProperty("skin_id")]
-        public int SkinId { get; set; }
-
-        public string Type { get; set; }
+        public List<SpinWheelDrawItem> Items { get; set; }
     }
 
     public IEnumerator SendReward()
@@ -304,6 +242,25 @@ public class APIController : MonoBehaviour
         timeout: 10000);
 
     }
+
+    // private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
+    // {
+    //     if (data?.Result == null) return;
+    //     int slotIndex = 0;
+    //     foreach (var package in data.Result)
+    //     {
+    //         if (package.Items == null) continue;
+    //         foreach (var item in package.Items)
+    //         {
+    //             if (slotIndex >= slot.Count) return;
+    //             var matchingSO = rewardDatabase.Find(so => so.itemId == item.ItemId);
+    //             if (matchingSO == null) continue;
+    //             var rewardUI = Instantiate(reward, Vector2.zero, Quaternion.identity, slot[slotIndex].transform);
+    //             rewardUI.SetReward(matchingSO);
+    //             slotIndex++;
+    //         }
+    //     }
+    // }
 }
 
 //PUT OTHER CODE BLOCK UNDER ME PLEAAAASEEEE

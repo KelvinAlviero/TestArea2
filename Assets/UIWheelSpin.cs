@@ -109,14 +109,11 @@ public class UIWheelSpin : UIPage
 
     public void GetFlagTicket()
     {
-        var data = UniWebViewBridge.Call("getFlagTicketBalance", new { spinwheel_config_name = "default_testing_spinwheel" });
-        var data2 = JsonConvert.DeserializeObject<FlagTicketBalanceResponse>(data);
-        if (data2 == null)
-        {
-            return;
-        }
-
-        OnFlagTicketChange(data2.balance);
+        var raw = UniWebViewBridge.Call("getFlagTicketBalance", null);
+        if (string.IsNullOrEmpty(raw)) return;
+        var data = JsonConvert.DeserializeObject<FlagTicketBalanceResponse>(raw);
+        if (data == null) return;
+        OnFlagTicketChange(data.balance);
     }
 
     public void OnFlagTicketChange(int value)
@@ -131,8 +128,9 @@ public class UIWheelSpin : UIPage
         UniWebViewBridge.Request("increaseFlagTicket", new IncreaseFlagTicketRequest { amount = 10 },
         onSuccess: json =>
         {
-            var data = JsonUtility.FromJson<FlagTicketBalanceResponse>(json);
-            OnFlagTicketChange(data.balance);
+            var data = JsonConvert.DeserializeObject<FlagTicketBalanceResponse>(json);
+            if (data != null)
+                OnFlagTicketChange(data.balance);
         },
         onError: err => Debug.Log("increase error: " + err),
         timeout: 10000);
