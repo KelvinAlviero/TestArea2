@@ -276,16 +276,18 @@ public class UIWheelSpin : UIPage
     public void SetAppLanguage()
     {
         var lang = UniWebViewBridge.Call("getAppLanguage", null);
-        if (lang == null) return;
-        var data = JsonConvert.DeserializeObject<LanguageResponse>(lang);
-        if (LocalizationManager.HasLanguage(data.language))
+        var data = JsonUtility.FromJson<LanguageResponse>(lang);
+        if (lang != null)
         {
-            LocalizationManager.CurrentLanguage = data.language;
-            Debug.Log($"[LanguageController] Change to {data.language} language");
-        }
-        else
-        {
-            Debug.LogError($"[LanguageController] Language {data.language} Not found");
+            if (LocalizationManager.HasLanguage(data.language))
+            {
+                LocalizationManager.CurrentLanguage = data.language;
+                Debug.Log($"[LanguageController] Change to {data.language} language");
+            }
+            else
+            {
+                Debug.LogError($"[LanguageController] Language {data.language} Not found");
+            }
         }
     }
 
