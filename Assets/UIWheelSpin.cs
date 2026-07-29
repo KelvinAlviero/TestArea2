@@ -64,6 +64,7 @@ public class Message
             UIController.ShowPage<UIWheelSpin>();
             GetFlagTicket();
             SetAppLanguage();
+            timer.Initializer();
         }
 
         
@@ -114,7 +115,6 @@ public class Message
             spinPaid.onClick.AddListener(OnSpinButtonClicked);
             AddFlagButton.onClick.AddListener(OnAddFlagButtonClicked);
             MissionButton.onClick.AddListener(OnMissionButtonClicked);
-
             panelRectTransform.gameObject.SetActive(true);
             wheelBackground.gameObject.SetActive(true);
             wheel.gameObject.SetActive(true);
@@ -122,7 +122,6 @@ public class Message
             spinningButton.gameObject.SetActive(true);
             spinPaid.gameObject.SetActive(true);
             MissionButton.gameObject.SetActive(true);
-            
             backgroundImage.gameObject.SetActive(true);
             
 

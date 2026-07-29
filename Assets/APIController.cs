@@ -45,7 +45,7 @@ public class APIController : MonoBehaviour
 
         [JsonProperty("spinwheel_config_name")]
         public string SpinWheelConfigName;
-        [JsonProperty("spincount")]
+        [JsonProperty("spin_count")]
         public int SpinCount = 1;
 
     }

@@ -15,12 +15,14 @@ namespace Forgehub.SpookyBubbles
         [SerializeField] private Image FlashImage;
         [SerializeField] private RectTransform Fade;
         [SerializeField] private RectTransform panelRectTransform;
-        [SerializeField] private Image bombReward;
-        [SerializeField] private Image coinReward;
-        [SerializeField] private Image coinBigReward;
-        [SerializeField] private Image MagnetReward;
-        [SerializeField] private Image m_GlassReward;
-        [SerializeField] private Image movesReward;
+        [SerializeField] private Image ultimateBoost;
+        [SerializeField] private Image magnet;
+        [SerializeField] private Image magnetImmune;
+        [SerializeField] private Image dashImmune;
+        [SerializeField] private Image gems;
+        [SerializeField] private Image shield;
+        [SerializeField] private Image coins;
+        [SerializeField] private Image dash;
         [SerializeField] private TMP_Text RewardText;
         [SerializeField] private RectTransform contentRectTransform;
         [SerializeField] private bool hasMoreQueuedRewards;
@@ -74,12 +76,16 @@ namespace Forgehub.SpookyBubbles
                 Init();
             }
 
-            bombReward.gameObject.SetActive(false);
-            coinReward.gameObject.SetActive(false);
-            coinBigReward.gameObject.SetActive(false);
-            MagnetReward.gameObject.SetActive(false);
-            movesReward.gameObject.SetActive(false);
-            m_GlassReward.gameObject.SetActive(false); 
+            ultimateBoost.gameObject.SetActive(false); 
+            magnet.gameObject.SetActive(false);
+            magnetImmune.gameObject.SetActive(false);
+            dashImmune.gameObject.SetActive(false);
+            gems.gameObject.SetActive(false);
+            shield.gameObject.SetActive(false);
+            ultimateBoost.gameObject.SetActive(false); 
+            coins.gameObject.SetActive(false); 
+            dash.gameObject.SetActive(false); 
+            
 
             // Set initial positions for animation
             panelRectTransform.gameObject.SetActive(true);
@@ -100,42 +106,42 @@ namespace Forgehub.SpookyBubbles
             {
             case 1:
                     Debug.Log("Reward = UltiBooster");
-                    m_GlassReward.gameObject.SetActive(true); //Magnifying glass
-                    RewardText.text = "Ultimate Booster";
+                    ultimateBoost.gameObject.SetActive(true); //Magnifying glass
+                    RewardText.text = "x2";
                     break;
                 case 2:
                     Debug.Log("Reward = Gems");
-                    MagnetReward.gameObject.SetActive(true); //Magnet
-                    RewardText.text = "Gems x50";
+                    gems.gameObject.SetActive(true); //Magnet
+                    RewardText.text = "x50";
                     break;
                 case 3:
                     Debug.Log("Reward = DashImmune");
-                    coinBigReward.gameObject.SetActive(true); //Coins300
+                    dashImmune.gameObject.SetActive(true); //Coins300
                     RewardText.text = "DashImmune";
                     break;
                 case 4:
                     Debug.Log("Reward = Magnet");
-                    bombReward.gameObject.SetActive(true); //Bombs
+                    magnet.gameObject.SetActive(true); //Bombs
                     RewardText.text = "Magnet";
                     break;
                 case 5:
                     Debug.Log("Reward = Shield");
-                    movesReward.gameObject.SetActive(true); //Extramoves
+                    shield.gameObject.SetActive(true); //Extramoves
                     RewardText.text = "Shield";
                     break;
                 case 6:
                     Debug.Log("Reward = MagnetImmune");
-                    coinReward.gameObject.SetActive(true); //Coins 100
+                    magnetImmune.gameObject.SetActive(true); //Coins 100
                     RewardText.text = "MagnetImmune";
                     break;
                 case 7:
                     Debug.Log("Reward = Coins");
-                    coinReward.gameObject.SetActive(true); //Coins 100
+                    coins.gameObject.SetActive(true); //Coins 100
                     RewardText.text = "Coins x3000";
                     break;
                 case 8:
                     Debug.Log("Reward = Speed");
-                    coinReward.gameObject.SetActive(true); //Coins 100
+                    dash.gameObject.SetActive(true); //Coins 100
                     RewardText.text = "Speed";
                     break;
             }
@@ -143,16 +149,17 @@ namespace Forgehub.SpookyBubbles
 
         public override void PlayHideAnimation()
         {
-            // Debug.Log("Hiding");
             panelRectTransform.gameObject.SetActive(false);
             FlashImage.gameObject.SetActive(false);
-            bombReward.gameObject.SetActive(false);
-            coinReward.gameObject.SetActive(false);
-            coinBigReward.gameObject.SetActive(false);
-            MagnetReward.gameObject.SetActive(false);
-            m_GlassReward.gameObject.SetActive(false);
-            movesReward.gameObject.SetActive(false);
-            // closeButton.gameObject.SetActive(false);
+            ultimateBoost.gameObject.SetActive(false); 
+            magnet.gameObject.SetActive(false);
+            magnetImmune.gameObject.SetActive(false);
+            dashImmune.gameObject.SetActive(false);
+            gems.gameObject.SetActive(false);
+            shield.gameObject.SetActive(false);
+            ultimateBoost.gameObject.SetActive(false); 
+            coins.gameObject.SetActive(false); 
+            dash.gameObject.SetActive(false); 
             closeButton.gameObject.SetActive(false);
             Fade.gameObject.SetActive(false);
             backgroundImage.gameObject.SetActive(false);
