@@ -59,20 +59,19 @@ public class Timer : MonoBehaviour
         if (now >= timerStartTime || uIWheelSpin.isSpinning == false)
         {
             uIWheelSpin.isSpinning = false;
-            uIWheelSpin.spinningButton.interactable = true;
+            uIWheelSpin.spinFree.interactable = true;
             TimeText.gameObject.SetActive(false);
             TimePanel.gameObject.SetActive(false);
             ClockImage.gameObject.SetActive(false);
         }
         else
         {
-            uIWheelSpin.spinningButton.interactable = false;
+            uIWheelSpin.spinFree.interactable = false;
             TimeText.gameObject.SetActive(true);
             TimePanel.gameObject.SetActive(true);
             ClockImage.gameObject.SetActive(true);
-            uIWheelSpin.spinningButton.interactable = false;
+            uIWheelSpin.spinFree.interactable = false;
             TimeText.text = FormatTimer(timeRemaining);
-
         }
     }
 
@@ -129,7 +128,7 @@ public class Timer : MonoBehaviour
         if (uIWheelSpin != null)
         {
             uIWheelSpin.isSpinning = false;
-            uIWheelSpin.spinningButton.interactable = true;
+            uIWheelSpin.spinFree.interactable = true;
             if (TimeText != null)
             {
                 TimeText.gameObject.SetActive(false);

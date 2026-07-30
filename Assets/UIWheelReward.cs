@@ -62,6 +62,7 @@ namespace Forgehub.SpookyBubbles
             // Keep the wheel in its current cooldown state.
             UIWheelSpin.DisableSpinButton();
             UIWheelSpin.EnableCloseButton();
+            UIWheelSpin.EnableSpinPaidButton();
         }
 
         public override void PlayShowAnimation()
