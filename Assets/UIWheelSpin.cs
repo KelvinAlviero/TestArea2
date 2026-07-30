@@ -40,7 +40,7 @@ public class UIWheelSpin : UIPage
     public List<RewardSO> rewardDatabase;
 
     [SerializeField] private Button closeButton;
-    [SerializeField] public Button spinningButton; // X = 6, Y = -45, SCALE = 2
+    [SerializeField] public Button spinFree; // X = 6, Y = -45, SCALE = 2
     [SerializeField] public Button spinPaid;
     [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
@@ -173,15 +173,15 @@ public class UIWheelSpin : UIPage
     {
         // Debug.Log("Init everything");
         closeButton.onClick.AddListener(OnCloseButtonClicked);
-        spinningButton.onClick.AddListener(OnSpinButtonClicked);
-        spinPaid.onClick.AddListener(OnSpinButtonClicked);
+        spinFree.onClick.AddListener(OnSpinFreeButtonClicked);
+        spinPaid.onClick.AddListener(OnSpinPaidButtonClicked);
         AddFlagButton.onClick.AddListener(OnAddFlagButtonClicked);
         MissionButton.onClick.AddListener(OnMissionButtonClicked);
         panelRectTransform.gameObject.SetActive(true);
         wheelBackground.gameObject.SetActive(true);
         wheel.gameObject.SetActive(true);
         closeButton.gameObject.SetActive(true);
-        spinningButton.gameObject.SetActive(true);
+        spinFree.gameObject.SetActive(true);
         spinPaid.gameObject.SetActive(true);
         MissionButton.gameObject.SetActive(true);
         backgroundImage.gameObject.SetActive(true);
@@ -192,9 +192,9 @@ public class UIWheelSpin : UIPage
     private void OnDestroy()
     {
         closeButton.onClick.RemoveListener(OnCloseButtonClicked);
-        spinningButton.onClick.RemoveListener(OnSpinButtonClicked);
+        spinFree.onClick.RemoveListener(OnSpinFreeButtonClicked);
         MissionButton.onClick.RemoveListener(OnMissionButtonClicked);
-        spinPaid.onClick.RemoveListener(OnSpinButtonClicked);
+        spinPaid.onClick.RemoveListener(OnSpinPaidButtonClicked);
     }
 
     public void InitialPosition()
@@ -210,14 +210,14 @@ public class UIWheelSpin : UIPage
         panelRectTransform.anchoredPosition = Vector2.down * 2000;
         wheelBackground.anchoredPosition = Vector2.down * 2000;
         wheel.anchoredPosition = Vector2.down * 2000;
-        spinningButton.transform.localPosition = Vector2.down * 2000;
-        spinningButton.transform.localScale = new Vector3(2, 2, 2);
+        spinFree.transform.localPosition = Vector2.down * 2000;
+        spinFree.transform.localScale = new Vector3(2, 2, 2);
         timer.TimeText.gameObject.SetActive(false);
 
         //Position of animation
         panelRectTransform.gameObject.SetActive(true);
         wheel.gameObject.SetActive(true);
-        spinningButton.gameObject.SetActive(true);
+        spinFree.gameObject.SetActive(true);
 
         backgroundImage.gameObject.SetActive(true);
     }
@@ -227,7 +227,7 @@ public class UIWheelSpin : UIPage
         panelRectTransform.gameObject.SetActive(false);
         wheelBackground.gameObject.SetActive(false);
         wheel.gameObject.SetActive(false);
-        spinningButton.gameObject.SetActive(false);
+        spinFree.gameObject.SetActive(false);
         backgroundImage.gameObject.SetActive(false);
     }
 
@@ -257,11 +257,11 @@ public class UIWheelSpin : UIPage
 
     }
 
-    public void OnSpinButtonClicked()
+    public void OnSpinFreeButtonClicked()
     {
         isSpinning = true;
         closeButton.interactable = false;
-        spinningButton.interactable = false;
+        spinFree.interactable = false;
         spinPaid.interactable = false;
         APIController.StartSpin();
 
@@ -275,7 +275,11 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinPaidButtonClicked()
     {
-        //Spin Paid code
+        isSpinning = true;
+        closeButton.interactable = false;
+        spinFree.interactable = false;
+        spinPaid.interactable = false;
+        APIController.StartSpin();
     }
 
     public void EnableCloseButton()
@@ -289,14 +293,26 @@ public class UIWheelSpin : UIPage
     {
 
         Debug.Log("Spin button Enabled");
-        spinningButton.interactable = true;
+        spinFree.interactable = true;
     }
 
     public void DisableSpinButton()
     {
 
         Debug.Log("Spin disabled Enabled");
-        spinningButton.interactable = false;
+        spinFree.interactable = false;
+    }
+
+    public void EnableSpinPaidButton()
+    {
+        Debug.Log("Spin button Enabled");
+        spinPaid.interactable = true;
+    }
+    
+    public void DisableSpinPaidButton()
+    {
+        Debug.Log("Spin button Enabled");
+        spinPaid.interactable = true;
     }
 
     public void SetAppLanguage()
