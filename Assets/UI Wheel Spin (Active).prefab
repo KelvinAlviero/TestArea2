@@ -2433,7 +2433,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 3909894466959418206}
   Fade: {fileID: 7966991010709178507}
   panelRectTransform: {fileID: 4322724696468965447}
-  errorText: {fileID: 7455397617530533164}
+  errorLoc: {fileID: 440722911062775690}
   closeButton: {fileID: 7374332776543016589}
 --- !u!1 &5027001347480054616
 GameObject:

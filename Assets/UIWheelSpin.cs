@@ -64,7 +64,6 @@ public class UIWheelSpin : UIPage
 
     private void Awake()
     {
-        UniWebViewBridge.Send("applicationReady", null); /// check
         CacheComponents();
         Init();
         ispagedisplayed = false;
@@ -86,6 +85,7 @@ public class UIWheelSpin : UIPage
 
                 PopulateRewards(data);
                 FreeSpinAvailable = data?.FreeSpinAvailable ?? false;
+                UniWebViewBridge.Send("applicationReady", null);
             },
             onError: err => Debug.LogError("getRewards error: " + err),
             timeout: 10000);
