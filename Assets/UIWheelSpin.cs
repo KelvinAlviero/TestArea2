@@ -88,7 +88,7 @@ public class UIWheelSpin : UIPage
                 var data = JsonConvert.DeserializeObject<APIController.SpinWheelRewardsResponse>(json);
 
                 PopulateRewards(data);
-                FreeSpinAvailable = data?.FreeSpinAvailable ?? false;
+                FreeSpinAvailable = data.FreeSpinAvailable;
                 FreeSpinCheck();
                 UniWebViewBridge.Send("applicationReady", null);
             },
@@ -102,10 +102,12 @@ public class UIWheelSpin : UIPage
         {
             DisableSpinButton();
             timer.StartTimer();
+            Debug.Log("FreeSpinDisabled");
         }
         else
         {
             EnableSpinButton();
+            Debug.Log(FreeSpinAvailable);
         }
     }
     private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
