@@ -133,10 +133,18 @@ public class SpinningScript : MonoBehaviour
         float counterZ = -transform.localEulerAngles.z;
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i] == null)
+            RectTransform slotTransform = slots[i];
+            if (slotTransform == null)
                 continue;
 
-            slots[i].localEulerAngles = new Vector3(0f, 0f, counterZ);
+            // Keep the slot itself aligned with the wheel; only upright the reward child.
+            slotTransform.localEulerAngles = Vector3.zero;
+
+            for (int c = 0; c < slotTransform.childCount; c++)
+            {
+                Transform child = slotTransform.GetChild(c);
+                child.localEulerAngles = new Vector3(0f, 0f, counterZ);
+            }
         }
     }
 
