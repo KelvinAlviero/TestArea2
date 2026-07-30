@@ -23,9 +23,7 @@ public class Timer : MonoBehaviour
     public void Initializer()
     {
         TimerDebug = false;
-        TimeText.gameObject.SetActive(false);
-        TimePanel.gameObject.SetActive(false);
-        ClockImage.gameObject.SetActive(false);
+        HideTimeText();
         string timerData = PlayerPrefs.GetString($"TimerProduct_{saveID}", DateTime.UtcNow.Date.AddDays(1).ToBinary().ToString());
         timerStartTime = DateTime.FromBinary(long.Parse(timerData));
         sb = new StringBuilder();
@@ -33,13 +31,11 @@ public class Timer : MonoBehaviour
     }
     public void TimerConstant()
     {
-#if UNITY_EDITOR
         if (TimerDebug == true)
         {
             ResetTimerDebug();
             TimerDebug = false;
         }
-#endif
 
         if (uIWheelSpin == null)
         {
@@ -56,21 +52,16 @@ public class Timer : MonoBehaviour
         DateTime now = DateTime.UtcNow;
         TimeSpan timeRemaining = timerStartTime - now;
 
-        if (now >= timerStartTime || uIWheelSpin.isSpinning == false)
+        if (now >= timerStartTime)
         {
             uIWheelSpin.isSpinning = false;
-            uIWheelSpin.spinFree.interactable = true;
-            TimeText.gameObject.SetActive(false);
-            TimePanel.gameObject.SetActive(false);
-            ClockImage.gameObject.SetActive(false);
+            uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
+            HideTimeText();
         }
         else
         {
             uIWheelSpin.spinFree.interactable = false;
-            TimeText.gameObject.SetActive(true);
-            TimePanel.gameObject.SetActive(true);
-            ClockImage.gameObject.SetActive(true);
-            uIWheelSpin.spinFree.interactable = false;
+            ShowTimeText();
             TimeText.text = FormatTimer(timeRemaining);
         }
     }
@@ -86,8 +77,22 @@ public class Timer : MonoBehaviour
 
     public void ShowTimeText()
     {
-        TimeText.gameObject.SetActive(true);
-        Debug.Log("TimeText SpinCooldown shown");
+        if (TimeText != null)
+            TimeText.gameObject.SetActive(true);
+        if (TimePanel != null)
+            TimePanel.gameObject.SetActive(true);
+        if (ClockImage != null)
+            ClockImage.gameObject.SetActive(true);
+    }
+
+    private void HideTimeText()
+    {
+        if (TimeText != null)
+            TimeText.gameObject.SetActive(false);
+        if (TimePanel != null)
+            TimePanel.gameObject.SetActive(false);
+        if (ClockImage != null)
+            ClockImage.gameObject.SetActive(false);
     }
 
     private string FormatTimer(TimeSpan timeSpan)
@@ -117,26 +122,21 @@ public class Timer : MonoBehaviour
         return DateTime.UtcNow >= timerStartTime;
     }
 
-#if UNITY_EDITOR
     [ContextMenu("Reset Timer (Debug)")]
     public void ResetTimerDebug()
     {
-        timerStartTime = DateTime.UtcNow.Date.AddDays(1);
+        timerStartTime = DateTime.UtcNow.AddSeconds(-1);
         PlayerPrefs.SetString($"TimerProduct_{saveID}", timerStartTime.ToBinary().ToString());
         PlayerPrefs.Save();
 
         if (uIWheelSpin != null)
         {
             uIWheelSpin.isSpinning = false;
-            uIWheelSpin.spinFree.interactable = true;
-            if (TimeText != null)
-            {
-                TimeText.gameObject.SetActive(false);
-            }
+            uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
+            HideTimeText();
         }
 
         Debug.Log("Timer reset for debugging purposes.");
     }
-#endif
 }
 

@@ -335,6 +335,7 @@ public class UIWheelSpin : UIPage
     public void OnResetFreeSpinButtonClicked()
     {
         timer.TimerDebug = true;
+        
     }
 
     public void EnableCloseButton()

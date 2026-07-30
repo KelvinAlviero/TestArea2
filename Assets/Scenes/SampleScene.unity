@@ -207,6 +207,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+      propertyPath: ResetFreeSpin
+      value: 
+      objectReference: {fileID: 1864081793}
     - target: {fileID: 3136722360775618520, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: m_Name
       value: UI Wheel Spin (Active)
@@ -238,6 +242,14 @@ PrefabInstance:
     - target: {fileID: 7838646698582680092, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605470602749666370, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+      propertyPath: desiredLandingMaxDecel
+      value: 2700
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605470602749666370, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+      propertyPath: desiredLandingMinDecel
+      value: 2500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -705,7 +717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000038146973
+      value: 0.0000038146973
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
