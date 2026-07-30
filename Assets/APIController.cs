@@ -257,8 +257,7 @@ public class APIController : MonoBehaviour
             onError: err =>
             {
                 Debug.LogError("spin error: " + err);
-                uIWheelSpin.EnableSpinButton();
-                uIWheelSpin.EnableCloseButton();
+                SpinningScript.HandleSpinFailed();
             },
             timeout: 10000);
     }
@@ -269,6 +268,7 @@ public class APIController : MonoBehaviour
         if (item == null)
         {
             Debug.LogWarning("Spin returned no items");
+            SpinningScript.HandleSpinFailed();
             return;
         }
         var database = uIWheelSpin.rewardDatabase ?? uIWheelSpin.rewardDatabase;
@@ -276,10 +276,13 @@ public class APIController : MonoBehaviour
         if (matchingSO == null)
         {
             Debug.LogWarning($"No RewardSO for itemId={item.ItemId}");
+            SpinningScript.HandleSpinFailed();
             return;
         }
         SelectedReward = matchingSO;
+        ObtainedReward = item.ItemId;
         uiWheelReward.SetReward(matchingSO);
+        SpinningScript.UnserializedReward(item.ItemId);
     }
 
     private static SpinWheelDrawItem GetFirstItem(SpinWheelSpinResponse data)
