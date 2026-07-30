@@ -75,6 +75,7 @@ public class UIWheelSpin : UIPage
         SetAppLanguage();
         timer.Initializer();
         GetReward();
+        FreeSpinCheck();
     }
 
     public void GetReward()
@@ -92,7 +93,18 @@ public class UIWheelSpin : UIPage
             onError: err => Debug.LogError("getRewards error: " + err),
             timeout: 10000);
     }
-
+    
+    public void FreeSpinCheck()
+    {
+        if (FreeSpinAvailable == false)
+        {
+            DisableSpinButton();
+        }
+        else
+        {
+            EnableSpinButton();
+        }
+    }
     private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
     {
         if (data?.Result == null)
