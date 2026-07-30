@@ -289,6 +289,12 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinFreeButtonClicked()
     {
+        if (!FreeSpinAvailable)
+        {
+            Debug.Log("Free spin unavailable");
+            return;
+        }
+
         isSpinning = true;
         closeButton.interactable = false;
         spinFree.interactable = false;
