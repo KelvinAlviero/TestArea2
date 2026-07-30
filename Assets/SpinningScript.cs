@@ -41,6 +41,7 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public float smoothRotationDuration = 0.5f; // Duration for smooth rotation to center
     [SerializeField] private float DelayedWinTime = 3f; //Delays popup
     [SerializeField] private float DelayedSpinTime = 1f;
+    [SerializeField] private float rewardWaitTimeout = 10f; // keep spinning until reward or this timeout
     [SerializeField] private float activeTargetAngle;
     [SerializeField] public bool MoreSpins;
     // [SerializeField] public float AngleFix = 22f;
@@ -62,7 +63,8 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] public bool ReceivedBackend;
     [SerializeField] public string BackendReward;
     [SerializeField] public RewardType rewardType;
-    [SerializeField] bool inRotate; 
+    [SerializeField] bool inRotate;
+    [SerializeField] private UIWheelError errorPanel;
     [Space(10)]
     [SerializeField] private Coroutine preSpinCoroutine;
     [SerializeField] private Coroutine lightAnimationCoroutine;
@@ -221,6 +223,9 @@ public class SpinningScript : MonoBehaviour
 
     public void UnserializedReward(string incomingItemId) //Translates ID into cases
     {
+        if (!inRotate)
+            return;
+
         if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
         {
             rewardType = resolvedReward;
@@ -235,6 +240,7 @@ public class SpinningScript : MonoBehaviour
         {
             ReceivedBackend = false;
             Debug.LogWarning("Unknown reward ID: " + incomingItemId);
+            HandleSpinFailed();
         }
     }
 
@@ -249,16 +255,40 @@ public class SpinningScript : MonoBehaviour
     {
         if (inRotate == false)
         {
+            ReceivedBackend = false;
             activeRewardType = rewardToUse;
 
-            ConfigureForcedReward(activeRewardType);
-
-            // Start pre-spin coroutine which will spin fast, then switch to landing phase
+            // Start pre-spin; landing target is set when API reward arrives via UnserializedReward
             if (preSpinCoroutine != null)
                 StopCoroutine(preSpinCoroutine);
 
             preSpinCoroutine = StartCoroutine(PreSpinThenSwitch());
             inRotate = true;
+        }
+    }
+
+    public void HandleSpinFailed()
+    {
+        if (preSpinCoroutine != null)
+        {
+            StopCoroutine(preSpinCoroutine);
+            preSpinCoroutine = null;
+        }
+
+        rbody.angularVelocity = 0f;
+        stopPower = 0f;
+        inRotate = false;
+        ReceivedBackend = false;
+        SpinEndTimer = 0f;
+
+        if (errorPanel != null)
+            errorPanel.Show("Spin failed. Please try again.");
+
+        if (UIWheelSpin != null)
+        {
+            UIWheelSpin.EnableSpinButton();
+            UIWheelSpin.EnableCloseButton();
+            UIWheelSpin.isSpinning = false;
         }
     }
 
@@ -269,6 +299,7 @@ public class SpinningScript : MonoBehaviour
         stopPower = preSpinDamping;
         rbody.angularVelocity = preSpinSpeed;
 
+        // 1) Always spin for at least preSpinDuration
         float elapsed = 0f;
         while (elapsed < preSpinDuration)
         {
@@ -276,77 +307,72 @@ public class SpinningScript : MonoBehaviour
             yield return null;
         }
 
-        // after preSpinDuration
-        if (ReceivedBackend)
+        // 2) If reward not ready yet, keep spinning until it arrives or timeout
+        float waited = 0f;
+        while (!ReceivedBackend && waited < rewardWaitTimeout)
         {
-            // wait a short time for backend/state to settle 
-            float waitTimeout = 3f;
-            float waited = 0f;
-            while (!ReceivedBackend && waited < waitTimeout)
+            if (rbody.angularVelocity < switchAngularVelocity)
+                rbody.angularVelocity = switchAngularVelocity;
+
+            waited += Time.deltaTime;
+            yield return null;
+        }
+
+        if (!ReceivedBackend)
+        {
+            HandleSpinFailed();
+            yield break;
+        }
+
+        // 3) Reward ready — land on that slot
+        float approachThreshold = 120f;
+        float approachWaitTimeout = 5f;
+        float approached = 0f;
+
+        rbody.angularVelocity = Mathf.Min(rbody.angularVelocity, switchAngularVelocity);
+
+        while (CalculateAngularDistanceToTarget() > approachThreshold && approached < approachWaitTimeout)
+        {
+            approached += Time.deltaTime;
+            yield return null;
+        }
+
+        Debug.Log($"Landing switch: cur={transform.eulerAngles.z:F1} target={activeTargetAngle:F1} remaining={CalculateAngularDistanceToTarget():F1}");
+        rbody.angularVelocity = switchAngularVelocity;
+
+        int attempt = 0;
+        float angularDistance = 0f;
+        float computedDecel = 0f;
+
+        while (true)
+        {
+            angularDistance = CalculateAngularDistanceToTarget();
+            while (angularDistance < 60f) angularDistance += 360f;
+
+            float v = Mathf.Abs(rbody.angularVelocity);
+            computedDecel = v * v / (2f * angularDistance);
+
+            if (computedDecel >= desiredLandingMinDecel && computedDecel <= desiredLandingMaxDecel)
+                break;
+
+            attempt++;
+            if (attempt >= landingAdjustmentAttempts)
             {
-                waited += Time.deltaTime;
+                Debug.Log($"Computed decel out of range after {attempt} attempts ({computedDecel:F1}), proceeding with clamped value.");
+                break;
+            }
+
+            float waitTime = 0f;
+            while (waitTime < landingAdjustmentWait)
+            {
+                waitTime += Time.deltaTime;
                 yield return null;
             }
+        }
 
-            float approachThreshold = 120f; 
-            float approachWaitTimeout = 5f; 
-            float approached = 0f;
+        Debug.Log($"Landing decel final: {computedDecel:F1}");
+        stopPower = Mathf.Clamp(computedDecel * landingTuner, minLandingStopPower, maxLandingStopPower);
 
-            // Optionally reduce speed while waiting so wheel doesn't fly past
-            rbody.angularVelocity = Mathf.Min(rbody.angularVelocity, switchAngularVelocity);
-
-            // Wait until remaining angular distance to target is within threshold (or timeout)
-            while (CalculateAngularDistanceToTarget() > approachThreshold && approached < approachWaitTimeout)
-            {
-                approached += Time.deltaTime;
-                yield return null;
-            }
-
-            Debug.Log($"Landing switch: cur={transform.eulerAngles.z:F1} target={activeTargetAngle:F1} remaining={CalculateAngularDistanceToTarget():F1}");
-            rbody.angularVelocity = switchAngularVelocity;
-
-            // Compute deceleration and, if it's outside the desired range, allow the wheel
-            // to spin a bit longer (wait) and retry a few times so the computed decel
-            // falls within the desired landing range. 
-            int attempt = 0;
-            float angularDistance = 0f;
-            float computedDecel = 0f;
-
-            while (true)
-            {
-                angularDistance = CalculateAngularDistanceToTarget();
-                while (angularDistance < 60f) angularDistance += 360f;
-
-                float v = Mathf.Abs(rbody.angularVelocity);
-                computedDecel = v * v / (2f * angularDistance);
-
-                // If computed decel is within desired bounds, use it
-                if (computedDecel >= desiredLandingMinDecel && computedDecel <= desiredLandingMaxDecel)
-                {
-                    break;
-                }
-
-                attempt++;
-                if (attempt >= landingAdjustmentAttempts)
-                {
-                    Debug.Log($"Computed decel out of range after {attempt} attempts ({computedDecel:F1}), proceeding with clamped value.");
-                    break;
-                }
-
-                // Wait a short time to let the wheel rotate further, then retry
-                // Debug.Log($"Computed decel {computedDecel:F1} out of [{desiredLandingMinDecel},{desiredLandingMaxDecel}], waiting {landingAdjustmentWait:F2}s before retry.");
-                float waitTime = 0f;
-                while (waitTime < landingAdjustmentWait)
-                {
-                    waitTime += Time.deltaTime;
-                    yield return null;
-                }
-            }
-
-            Debug.Log($"Landing decel final: {computedDecel:F1}");
-            stopPower = Mathf.Clamp(computedDecel * landingTuner, minLandingStopPower, maxLandingStopPower);
-}
-        // cleanup coroutine handle
         preSpinCoroutine = null;
         yield break;
     }
