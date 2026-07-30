@@ -128,8 +128,12 @@ public class UIWheelSpin : UIPage
                 var rect = rewardUI.GetComponent<RectTransform>();
                 if (rect != null)
                 {
-                    rect.anchoredPosition3D = Vector3.zero;
-                    rect.localPosition = Vector3.zero;
+                    rect.anchorMin = Vector2.zero;
+                    rect.anchorMax = Vector2.one;
+                    rect.offsetMin = Vector2.zero;
+                    rect.offsetMax = Vector2.zero;
+                    rect.pivot = new Vector2(0.5f, 0.5f);
+                    rect.localRotation = Quaternion.identity;
                     rect.localScale = Vector3.one;
                 }
                 slotIndex++;
@@ -315,7 +319,7 @@ public class UIWheelSpin : UIPage
         Debug.Log("Spin button Enabled");
         spinPaid.interactable = true;
     }
-    
+
     public void DisableSpinPaidButton()
     {
         Debug.Log("Spin button Enabled");
