@@ -2011,7 +2011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.41547292, y: 0.0985098}
   m_AnchorMax: {x: 0.610866, y: 0.28287208}
-  m_AnchoredPosition: {x: 0.000030517578, y: -1.5000305}
+  m_AnchoredPosition: {x: 0.000030517578, y: -1.500061}
   m_SizeDelta: {x: 0, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4578663730785128383
@@ -3150,7 +3150,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7377022001716181950}
-  - component: {fileID: 1740454722159154319}
   m_Layer: 5
   m_Name: Slot1
   m_TagString: Untagged
@@ -3177,26 +3176,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1818360609 &1740454722159154319
-RotationConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6585783664581763563}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 8804170872817917831}
-    weight: 1
 --- !u!1 &6904434986133151984
 GameObject:
   m_ObjectHideFlags: 0
@@ -4333,6 +4312,10 @@ PrefabInstance:
     - target: {fileID: 790267708681085808, guid: 39dea3d332165c146837691174b9b689, type: 3}
       propertyPath: m_fontSize
       value: 27.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676820157265762780, guid: 39dea3d332165c146837691174b9b689, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6610525257986650265, guid: 39dea3d332165c146837691174b9b689, type: 3}
       propertyPath: m_Name
