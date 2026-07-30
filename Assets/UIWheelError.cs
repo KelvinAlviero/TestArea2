@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Extras;
+using I2.Loc;
 
 namespace Forgehub.SpookyBubbles
 {
@@ -14,7 +15,7 @@ namespace Forgehub.SpookyBubbles
         [SerializeField] private Image backgroundImage;
         [SerializeField] private RectTransform Fade;
         [SerializeField] private RectTransform panelRectTransform;
-        [SerializeField] private TMP_Text errorText;
+        [SerializeField] private Localize errorLoc;
 
         [Header("Buttons")]
         [SerializeField] private Button closeButton;
@@ -37,8 +38,8 @@ namespace Forgehub.SpookyBubbles
 
         public void Show(string message = null)
         {
-            if (!string.IsNullOrEmpty(message) && errorText != null)
-                errorText.text = message;
+            if (!string.IsNullOrEmpty(message) && errorLoc != null)
+                errorLoc.SetTerm(message);
 
             PlayShowAnimation();
         }
