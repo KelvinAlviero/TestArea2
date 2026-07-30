@@ -275,6 +275,8 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinPaidButtonClicked()
     {
+        flagAmount.ToString();
+        // if (flagAmount = 0)
         isSpinning = true;
         closeButton.interactable = false;
         spinFree.interactable = false;
