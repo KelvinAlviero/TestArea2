@@ -232,6 +232,7 @@ public class APIController : MonoBehaviour
 
     public void StartSpin()
     {
+        SpinningScript.Rotate();
         UniWebViewBridge.Request(
             "spinRequest",
             new SpinWheelSpinRequest

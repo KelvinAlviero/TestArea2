@@ -76,6 +76,7 @@ public class UIWheelSpin : UIPage
         timer.Initializer();
         GetReward();
         FreeSpinCheck();
+        Debug.Log(FreeSpinAvailable);
     }
 
     public void GetReward()
@@ -88,6 +89,7 @@ public class UIWheelSpin : UIPage
 
                 PopulateRewards(data);
                 FreeSpinAvailable = data?.FreeSpinAvailable ?? false;
+                FreeSpinCheck();
                 UniWebViewBridge.Send("applicationReady", null);
             },
             onError: err => Debug.LogError("getRewards error: " + err),
@@ -284,6 +286,7 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinFreeButtonClicked()
     {
+        
         isSpinning = true;
         closeButton.interactable = false;
         spinFree.interactable = false;
