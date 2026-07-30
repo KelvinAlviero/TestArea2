@@ -1219,7 +1219,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c7705f3894f64a60bf18085784b9e68, type: 2}
   - {fileID: 11400000, guid: 146aa312bbe4549b8ae9d71744aeb0c3, type: 2}
   closeButton: {fileID: 6503996170453036949}
-  spinningButton: {fileID: 2445904170868763293}
+  spinFree: {fileID: 2445904170868763293}
   spinPaid: {fileID: 741316284379382875}
   AddFlagButton: {fileID: 2673756494095979086}
   MissionButton: {fileID: 8422542409945773152}
@@ -1340,7 +1340,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
+  m_fontSize: 45.6
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1516,7 +1516,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.05
+  m_fontSize: 75.65
   m_fontSizeBase: 83.65
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4330,7 +4330,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.35
+  m_fontSize: 44.65
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
