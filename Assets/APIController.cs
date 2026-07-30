@@ -232,13 +232,16 @@ public class APIController : MonoBehaviour
 
     public void StartSpin()
     {
+        SpinningScript.Rotate();
         UniWebViewBridge.Request(
             "spinRequest",
+            
             new SpinWheelSpinRequest
             {
                 SpinWheelConfigName = "default_testing_spinwheel",
                 SpinCount = 1
             },
+            
             onSuccess: json =>
             {
                 var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);

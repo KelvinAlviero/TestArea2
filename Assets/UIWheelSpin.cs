@@ -9,6 +9,7 @@ using I2.Loc;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Forgehub.SpookyBubbles;
 
 
 
@@ -21,6 +22,7 @@ public class UIWheelSpin : UIPage
 {
     [Header("Script References")]
     [SerializeField] private APIController APIController;
+    [SerializeField] private UIWheelBalance balanceError;
     [SerializeField] private SpinningScript SpinningScript;
     [SerializeField] private RectTransform wheelBackground;
     [SerializeField] private RectTransform wheel;
@@ -45,6 +47,7 @@ public class UIWheelSpin : UIPage
     [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] public bool FreeSpinAvailable;
+    
 
     public class FlagTicketBalanceResponse
     {
@@ -275,13 +278,21 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinPaidButtonClicked()
     {
-        flagAmount.ToString();
-        // if (flagAmount = 0)
+
+
+        if (flagAmount <= 0)
+        {
+            balanceError.Show();
+            return;
+        }
+        else
+        {
         isSpinning = true;
         closeButton.interactable = false;
         spinFree.interactable = false;
         spinPaid.interactable = false;
         APIController.StartSpin();
+        }
     }
 
     public void EnableCloseButton()
