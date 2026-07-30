@@ -685,16 +685,120 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Let's check out this level!
-      - Yuk, lihat level ini!
+      - Play Story Mode to unlock new characters
+      - Mainkan Mode Story untuk membuka karakter baru
       Flags: 0000
       Languages_Touch: []
     - Term: tutorial/pink_unlock_message_2
       TermType: 0
       Description: 
       Languages:
-      - Pink is joining you this level!
-      - Pink akan menemanimu di level ini!
+      - Go for it!
+      - Ayo, semangat!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/1stwin_message_1
+      TermType: 0
+      Description: 
+      Languages:
+      - Collect Maple as you play
+      - Kumpulkan Maple selama bermain
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/1stwin_message_2
+      TermType: 0
+      Description: 
+      Languages:
+      - Complete the Boss Levels to earn bigger rewards
+      - Selesaikan Level Bos untuk mendapatkan hadiah lebih besar
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/1stwin_message_3
+      TermType: 0
+      Description: 
+      Languages:
+      - Collect 25 Maples to challenge the Boss
+      - Kumpulkan 25 Maple untuk menantang Boss
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/1stwin_message_4
+      TermType: 0
+      Description: 
+      Languages:
+      - Keep running!
+      - Teruslah berlari!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/1stwin_message_5
+      TermType: 0
+      Description: 
+      Languages:
+      - You're all set! Let's run!
+      - Semuanya siap! Ayo, lari!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/2ndwin_message_1
+      TermType: 0
+      Description: 
+      Languages:
+      - Keep jumping!
+      - Teruslah melompat!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/2ndwin_message_2
+      TermType: 0
+      Description: 
+      Languages:
+      - You're all set! Let's run!
+      - Semuanya siap! Ayo, lari!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/3rdwin_message_1
+      TermType: 0
+      Description: 
+      Languages:
+      - Give it a try!
+      - Coba, yuk!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/3rdwin_message_2
+      TermType: 0
+      Description: 
+      Languages:
+      - You're all set! Let's run!
+      - Semuanya siap! Ayo, lari!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/finishendless_message_6
+      TermType: 0
+      Description: 
+      Languages:
+      - 
+      - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/shopintro_message_1
+      TermType: 0
+      Description: 
+      Languages:
+      - Visit the Shop!
+      - Kunjungi Shop!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/shopintro_message_2
+      TermType: 0
+      Description: 
+      Languages:
+      - Discover Boosters!
+      - Temukan Booster!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial/shopintro_message_3
+      TermType: 0
+      Description: 
+      Languages:
+      - Get Boosters here!
+      - Dapatkan Booster di sini!
       Flags: 0000
       Languages_Touch: []
     - Term: general/cancel
@@ -945,6 +1049,14 @@ MonoBehaviour:
       - Selesai
       Flags: 0000
       Languages_Touch: []
+    - Term: general/watch
+      TermType: 0
+      Description: 
+      Languages:
+      - Watch
+      - Nonton
+      Flags: 0000
+      Languages_Touch: []
     - Term: error_message/error
       TermType: 0
       Description: 
@@ -1173,40 +1285,41 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - You sure this map gets us there faster?
-      - Lo yakin peta ini bisa bikin cepet sampe tujuan?
+      - I heard you just got a sick map, Box.
+      - Box, gue denger-denger lo punya peta ajib?
       Flags: 0000
       Languages_Touch: []
     - Term: Dialogue/PinkIntro_Line2
       TermType: 0
       Description: 
       Languages:
-      - For real! I just tested it myself.
-      - Serius! Gue udah buktiin sendiri tadi.
+      - Sick what? Oh, you mean Jalan Tikus Map?
+      - Peta ajib? Oh, maksud lo peta Jalan Tikus?
       Flags: 0000
       Languages_Touch: []
     - Term: Dialogue/PinkIntro_Line3
       TermType: 0
       Description: 
       Languages:
-      - "You might even get past <b>CRATES</b> I couldn\u2019t clear."
-      - Malah harusnya lo bisa terobos <b>CRATE</b> yang gagal gue lewatin.
+      - Yup, the one with all the shortcuts! Lemme borrow it!
+      - Yoi! Katanya bisa nembus jalan pintas, kan? Pinjem dong!
       Flags: 0000
       Languages_Touch: []
     - Term: Dialogue/PinkIntro_Line4
       TermType: 0
       Description: 
       Languages:
-      - "Man, this looks messy\u2026 but kinda fun too\u2026"
-      - "Ih, rusuh juga\u2026 tapi kayaknya seru\u2026"
+      - Sure. But the route has you jump a lot, are you okay with that?
+      - "Boleh aja sih. Tapi, rutenya banyak yang lompat-lompat, loh\u2026 Emang
+        lo bisa?"
       Flags: 0000
       Languages_Touch: []
     - Term: Dialogue/PinkIntro_Line5
       TermType: 0
       Description: 
       Languages:
-      - "Hoho! Alright then, I\u2019m in!"
-      - Hoho! Oke deh, gue coba, ya!
+      - Relax, I have my own ways to go through, hehe.
+      - Tenang aja, gue punya cara gue sendiri, hehe
       Flags: 0000
       Languages_Touch: []
     - Term: Dialogue/EndlessLevel_Line1
@@ -1517,6 +1630,22 @@ MonoBehaviour:
       Languages:
       - Enter Redeem Code
       - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: popup/watchads_desc
+      TermType: 0
+      Description: 
+      Languages:
+      - 'Watch ads to get:'
+      - 'Tonton iklan untuk mendapatkan:'
+      Flags: 0000
+      Languages_Touch: []
+    - Term: popup/watchads_title
+      TermType: 0
+      Description: 
+      Languages:
+      - Open Gift Box
+      - Membuka Kotak Hadiah
       Flags: 0000
       Languages_Touch: []
     - Term: login/applesignin
@@ -2578,6 +2707,14 @@ MonoBehaviour:
       - dalam satu kali main
       Flags: 0000
       Languages_Touch: []
+    - Term: mission/Mission_Unavailable
+      TermType: 0
+      Description: 
+      Languages:
+      - Complete Stage 1 - 4 to Unlock Mission
+      - Selesaikan Stage 1 - 4 untuk membuka mission
+      Flags: 0000
+      Languages_Touch: []
     - Term: event/quick_title
       TermType: 0
       Description: 
@@ -2921,8 +3058,48 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - FREE 1X
+      - 'FREE 1X '
       - GRATIS 1X
+      Flags: 0000
+      Languages_Touch: []
+    - Term: webview/congrats
+      TermType: 0
+      Description: 
+      Languages:
+      - CONGRATULATIONS
+      - SELAMAT
+      Flags: 0000
+      Languages_Touch: []
+    - Term: webview/yougot
+      TermType: 0
+      Description: 
+      Languages:
+      - You got
+      - Kamu mendapat
+      Flags: 0000
+      Languages_Touch: []
+    - Term: webview/Insufficient
+      TermType: 0
+      Description: 
+      Languages:
+      - INSUFFICIENT TICKET
+      - KURANG TIKET
+      Flags: 0000
+      Languages_Touch: []
+    - Term: webview/getmore
+      TermType: 0
+      Description: 
+      Languages:
+      - Go to mission and get more ticket
+      - Main mission untuk dapat t
+      Flags: 0000
+      Languages_Touch: []
+    - Term: webview/spinfailed
+      TermType: 0
+      Description: 
+      Languages:
+      - Spin failed, please try again
+      - Spin gagal, cobah lagi
       Flags: 0000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -2940,7 +3117,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbzmZNQS8PVZLrPgMKpHpCzd5RIQQ0lo03Ch-0WI_n4vTf6cR0P2-Hhr3_gQ5MzDsy2K/exec
     Google_SpreadsheetKey: 1tWjL09Zo5VTbOEIV4bsyj46-pJZGO2BGHFE5ixOhx-Y
     Google_SpreadsheetName: 'I2Loc Maple Haven: City Rush Localization'
-    Google_LastUpdatedVersion: 1785295399648
+    Google_LastUpdatedVersion: 1785384603469
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
