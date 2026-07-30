@@ -28,7 +28,7 @@ mergeInto(LibraryManager.library, {
         }
 
         var result = window.uniwebview.call(action, data);
-        var resultStr = JSON.stringify(result ?? null);
+        var resultStr = JSON.stringify(result != null ? result : null);
         var bufferSize = lengthBytesUTF8(resultStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(resultStr, buffer, bufferSize);
@@ -66,14 +66,14 @@ mergeInto(LibraryManager.library, {
                 if (settled) return;
                 settled = true;
                 clearTimeout(timer);
-                var str = typeof result === "string" ? result : JSON.stringify(result ?? {});
+                var str = typeof result === "string" ? result : JSON.stringify(result != null ? result : {});
                 invoke(window.__uwvOnSuccess, str);
             })
             .catch(function (err) {
                 if (settled) return;
                 settled = true;
                 clearTimeout(timer);
-                var str = typeof err === "string" ? err : JSON.stringify(err ?? "Request failed");
+                var str = typeof err === "string" ? err : JSON.stringify(err != null ? err : "Request failed");
                 invoke(window.__uwvOnError, str);
             });
     }

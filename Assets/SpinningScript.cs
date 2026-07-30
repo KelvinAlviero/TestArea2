@@ -226,22 +226,23 @@ public class SpinningScript : MonoBehaviour
         if (!inRotate)
             return;
 
+        if (UIWheelSpin == null || !UIWheelSpin.TryGetSlotIndex(incomingItemId, out int slotIndex))
+        {
+            ReceivedBackend = false;
+            Debug.LogWarning("No populated slot for reward ID: " + incomingItemId);
+            HandleSpinFailed();
+            return;
+        }
+
         if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
         {
             rewardType = resolvedReward;
             activeRewardType = resolvedReward;
+        }
 
-            ConfigureForcedReward(resolvedReward);
-            ReceivedBackend = true;
-            string combined = String.Join(",", rewardAmounts ?? new List<string>());
-            Debug.Log("Reward Amounts " + combined);
-        }
-        else
-        {
-            ReceivedBackend = false;
-            Debug.LogWarning("Unknown reward ID: " + incomingItemId);
-            HandleSpinFailed();
-        }
+        ConfigureForcedRewardBySlot(slotIndex);
+        ReceivedBackend = true;
+        Debug.Log($"Landing slot={slotIndex} angle={activeTargetAngle} itemId={incomingItemId}");
     }
 
 
@@ -379,6 +380,51 @@ public class SpinningScript : MonoBehaviour
 
 
     // ----- Processing while spinning ----- //
+    private void ConfigureForcedRewardBySlot(int slotIndex)
+    {
+        // Slot order from PopulateRewards matches Reward1..Reward8 angles (Slot1..Slot8).
+        switch (slotIndex)
+        {
+            case 0:
+                activeTargetAngle = Reward1;
+                activeRewardResult = 1;
+                break;
+            case 1:
+                activeTargetAngle = Reward2;
+                activeRewardResult = 2;
+                break;
+            case 2:
+                activeTargetAngle = Reward3;
+                activeRewardResult = 3;
+                break;
+            case 3:
+                activeTargetAngle = Reward4;
+                activeRewardResult = 4;
+                break;
+            case 4:
+                activeTargetAngle = Reward5;
+                activeRewardResult = 5;
+                break;
+            case 5:
+                activeTargetAngle = Reward6;
+                activeRewardResult = 6;
+                break;
+            case 6:
+                activeTargetAngle = Reward7;
+                activeRewardResult = 7;
+                break;
+            case 7:
+                activeTargetAngle = Reward8;
+                activeRewardResult = 8;
+                break;
+            default:
+                activeTargetAngle = Reward1;
+                activeRewardResult = 1;
+                Debug.LogWarning("Invalid slot index for landing: " + slotIndex);
+                break;
+        }
+    }
+
     private void ConfigureForcedReward(RewardType rewardType) // Forced reward section, calls from UnserialiedReward
     {
         switch (rewardType) //This is connected to RewardType

@@ -38,6 +38,7 @@ public class UIWheelSpin : UIPage
     public RewardsGetter reward;
     public RectTransform ContentRectTransform => contentRectTransform;
     public List<RewardSO> rewardDatabase;
+    private readonly Dictionary<string, int> rewardSlotByItemId = new Dictionary<string, int>();
 
     [SerializeField] private Button closeButton;
     [SerializeField] public Button spinningButton; // X = 6, Y = -45, SCALE = 2
@@ -98,11 +99,10 @@ public class UIWheelSpin : UIPage
             return;
         }
 
+        rewardSlotByItemId.Clear();
         int slotIndex = 0;
         foreach (var package in data.Result)
         {
-            if (package?.Items == null) continue;
-
             if (package?.Items == null) continue;
 
             foreach (var item in package.Items)
@@ -118,7 +118,9 @@ public class UIWheelSpin : UIPage
                     continue;
                 }
 
-                Debug.Log($"[UIWheelSpin] Matched RewardSO: itemId={matchingSO.itemId}, name={matchingSO.itemName}");
+                Debug.Log($"[UIWheelSpin] Matched RewardSO: itemId={matchingSO.itemId}, name={matchingSO.itemName}, slot={slotIndex}");
+
+                rewardSlotByItemId[item.ItemId] = slotIndex;
 
                 var rewardUI = Instantiate(reward, Vector3.zero, Quaternion.identity, slot[slotIndex].transform);
                 rewardUI.SetReward(matchingSO);
@@ -133,6 +135,11 @@ public class UIWheelSpin : UIPage
                 slotIndex++;
             }
         }
+    }
+
+    public bool TryGetSlotIndex(string itemId, out int slotIndex)
+    {
+        return rewardSlotByItemId.TryGetValue(itemId, out slotIndex);
     }
 
     public void GetFlagTicket()
