@@ -101,6 +101,7 @@ public class UIWheelSpin : UIPage
         if (FreeSpinAvailable == false)
         {
             DisableSpinButton();
+            timer.StartTimer();
         }
         else
         {
@@ -286,7 +287,6 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinFreeButtonClicked()
     {
-        
         isSpinning = true;
         closeButton.interactable = false;
         spinFree.interactable = false;
@@ -309,6 +309,7 @@ public class UIWheelSpin : UIPage
             balanceError.Show();
         }
         else{
+
         isSpinning = true;
         closeButton.interactable = false;
         spinFree.interactable = false;
