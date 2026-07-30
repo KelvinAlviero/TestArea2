@@ -46,6 +46,7 @@ public class UIWheelSpin : UIPage
     [SerializeField] public Button spinFree; // X = 6, Y = -45, SCALE = 2
     [SerializeField] public Button spinPaid;
     [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
+    [SerializeField] private Button ResetFreeSpin; 
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] public bool FreeSpinAvailable;
 
@@ -215,6 +216,7 @@ public class UIWheelSpin : UIPage
         spinPaid.gameObject.SetActive(true);
         MissionButton.gameObject.SetActive(true);
         backgroundImage.gameObject.SetActive(true);
+        ResetFreeSpin.onClick.AddListener(OnResetFreeSpinButtonClicked);
 
 
     }
@@ -225,6 +227,7 @@ public class UIWheelSpin : UIPage
         spinFree.onClick.RemoveListener(OnSpinFreeButtonClicked);
         MissionButton.onClick.RemoveListener(OnMissionButtonClicked);
         spinPaid.onClick.RemoveListener(OnSpinPaidButtonClicked);
+        ResetFreeSpin.onClick.RemoveListener(OnResetFreeSpinButtonClicked);
     }
 
     public void InitialPosition()
@@ -324,6 +327,11 @@ public class UIWheelSpin : UIPage
         spinPaid.interactable = false;
         APIController.StartSpin();
         }
+    }
+
+    public void OnResetFreeSpinButtonClicked()
+    {
+        timer.TimerDebug = true;
     }
 
     public void EnableCloseButton()
