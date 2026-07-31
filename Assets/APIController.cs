@@ -44,87 +44,92 @@ public class APIController : MonoBehaviour
     public class SpinWheelSpinRequest
     {
         [JsonProperty("spinwheel_config_name")]
-        public string SpinWheelConfigName { get; set; }
+        public string SpinWheelConfigName;
 
         [JsonProperty("spin_count")]
-        public int SpinCount { get; set; }
+        public int SpinCount;
     }
 
     [Serializable]
     public class SpinWheelSpinResponse
     {
-        public string Currency { get; set; }
+        public string Currency;
 
-        public List<SpinWheelDraw> Draws { get; set; }
+        public List<SpinWheelDraw> Draws;
 
         [JsonProperty("free_spin_used")]
-        public bool FreeSpinUsed { get; set; }
+        public bool FreeSpinUsed;
 
-        public string Name { get; set; }
+        public string Name;
 
         [JsonProperty("spin_count")]
-        public int SpinCount { get; set; }
+        public int SpinCount;
 
         [JsonProperty("total_cost")]
-        public int TotalCost { get; set; }
+        public int TotalCost;
     }
 
     [Serializable]
     public class SpinWheelDraw
     {
         [JsonProperty("package_id")]
-        public string PackageId { get; set; }
+        public string PackageId;
 
-        public List<SpinWheelDrawItem> Items { get; set; }
+        public List<SpinWheelDrawItem> Items;
     }
 
     [Serializable]
     public class SpinWheelDrawItem
     {
-        public int Amount { get; set; }
+        public int Amount;
 
-        public string ItemId { get; set; }
+        public string ItemId;
 
-        public string ItemType { get; set; }
+        public string ItemType;
 
-        public string LogId { get; set; }
+        public string LogId;
 
-        public string Name { get; set; }
+        public string Name;
     }
 
     [Serializable]
     public class SpinWheelRewardsResponse
     {
-        public string Currency { get; set; }
+        public string Currency;
 
         [JsonProperty("free_spin_available")]
-        public bool FreeSpinAvailable { get; set; }
+        public bool FreeSpinAvailable;
 
-        public string Name { get; set; }
+        public string Name;
 
-        public int Price { get; set; }
+        public int Price;
 
-        public List<SpinWheelRewardPackageResult> Result { get; set; }
+        public List<SpinWheelRewardPackageResult> Result;
 
-        public string Type { get; set; }
+        public string Type;
     }
 
     [Serializable]
     public class SpinWheelRewardPackageResult
     {
         [JsonProperty("package_id")]
-        public string PackageId { get; set; }
-        public List<SpinWheelRewardsItemData> Items { get; set; }
+        public string PackageId;
+
+        public List<SpinWheelRewardsItemData> Items;
     }
+
     [Serializable]
     public class SpinWheelRewardsItemData
     {
-        public int Amount { get; set; }
+        public int Amount;
+
         [JsonProperty("item_id")]
-        public string ItemId { get; set; }
+        public string ItemId;
+
         [JsonProperty("item_type")]
-        public string ItemType { get; set; }
-        public string Name { get; set; }
+        public string ItemType;
+
+        public string Name;
     }
 
     public IEnumerator SendReward()
