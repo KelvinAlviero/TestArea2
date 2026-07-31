@@ -48,7 +48,19 @@ public class UIWheelSpin : UIPage
     [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] private Button ResetFreeSpin;
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
-    [SerializeField] public bool FreeSpinAvailable;
+    private bool freeSpinButton;
+    public bool FreeSpinAvailable
+    {
+        get
+        {
+            return freeSpinButton;
+        } 
+        set
+        {
+            freeSpinButton = value;
+            CheckPaidSpinOnFree();
+        }
+    }
 
     public class FlagTicketBalanceResponse
     {
@@ -87,6 +99,18 @@ public class UIWheelSpin : UIPage
         SetAppLanguage();
         timer.Initializer();
         GetReward();
+    }
+
+    public void CheckPaidSpinOnFree()
+    {
+        if (FreeSpinAvailable == true)
+        {
+            DisableSpinPaidButton();
+        }
+        else
+        {
+            EnableSpinPaidButton();  
+        }
     }
 
     public void GetReward()

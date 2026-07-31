@@ -192,6 +192,12 @@ public class APIController : MonoBehaviour
             uIWheelSpin.FreeSpinCheck();
             Debug.Log("FreeSpinDisabled");
         }
+        else
+        {
+            uIWheelSpin.FreeSpinAvailable = true;
+            uIWheelSpin.FreeSpinCheck();
+            Debug.Log("FreeSpinAvailableAfterSpin");
+        }
     }
 
     public void StartSpin()
@@ -210,13 +216,16 @@ public class APIController : MonoBehaviour
                 Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
 
                 ApplySpinResponseState(data);
-
+                Debug.Log("FreeSpinning");
+                uIWheelSpin.FreeSpinCheck();
                 ShowWonReward(data);
+
             },
             onError: err =>
             {
                 Debug.LogError("spin error: " + err);
                 SpinningScript.HandleSpinFailed();
+                
             },
             timeout: 10000);
     }
@@ -238,13 +247,20 @@ public class APIController : MonoBehaviour
             {
                 var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
                 Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
+                Debug.Log("[APIController] Paid spin response received.");
 
                 var cost = Mathf.Max(0, data?.TotalCost ?? 0);
                 if (cost > 0)
                 {
                     var flag = Mathf.Max(0, uIWheelSpin.flagAmount - cost);
                     uIWheelSpin.OnFlagTicketChange(flag);
-                    Debug.Log("Using Paid spin");
+                    Debug.Log("[APIController] Using Paid spin");
+                    Debug.Log("Freespinstatus" + uIWheelSpin.FreeSpinAvailable);
+                }
+                else
+                {
+                    Debug.Log("[APIController] Paid spin had zero cost.");
+                    Debug.Log("Freespinstatus" + uIWheelSpin.FreeSpinAvailable);
                 }
 
                 ShowWonReward(data);
@@ -253,12 +269,14 @@ public class APIController : MonoBehaviour
             {
                 Debug.LogError("spin error: " + err);
                 SpinningScript.HandleSpinFailed();
+                Debug.Log("Freespinstatus" + uIWheelSpin.FreeSpinAvailable);
             },
             timeout: 10000);
         }
         else
         {
             uIWheelSpin.balanceError.Show();
+            Debug.Log("Freespinstatus" + uIWheelSpin.FreeSpinAvailable);
         }
     }
 
