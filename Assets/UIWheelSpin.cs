@@ -89,7 +89,7 @@ public class UIWheelSpin : UIPage
         Init();
         ispagedisplayed = false;
         EnableCanvas();
-        CheckPaidSpinOnFree();
+        
     }
 
     private void OnEnable()
@@ -100,6 +100,7 @@ public class UIWheelSpin : UIPage
         SetAppLanguage();
         timer.Initializer();
         GetReward();
+        
     }
 
     public void CheckPaidSpinOnFree()
@@ -129,9 +130,11 @@ public class UIWheelSpin : UIPage
                 UniWebViewBridge.Send("applicationReady", null);
                 // Host session is ready — refresh balance again (fixes account switch / early Call).
                 GetFlagTicket();
+                CheckPaidSpinOnFree();
             },
             onError: err =>
             {
+                SpinningScript.ShowErrorPanel();
                 Debug.LogError("getRewards error: " + err);
                 UniWebViewBridge.Send("applicationReady", null);
                 GetFlagTicket();

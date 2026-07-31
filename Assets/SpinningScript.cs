@@ -333,9 +333,7 @@ public class SpinningScript : MonoBehaviour
         inRotate = false;
         ReceivedBackend = false;
         SpinEndTimer = 0f;
-
-        if (errorPanel != null)
-            errorPanel.Show("webview/error");
+        ShowErrorPanel();
 
         if (UIWheelSpin != null)
         {
@@ -343,6 +341,12 @@ public class SpinningScript : MonoBehaviour
             UIWheelSpin.EnableCloseButton();
             UIWheelSpin.isSpinning = false;
         }
+    }
+
+    public void ShowErrorPanel()
+    {
+         if (errorPanel != null)
+            errorPanel.Show("webview/error");
     }
 
 
