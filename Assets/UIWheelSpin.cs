@@ -323,7 +323,7 @@ public class UIWheelSpin : UIPage
         spinFree.interactable = false;
         spinPaid.interactable = false;
         MissionButton.interactable = false;
-        APIController.StartSpin();
+        APIController.StartSpinPaid();
         }
     }
 
