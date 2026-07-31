@@ -52,12 +52,14 @@ public class Timer : MonoBehaviour
         DateTime now = DateTime.UtcNow;
         TimeSpan timeRemaining = timerStartTime - now;
 
+        if (uIWheelSpin.FreeSpinAvailable)
+        {
+            HideTimeText();
+            return;
+        }
+
         if (now >= timerStartTime)
         {
-            //Free spin ready
-            uIWheelSpin.isSpinning = false;
-            uIWheelSpin.FreeSpinAvailable = true;
-            uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
             HideTimeText();
         }
         else

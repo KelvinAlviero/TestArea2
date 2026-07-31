@@ -107,7 +107,6 @@ public class UIWheelSpin : UIPage
         else
         {
             EnableSpinButton();
-            Debug.Log(FreeSpinAvailable);
         }
     }
     private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
