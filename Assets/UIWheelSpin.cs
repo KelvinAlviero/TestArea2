@@ -70,7 +70,6 @@ public class UIWheelSpin : UIPage
         CacheComponents();
         Init();
         ispagedisplayed = false;
-        FreeSpinAvailable = false;
         EnableCanvas();
         UIController.ShowPage<UIWheelSpin>();
         GetFlagTicket();
@@ -217,8 +216,6 @@ public class UIWheelSpin : UIPage
         spinPaid.gameObject.SetActive(true);
         MissionButton.gameObject.SetActive(true);
         backgroundImage.gameObject.SetActive(true);
-        spinFree.interactable = false;
-        spinPaid.interactable = true;
         ResetFreeSpin.onClick.AddListener(OnResetFreeSpinButtonClicked);
 
 
@@ -347,12 +344,14 @@ public class UIWheelSpin : UIPage
 
     public void EnableSpinButton()
     {
+
         Debug.Log("Spin button Enabled");
-        spinFree.interactable = FreeSpinAvailable;
+        spinFree.interactable = true;
     }
 
     public void DisableSpinButton()
     {
+
         Debug.Log("Spin disabled Enabled");
         spinFree.interactable = false;
     }
