@@ -145,6 +145,30 @@ MonoBehaviour:
       - Semoga beruntung lain kali?
       Flags: 0000
       Languages_Touch: []
+    - Term: ingame/quit_bjordterm
+      TermType: 0
+      Description: 
+      Languages:
+      - Segitu aja kok nyerah?
+      - A strategic retreat, then?
+      Flags: 0000
+      Languages_Touch: []
+    - Term: ingame/quit_boxterm
+      TermType: 0
+      Description: 
+      Languages:
+      - Are you sure?
+      - Serius mau udahan?
+      Flags: 0000
+      Languages_Touch: []
+    - Term: ingame/quit_pinkterm
+      TermType: 0
+      Description: 
+      Languages:
+      - Rage quitting already?
+      - Yaelah, rage quit nih?
+      Flags: 0000
+      Languages_Touch: []
     - Term: time/available_in
       TermType: 0
       Description: 
@@ -685,16 +709,16 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Play Story Mode to unlock new characters
-      - Mainkan Mode Story untuk membuka karakter baru
+      - Let's check out this level!
+      - Yuk, lihat level ini!
       Flags: 0000
       Languages_Touch: []
     - Term: tutorial/pink_unlock_message_2
       TermType: 0
       Description: 
       Languages:
-      - Go for it!
-      - Ayo, semangat!
+      - Pink is joining you this level!
+      - Pink akan menemanimu di level ini!
       Flags: 0000
       Languages_Touch: []
     - Term: tutorial/1stwin_message_1
@@ -773,8 +797,8 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
-      - 
+      - Play Story Mode to unlock new characters
+      - Mainkan Mode Story untuk membuka karakter baru
       Flags: 0000
       Languages_Touch: []
     - Term: tutorial/shopintro_message_1
@@ -1055,6 +1079,14 @@ MonoBehaviour:
       Languages:
       - Watch
       - Nonton
+      Flags: 0000
+      Languages_Touch: []
+    - Term: general/mission_progression
+      TermType: 0
+      Description: 
+      Languages:
+      - Mission progression
+      - Progress misi
       Flags: 0000
       Languages_Touch: []
     - Term: error_message/error
@@ -2760,7 +2792,23 @@ MonoBehaviour:
       Description: 
       Languages:
       - Hari Game Indonesia
-      - 
+      - Hari Game Indonesia
+      Flags: 0000
+      Languages_Touch: []
+    - Term: event/spinwheel_title
+      TermType: 0
+      Description: 
+      Languages:
+      - SPINWHEEL EVENT
+      - SPINWHEEL EVENT
+      Flags: 0000
+      Languages_Touch: []
+    - Term: event/panjat_pinang_title
+      TermType: 0
+      Description: 
+      Languages:
+      - PANJAT PINANG EVENT
+      - PANJAT PINANG EVENT
       Flags: 0000
       Languages_Touch: []
     - Term: daily_login/claimed
@@ -3091,7 +3139,7 @@ MonoBehaviour:
       Description: 
       Languages:
       - Go to mission and get more ticket
-      - Main mission untuk dapat t
+      - Main mission untuk dapat tiket
       Flags: 0000
       Languages_Touch: []
     - Term: webview/spinfailed
@@ -3117,7 +3165,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbzmZNQS8PVZLrPgMKpHpCzd5RIQQ0lo03Ch-0WI_n4vTf6cR0P2-Hhr3_gQ5MzDsy2K/exec
     Google_SpreadsheetKey: 1tWjL09Zo5VTbOEIV4bsyj46-pJZGO2BGHFE5ixOhx-Y
     Google_SpreadsheetName: 'I2Loc Maple Haven: City Rush Localization'
-    Google_LastUpdatedVersion: 1785384603469
+    Google_LastUpdatedVersion: 1785467907667
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
