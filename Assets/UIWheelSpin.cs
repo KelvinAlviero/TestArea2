@@ -107,6 +107,7 @@ public class UIWheelSpin : UIPage
         else
         {
             EnableSpinButton();
+            timer.RefreshState();
             Debug.Log(FreeSpinAvailable);
         }
     }

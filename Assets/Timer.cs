@@ -29,6 +29,25 @@ public class Timer : MonoBehaviour
         sb = new StringBuilder();
 
     }
+
+    public void RefreshState()
+    {
+        if (uIWheelSpin == null)
+            return;
+
+        if (uIWheelSpin.FreeSpinAvailable)
+        {
+            uIWheelSpin.isSpinning = false;
+            uIWheelSpin.spinFree.interactable = true;
+            HideTimeText();
+        }
+        else
+        {
+            uIWheelSpin.spinFree.interactable = false;
+            ShowTimeText();
+        }
+    }
+
     public void TimerConstant()
     {
         if (TimerDebug == true)
@@ -49,20 +68,26 @@ public class Timer : MonoBehaviour
             return;
         }
 
+        if (uIWheelSpin.FreeSpinAvailable)
+        {
+            uIWheelSpin.isSpinning = false;
+            uIWheelSpin.spinFree.interactable = true;
+            HideTimeText();
+            return;
+        }
+
         DateTime now = DateTime.UtcNow;
         TimeSpan timeRemaining = timerStartTime - now;
 
         if (now >= timerStartTime)
         {
-            //Free spin ready
             uIWheelSpin.isSpinning = false;
             uIWheelSpin.FreeSpinAvailable = true;
-            uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
+            uIWheelSpin.spinFree.interactable = true;
             HideTimeText();
         }
         else
         {
-            //free spin not ready
             uIWheelSpin.spinFree.interactable = false;
             ShowTimeText();
             TimeText.text = FormatTimer(timeRemaining);
