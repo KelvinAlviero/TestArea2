@@ -56,8 +56,8 @@ public class Timer : MonoBehaviour
         {
             //Free spin ready
             uIWheelSpin.isSpinning = false;
-            uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
             uIWheelSpin.FreeSpinAvailable = true;
+            uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
             HideTimeText();
         }
         else

@@ -1645,7 +1645,7 @@ MonoBehaviour:
   timer: {fileID: 4271076614712899117}
   panelRectTransform: {fileID: 8651898759820667151}
   FlagAmount: {fileID: 2567527895280586037}
-  balanceError: {fileID: 0}
+  balanceError: {fileID: 6176271006521206517}
   contentRectTransform: {fileID: 8651898759820667151}
   isSpinning: 0
   ispagedisplayed: 0
@@ -2621,7 +2621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9b6fd6c786d4695b639fce2b85b74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIWheelReward: {fileID: 4709202714120967704}
+  UIWheelReward: {fileID: 7825203071873768027}
   UIWheelSpin: {fileID: 3054531206331287848}
   APIController: {fileID: 7152944613695529808}
   rbody: {fileID: 4615571469960341665}
@@ -2688,7 +2688,7 @@ MonoBehaviour:
   BackendReward: 69fdaf030d3ceac0fa4715a1
   rewardType: 6
   inRotate: 0
-  errorPanel: {fileID: 0}
+  errorPanel: {fileID: 6761945219423787663}
 --- !u!50 &4615571469960341665
 Rigidbody2D:
   serializedVersion: 5
@@ -2847,6 +2847,7 @@ GameObject:
   - component: {fileID: 4826993779330821639}
   - component: {fileID: 2022719420854340098}
   - component: {fileID: 2519489706419688834}
+  - component: {fileID: 7825203071873768027}
   m_Layer: 5
   m_Name: FadeWheelReward
   m_TagString: Untagged
@@ -2930,7 +2931,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -2952,6 +2953,28 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7825203071873768027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4657900501161624659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee7fee9f0bf9447d885ab1b05cba760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpinningScript: {fileID: 8605470602749666370}
+  UIWheelSpin: {fileID: 3054531206331287848}
+  backgroundImage: {fileID: 7197839037963689910}
+  Fade: {fileID: 2968690896721222750}
+  panelRectTransform: {fileID: 304785699658550784}
+  RewardText: {fileID: 5396967195935872469}
+  contentRectTransform: {fileID: 4157058189758562441}
+  hasMoreQueuedRewards: 0
+  rewardDisplay: {fileID: 5380605222451677780}
+  closeButton: {fileID: 1293252637728750475}
 --- !u!1 &4841212322752078616
 GameObject:
   m_ObjectHideFlags: 0
@@ -3098,10 +3121,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8264876827781756165}
-  - component: {fileID: 7993856654533913693}
-  - component: {fileID: 4709202714120967704}
-  - component: {fileID: 1661961593965113336}
-  - component: {fileID: 3782492542618456300}
   m_Layer: 5
   m_Name: UI Wheel Reward
   m_TagString: Untagged
@@ -3130,76 +3149,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 950, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &7993856654533913693
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4896721816736060944}
-  m_CullTransparentMesh: 1
---- !u!114 &4709202714120967704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4896721816736060944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dee7fee9f0bf9447d885ab1b05cba760, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpinningScript: {fileID: 8605470602749666370}
-  UIWheelSpin: {fileID: 3054531206331287848}
-  backgroundImage: {fileID: 7197839037963689910}
-  Fade: {fileID: 2968690896721222750}
-  panelRectTransform: {fileID: 304785699658550784}
-  RewardText: {fileID: 5396967195935872469}
-  contentRectTransform: {fileID: 4157058189758562441}
-  hasMoreQueuedRewards: 0
-  rewardDisplay: {fileID: 5380605222451677780}
-  closeButton: {fileID: 1293252637728750475}
---- !u!223 &1661961593965113336
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4896721816736060944}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &3782492542618456300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4896721816736060944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &4942948826960828544
 GameObject:
   m_ObjectHideFlags: 0
@@ -3790,7 +3739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4157058189758562441
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4054,7 +4003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpinningScript: {fileID: 8605470602749666370}
   uIWheelSpin: {fileID: 3054531206331287848}
-  uiWheelReward: {fileID: 4709202714120967704}
+  uiWheelReward: {fileID: 7825203071873768027}
   URL_GetUser: https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70
   URL_StartSpin: https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin
   URL_SendRewards: https://mh-dev.dreamforgecreation.com/api/v1/mailbox/test
@@ -4520,7 +4469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTerm: 
+  mTerm: webview/yougot
   mTermSecondary: 
   PrimaryTermModifier: 0
   SecondaryTermModifier: 0
@@ -4558,6 +4507,7 @@ GameObject:
   - component: {fileID: 7922546865108310938}
   - component: {fileID: 8419555866670838164}
   - component: {fileID: 5665709460337705081}
+  - component: {fileID: 139675581421062121}
   m_Layer: 5
   m_Name: Title Text
   m_TagString: Untagged
@@ -4684,6 +4634,45 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &139675581421062121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384693532273979877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTerm: webview/congrats
+  mTermSecondary: 
+  PrimaryTermModifier: 0
+  SecondaryTermModifier: 0
+  TermPrefix: 
+  TermSuffix: 
+  LocalizeOnAwake: 1
+  IgnoreRTL: 0
+  MaxCharactersInRTL: 0
+  IgnoreNumbersInRTL: 1
+  CorrectAlignmentForRTL: 1
+  AddSpacesToJoinedLanguages: 0
+  AllowLocalizedParameters: 1
+  AllowParameters: 1
+  TranslatedObjects: []
+  LocalizeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  AlwaysForceLocalize: 0
+  LocalizeCallBack:
+    Target: {fileID: 0}
+    MethodName: 
+  mGUI_ShowReferences: 0
+  mGUI_ShowTems: 1
+  mGUI_ShowCallback: 0
+  mLocalizeTarget: {fileID: 0}
+  mLocalizeTargetName: I2.Loc.LocalizeTarget_TextMeshPro_UGUI
 --- !u!1 &6406308481629850375
 GameObject:
   m_ObjectHideFlags: 0
@@ -6284,6 +6273,7 @@ GameObject:
   - component: {fileID: 7416619653097655332}
   - component: {fileID: 6176271006521206517}
   - component: {fileID: 4779309026316349221}
+  - component: {fileID: 3454901871408367445}
   m_Layer: 5
   m_Name: FadeWheelBalance
   m_TagString: Untagged
@@ -6408,6 +6398,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3454901871408367445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132313437167526965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &9193985555362895541
 GameObject:
   m_ObjectHideFlags: 0
