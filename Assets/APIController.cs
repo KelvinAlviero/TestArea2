@@ -259,6 +259,11 @@ public class APIController : MonoBehaviour
                     }
                 }
 
+                if (uIWheelSpin != null)
+                {
+                    uIWheelSpin.FreeSpinCheck();
+                }
+
                 ShowWonReward(data);
             },
             onError: err =>
