@@ -89,6 +89,7 @@ public class UIWheelSpin : UIPage
         Init();
         ispagedisplayed = false;
         EnableCanvas();
+        CheckPaidSpinOnFree();
     }
 
     private void OnEnable()
@@ -418,8 +419,8 @@ public class UIWheelSpin : UIPage
 
     public void DisableSpinPaidButton()
     {
-        Debug.Log("Spin button Enabled");
-        spinPaid.interactable = true;
+        Debug.Log("Spin button disabled");
+        spinPaid.interactable = false;
     }
 
     public void DisableMissionButton()
