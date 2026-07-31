@@ -11,8 +11,6 @@ namespace Forgehub.SpookyBubbles
         public SpinningScript SpinningScript; 
         public UIWheelSpin UIWheelSpin;
         [Header("References")]
-        [SerializeField] private Image backgroundImage;
-        [SerializeField] private RectTransform Fade;
         [SerializeField] private RectTransform panelRectTransform;
         [SerializeField] private TMP_Text RewardText;
         [SerializeField] private RectTransform contentRectTransform;
@@ -77,15 +75,6 @@ namespace Forgehub.SpookyBubbles
 
             // Set initial positions for animation
             panelRectTransform.gameObject.SetActive(true);
-            Fade.gameObject.SetActive(true);
-            
-            // Disable raycast on Fade so it doesn't block clicks
-            Image fadeImage = Fade.GetComponent<Image>();
-            if (fadeImage != null)
-            {
-                fadeImage.raycastTarget = false;
-            }
-            backgroundImage.gameObject.SetActive(true);
             closeButton.gameObject.SetActive(true);
             closeButton.interactable = true;
         }
@@ -94,8 +83,6 @@ namespace Forgehub.SpookyBubbles
         {
             panelRectTransform.gameObject.SetActive(false);
             closeButton.gameObject.SetActive(false);
-            Fade.gameObject.SetActive(false);
-            backgroundImage.gameObject.SetActive(false);
         }
     }
 }

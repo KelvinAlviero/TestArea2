@@ -12,8 +12,6 @@ namespace Forgehub.SpookyBubbles
         public UIWheelSpin UIWheelSpin;
 
         [Header("References")]
-        [SerializeField] private Image backgroundImage;
-        [SerializeField] private RectTransform Fade;
         [SerializeField] private RectTransform panelRectTransform;
         [SerializeField] private Localize errorLoc;
         [SerializeField] private Localize missionLoc;
@@ -64,17 +62,6 @@ namespace Forgehub.SpookyBubbles
             if (panelRectTransform != null)
                 panelRectTransform.gameObject.SetActive(true);
 
-            if (Fade != null)
-            {
-                Fade.gameObject.SetActive(true);
-                Image fadeImage = Fade.GetComponent<Image>();
-                if (fadeImage != null)
-                    fadeImage.raycastTarget = true;
-            }
-
-            if (backgroundImage != null)
-                backgroundImage.gameObject.SetActive(true);
-
             if (closeButton != null)
             {
                 closeButton.gameObject.SetActive(true);
@@ -91,12 +78,6 @@ namespace Forgehub.SpookyBubbles
 
             if (closeButton != null)
                 closeButton.gameObject.SetActive(false);
-
-            if (Fade != null)
-                Fade.gameObject.SetActive(false);
-
-            if (backgroundImage != null)
-                backgroundImage.gameObject.SetActive(false);
 
             isPageDisplayed = false;
         }
