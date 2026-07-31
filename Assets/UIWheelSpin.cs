@@ -77,7 +77,12 @@ public class UIWheelSpin : UIPage
         Init();
         ispagedisplayed = false;
         EnableCanvas();
-        UIController.ShowPage<UIWheelSpin>();
+    }
+
+    private void OnEnable()
+    {
+        // Clear stale balance immediately so a previous account can't linger.
+        OnFlagTicketChange(0);
         GetFlagTicket();
         SetAppLanguage();
         timer.Initializer();
@@ -97,8 +102,15 @@ public class UIWheelSpin : UIPage
                 FreeSpinCheck();
                 Debug.Log(FreeSpinAvailable);
                 UniWebViewBridge.Send("applicationReady", null);
+                // Host session is ready — refresh balance again (fixes account switch / early Call).
+                GetFlagTicket();
             },
-            onError: err => Debug.LogError("getRewards error: " + err),
+            onError: err =>
+            {
+                Debug.LogError("getRewards error: " + err);
+                UniWebViewBridge.Send("applicationReady", null);
+                GetFlagTicket();
+            },
             timeout: 10000);
     }
 
@@ -163,6 +175,9 @@ public class UIWheelSpin : UIPage
                 slotIndex++;
             }
         }
+
+        if (SpinningScript != null)
+            SpinningScript.InvalidateRewardUprightCache();
     }
 
     public bool TryGetSlotIndex(string itemId, out int slotIndex)
@@ -173,9 +188,19 @@ public class UIWheelSpin : UIPage
     public void GetFlagTicket()
     {
         var raw = UniWebViewBridge.Call("getFlagTicketBalance", null);
-        if (string.IsNullOrEmpty(raw)) return;
+        if (string.IsNullOrEmpty(raw))
+        {
+            OnFlagTicketChange(0);
+            return;
+        }
+
         var data = JsonConvert.DeserializeObject<FlagTicketBalanceResponse>(raw);
-        if (data == null) return;
+        if (data == null)
+        {
+            OnFlagTicketChange(0);
+            return;
+        }
+
         OnFlagTicketChange(data.balance);
     }
 

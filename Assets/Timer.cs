@@ -1,34 +1,28 @@
 using System;
 using System.Text;
-using Extras;
 using TMPro;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
     public UIWheelSpin uIWheelSpin;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private DateTime timerStartTime = DateTime.UtcNow;
-    [SerializeField] string saveID = "uniqueTimerSaveID";
     [SerializeField] public TMP_Text TimeText;
     [SerializeField] public RectTransform TimePanel;
     [SerializeField] public RectTransform ClockImage;
 
-    
     private StringBuilder sb;
-    private SimpleLongSave save;
     [SerializeField] public bool TimerDebug = false;
-
 
     public void Initializer()
     {
         TimerDebug = false;
         HideTimeText();
-        string timerData = PlayerPrefs.GetString($"TimerProduct_{saveID}", DateTime.UtcNow.Date.AddDays(1).ToBinary().ToString());
-        timerStartTime = DateTime.FromBinary(long.Parse(timerData));
+        // Session-only; free-spin availability comes from the backend.
+        timerStartTime = DateTime.UtcNow;
         sb = new StringBuilder();
-
     }
+
     public void TimerConstant()
     {
         if (TimerDebug == true)
@@ -74,9 +68,6 @@ public class Timer : MonoBehaviour
     public void StartTimer(bool skipCooldown = false)
     {
         timerStartTime = DateTime.UtcNow.Date.AddDays(1);
-
-        PlayerPrefs.SetString($"TimerProduct_{saveID}", timerStartTime.ToBinary().ToString());
-        PlayerPrefs.Save();
         ShowTimeText();
     }
 
@@ -122,6 +113,7 @@ public class Timer : MonoBehaviour
 
         return sb.ToString();
     }
+
     public bool IsAvailable()
     {
         return DateTime.UtcNow >= timerStartTime;
@@ -130,12 +122,8 @@ public class Timer : MonoBehaviour
     [ContextMenu("Reset Timer (Debug)")]
     public void ResetTimerDebug()
     {
-
         timerStartTime = DateTime.UtcNow.AddSeconds(-1);
-        PlayerPrefs.SetString($"TimerProduct_{saveID}", timerStartTime.ToBinary().ToString());
-        PlayerPrefs.Save();
         uIWheelSpin.FreeSpinAvailable = true;
-
 
         if (uIWheelSpin != null)
         {
@@ -148,4 +136,3 @@ public class Timer : MonoBehaviour
         Debug.Log("Timer reset for debugging purposes.");
     }
 }
-

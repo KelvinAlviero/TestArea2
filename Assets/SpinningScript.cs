@@ -69,6 +69,10 @@ public class SpinningScript : MonoBehaviour
     [SerializeField] private Coroutine preSpinCoroutine;
     [SerializeField] private Coroutine lightAnimationCoroutine;
 
+    private float lastWheelZForUpright = float.NaN;
+    private Transform[] cachedRewardTransforms;
+    private int cachedRewardCount = -1;
+
     
     
     
@@ -122,30 +126,70 @@ public class SpinningScript : MonoBehaviour
 
     private void LateUpdate()
     {
-        KeepSlotsUpright();
+        float wheelZ = transform.localEulerAngles.z;
+        // Skip when the wheel isn't moving — avoids per-frame UI dirtying while idle.
+        if (!float.IsNaN(lastWheelZForUpright) &&
+            Mathf.Abs(Mathf.DeltaAngle(lastWheelZForUpright, wheelZ)) < 0.01f)
+            return;
+
+        lastWheelZForUpright = wheelZ;
+        KeepSlotsUpright(wheelZ);
     }
 
-    private void KeepSlotsUpright()
+    private void KeepSlotsUpright(float wheelZ)
     {
         if (slots == null || slots.Length == 0)
             return;
 
-        float counterZ = -transform.localEulerAngles.z;
+        RefreshRewardCacheIfNeeded();
+
+        float counterZ = -wheelZ;
+        for (int i = 0; i < cachedRewardCount; i++)
+        {
+            Transform rewardTransform = cachedRewardTransforms[i];
+            if (rewardTransform == null)
+                continue;
+
+            rewardTransform.localEulerAngles = new Vector3(0f, 0f, counterZ);
+        }
+    }
+
+    private void RefreshRewardCacheIfNeeded()
+    {
+        int childCount = 0;
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i] != null)
+                childCount += slots[i].childCount;
+        }
+
+        if (cachedRewardTransforms != null && cachedRewardCount == childCount)
+            return;
+
+        cachedRewardTransforms = new Transform[childCount];
+        cachedRewardCount = childCount;
+
+        int index = 0;
         for (int i = 0; i < slots.Length; i++)
         {
             RectTransform slotTransform = slots[i];
             if (slotTransform == null)
                 continue;
 
-            // Keep the slot itself aligned with the wheel; only upright the reward child.
+            // Ensure slots stay aligned with the wheel (no leftover counter-rotation).
             slotTransform.localEulerAngles = Vector3.zero;
 
             for (int c = 0; c < slotTransform.childCount; c++)
-            {
-                Transform child = slotTransform.GetChild(c);
-                child.localEulerAngles = new Vector3(0f, 0f, counterZ);
-            }
+                cachedRewardTransforms[index++] = slotTransform.GetChild(c);
         }
+    }
+
+    /// <summary>
+    /// Call after rewards are instantiated into slots so the upright cache refreshes.
+    /// </summary>
+    public void InvalidateRewardUprightCache()
+    {
+        cachedRewardCount = -1;
     }
 
     public enum RewardType //List for rewards
