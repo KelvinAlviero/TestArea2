@@ -76,8 +76,6 @@ public class UIWheelSpin : UIPage
         SetAppLanguage();
         timer.Initializer();
         GetReward();
-        FreeSpinCheck();
-        Debug.Log(FreeSpinAvailable);
     }
 
     public void GetReward()
@@ -217,8 +215,8 @@ public class UIWheelSpin : UIPage
         MissionButton.gameObject.SetActive(true);
         backgroundImage.gameObject.SetActive(true);
         ResetFreeSpin.onClick.AddListener(OnResetFreeSpinButtonClicked);
-
-
+        FreeSpinCheck();
+        Debug.Log(FreeSpinAvailable);
     }
 
     private void OnDestroy()
