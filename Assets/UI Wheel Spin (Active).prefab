@@ -2061,7 +2061,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <sprite name=flag>15
+  m_text: <sprite name=flag>0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f73613e2faab26249b72774475c11114, type: 2}
   m_sharedMaterial: {fileID: -9082522980169211356, guid: f73613e2faab26249b72774475c11114, type: 2}

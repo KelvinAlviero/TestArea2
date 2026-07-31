@@ -220,6 +220,8 @@ public class APIController : MonoBehaviour
 
     public void StartSpinPaid()
     {
+        if (uIWheelSpin.flagAmount > 0)
+        {
         SpinningScript.Rotate();
         UniWebViewBridge.Request(
             "spinRequest",
@@ -240,11 +242,6 @@ public class APIController : MonoBehaviour
                         uIWheelSpin.OnFlagTicketChange(flag);
                         Debug.Log("Using Paid spin");
                     }
-    
-                if (uIWheelSpin != null)
-                {
-                    uIWheelSpin.FreeSpinCheck();
-                }
 
                 ShowWonReward(data);
             },
@@ -254,6 +251,11 @@ public class APIController : MonoBehaviour
                 SpinningScript.HandleSpinFailed();
             },
             timeout: 10000);
+        }
+        else
+        {
+            uIWheelSpin.balanceError.Show();
+        }
     }
 
     private void ShowWonReward(SpinWheelSpinResponse data)
