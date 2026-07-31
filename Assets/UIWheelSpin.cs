@@ -46,7 +46,7 @@ public class UIWheelSpin : UIPage
     [SerializeField] public Button spinFree; // X = 6, Y = -45, SCALE = 2
     [SerializeField] public Button spinPaid;
     [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
-    [SerializeField] private Button ResetFreeSpin; 
+    [SerializeField] private Button ResetFreeSpin;
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] public bool FreeSpinAvailable;
 
@@ -63,6 +63,12 @@ public class UIWheelSpin : UIPage
     public class LanguageResponse
     {
         public string language;
+    }
+
+    [Serializable]
+    private class OpenEventCenterRequest
+    {
+        public string sectionId;
     }
 
     private void Awake()
@@ -95,7 +101,7 @@ public class UIWheelSpin : UIPage
             onError: err => Debug.LogError("getRewards error: " + err),
             timeout: 10000);
     }
-    
+
     public void FreeSpinCheck()
     {
         if (FreeSpinAvailable == false)
@@ -264,7 +270,7 @@ public class UIWheelSpin : UIPage
     //-------- Buttons --------//
     public void OnMissionButtonClicked()
     {
-        UniWebViewBridge.Send("openMissionPage", null);
+        UniWebViewBridge.Send("openEventCenterPage", new OpenEventCenterRequest { sectionId = "liveops_spinwheel" });
     }
 
     public void OnAddFlagButtonClicked()
@@ -311,26 +317,27 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinPaidButtonClicked()
     {
-        
+
         if (flagAmount == 0)
         {
             balanceError.Show();
         }
-        else{
+        else
+        {
 
-        isSpinning = true;
-        closeButton.interactable = false;
-        spinFree.interactable = false;
-        spinPaid.interactable = false;
-        MissionButton.interactable = false;
-        APIController.StartSpin();
+            isSpinning = true;
+            closeButton.interactable = false;
+            spinFree.interactable = false;
+            spinPaid.interactable = false;
+            MissionButton.interactable = false;
+            APIController.StartSpin();
         }
     }
 
     public void OnResetFreeSpinButtonClicked()
     {
         timer.TimerDebug = true;
-        
+
     }
 
     public void EnableCloseButton()
@@ -365,7 +372,7 @@ public class UIWheelSpin : UIPage
         Debug.Log("Spin button Enabled");
         spinPaid.interactable = true;
     }
-    
+
     public void DisableMissionButton()
     {
         Debug.Log("Mission button Enabled");
