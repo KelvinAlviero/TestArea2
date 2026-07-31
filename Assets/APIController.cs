@@ -239,8 +239,6 @@ public class APIController : MonoBehaviour
                 var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
                 Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
 
-                ApplySpinResponseState(data);
-
                 var cost = Mathf.Max(0, data?.TotalCost ?? 0);
                 if (cost > 0)
                 {
