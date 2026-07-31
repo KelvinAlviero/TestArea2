@@ -256,6 +256,7 @@ public class APIController : MonoBehaviour
                     {
                         var flag = Mathf.Max(0, uIWheelSpin.flagAmount - cost);
                         uIWheelSpin.OnFlagTicketChange(flag);
+                        Debug.Log("Using Paid spin");
                     }
                 }
 

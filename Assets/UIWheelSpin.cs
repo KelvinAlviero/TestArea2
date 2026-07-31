@@ -89,6 +89,7 @@ public class UIWheelSpin : UIPage
                 PopulateRewards(data);
                 FreeSpinAvailable = data.FreeSpinAvailable;
                 FreeSpinCheck();
+                Debug.Log(FreeSpinAvailable);
                 UniWebViewBridge.Send("applicationReady", null);
             },
             onError: err => Debug.LogError("getRewards error: " + err),
@@ -215,8 +216,6 @@ public class UIWheelSpin : UIPage
         MissionButton.gameObject.SetActive(true);
         backgroundImage.gameObject.SetActive(true);
         ResetFreeSpin.onClick.AddListener(OnResetFreeSpinButtonClicked);
-        FreeSpinCheck();
-        Debug.Log(FreeSpinAvailable);
     }
 
     private void OnDestroy()
@@ -300,6 +299,7 @@ public class UIWheelSpin : UIPage
         closeButton.interactable = false;
         spinFree.interactable = false;
         spinPaid.interactable = false;
+        MissionButton.interactable = false;
         APIController.StartSpin();
 
         timer.StartTimer();
@@ -323,6 +323,7 @@ public class UIWheelSpin : UIPage
         closeButton.interactable = false;
         spinFree.interactable = false;
         spinPaid.interactable = false;
+        MissionButton.interactable = false;
         APIController.StartSpin();
         }
     }
@@ -364,6 +365,18 @@ public class UIWheelSpin : UIPage
     {
         Debug.Log("Spin button Enabled");
         spinPaid.interactable = true;
+    }
+    
+    public void DisableMissionButton()
+    {
+        Debug.Log("Mission button Enabled");
+        MissionButton.interactable = false;
+    }
+
+    public void EnableMissionButton()
+    {
+        Debug.Log("Mission button Enabled");
+        MissionButton.interactable = true;
     }
 
     public void SetAppLanguage()

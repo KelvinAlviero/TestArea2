@@ -54,12 +54,15 @@ public class Timer : MonoBehaviour
 
         if (now >= timerStartTime)
         {
+            //Free spin ready
             uIWheelSpin.isSpinning = false;
             uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
+            uIWheelSpin.FreeSpinAvailable = true;
             HideTimeText();
         }
         else
         {
+            //free spin not ready
             uIWheelSpin.spinFree.interactable = false;
             ShowTimeText();
             TimeText.text = FormatTimer(timeRemaining);
@@ -125,14 +128,18 @@ public class Timer : MonoBehaviour
     [ContextMenu("Reset Timer (Debug)")]
     public void ResetTimerDebug()
     {
+
         timerStartTime = DateTime.UtcNow.AddSeconds(-1);
         PlayerPrefs.SetString($"TimerProduct_{saveID}", timerStartTime.ToBinary().ToString());
         PlayerPrefs.Save();
+        uIWheelSpin.FreeSpinAvailable = true;
+
 
         if (uIWheelSpin != null)
         {
             uIWheelSpin.isSpinning = false;
             uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
+            uIWheelSpin.FreeSpinAvailable = true;
             HideTimeText();
         }
 
