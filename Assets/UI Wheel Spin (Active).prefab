@@ -2968,8 +2968,8 @@ MonoBehaviour:
   SpinningScript: {fileID: 8605470602749666370}
   UIWheelSpin: {fileID: 3054531206331287848}
   backgroundImage: {fileID: 7197839037963689910}
-  Fade: {fileID: 2968690896721222750}
-  panelRectTransform: {fileID: 304785699658550784}
+  Fade: {fileID: 304785699658550784}
+  panelRectTransform: {fileID: 4157058189758562441}
   RewardText: {fileID: 5396967195935872469}
   contentRectTransform: {fileID: 4157058189758562441}
   hasMoreQueuedRewards: 0
@@ -2995,7 +2995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8367495798436840459
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3108,8 +3108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIWheelSpin: {fileID: 3054531206331287848}
   backgroundImage: {fileID: 3909894466959418206}
-  Fade: {fileID: 7966991010709178507}
-  panelRectTransform: {fileID: 8367495798436840459}
+  Fade: {fileID: 8367495798436840459}
+  panelRectTransform: {fileID: 4322724696468965447}
   errorLoc: {fileID: 440722911062775690}
   closeButton: {fileID: 7374332776543016589}
 --- !u!1 &4896721816736060944
@@ -6403,8 +6403,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIWheelSpin: {fileID: 3054531206331287848}
   backgroundImage: {fileID: 2274712838692892686}
-  Fade: {fileID: 3293539917481906483}
-  panelRectTransform: {fileID: 2156126141704891759}
+  Fade: {fileID: 2156126141704891759}
+  panelRectTransform: {fileID: 3574232379930370132}
   errorLoc: {fileID: 3818244694373063441}
   missionLoc: {fileID: 1300201392512482631}
   closeButton: {fileID: 967130982906062733}
