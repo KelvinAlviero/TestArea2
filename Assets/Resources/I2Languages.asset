@@ -3150,6 +3150,14 @@ MonoBehaviour:
       - Spin gagal, cobah lagi
       Flags: 0000
       Languages_Touch: []
+    - Term: webview/error
+      TermType: 0
+      Description: 
+      Languages:
+      - There was a problem, please try again
+      - Ada masalah, mohon coba lagi
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -3165,7 +3173,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbzmZNQS8PVZLrPgMKpHpCzd5RIQQ0lo03Ch-0WI_n4vTf6cR0P2-Hhr3_gQ5MzDsy2K/exec
     Google_SpreadsheetKey: 1tWjL09Zo5VTbOEIV4bsyj46-pJZGO2BGHFE5ixOhx-Y
     Google_SpreadsheetName: 'I2Loc Maple Haven: City Rush Localization'
-    Google_LastUpdatedVersion: 1785467907667
+    Google_LastUpdatedVersion: 1785482521254
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
