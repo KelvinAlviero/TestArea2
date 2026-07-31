@@ -181,6 +181,19 @@ public class APIController : MonoBehaviour
         var data2 = JsonUtility.FromJson<SpinWheelRewardsResponse>(data);
     }
 
+    private void ApplySpinResponseState(SpinWheelSpinResponse data)
+    {
+        if (uIWheelSpin == null)
+            return;
+
+        if (data?.FreeSpinUsed == true)
+        {
+            uIWheelSpin.FreeSpinAvailable = false;
+            uIWheelSpin.FreeSpinCheck();
+            Debug.Log("FreeSpinDisabled");
+        }
+    }
+
     public void StartSpin()
     {
         SpinningScript.Rotate();
@@ -196,16 +209,7 @@ public class APIController : MonoBehaviour
                 var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
                 Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
 
-                if (data?.FreeSpinUsed == true)
-                {
-                    uIWheelSpin.FreeSpinAvailable = false;
-                    Debug.Log("FreeSpinDisabled");
-                }
-
-                if (uIWheelSpin != null)
-                {
-                    uIWheelSpin.FreeSpinCheck();
-                }
+                ApplySpinResponseState(data);
 
                 ShowWonReward(data);
             },
@@ -235,13 +239,15 @@ public class APIController : MonoBehaviour
                 var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
                 Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
 
-                    var cost = Mathf.Max(0, data?.TotalCost ?? 0);
-                    if (cost > 0)
-                    {
-                        var flag = Mathf.Max(0, uIWheelSpin.flagAmount - cost);
-                        uIWheelSpin.OnFlagTicketChange(flag);
-                        Debug.Log("Using Paid spin");
-                    }
+                ApplySpinResponseState(data);
+
+                var cost = Mathf.Max(0, data?.TotalCost ?? 0);
+                if (cost > 0)
+                {
+                    var flag = Mathf.Max(0, uIWheelSpin.flagAmount - cost);
+                    uIWheelSpin.OnFlagTicketChange(flag);
+                    Debug.Log("Using Paid spin");
+                }
 
                 ShowWonReward(data);
             },
