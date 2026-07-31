@@ -325,12 +325,12 @@ public class UIWheelSpin : UIPage
         else
         {
 
-            isSpinning = true;
-            closeButton.interactable = false;
-            spinFree.interactable = false;
-            spinPaid.interactable = false;
-            MissionButton.interactable = false;
-            APIController.StartSpin();
+        isSpinning = true;
+        closeButton.interactable = false;
+        spinFree.interactable = false;
+        spinPaid.interactable = false;
+        MissionButton.interactable = false;
+        APIController.StartSpinPaid();
         }
     }
 
