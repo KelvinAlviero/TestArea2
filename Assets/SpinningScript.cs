@@ -291,7 +291,7 @@ public class SpinningScript : MonoBehaviour
         SpinEndTimer = 0f;
 
         if (errorPanel != null)
-            errorPanel.Show("webbiew/yougot");
+            errorPanel.Show("webview/error");
 
         if (UIWheelSpin != null)
         {
