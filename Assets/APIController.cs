@@ -217,8 +217,12 @@ public class APIController : MonoBehaviour
 
                 ApplySpinResponseState(data);
                 Debug.Log("FreeSpinning");
-                uIWheelSpin.FreeSpinCheck();
                 ShowWonReward(data);
+                if (uIWheelSpin.isSpinning == true)
+                {
+                    uIWheelSpin.FreeSpinCheck();
+                }
+                
 
             },
             onError: err =>

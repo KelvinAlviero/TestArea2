@@ -337,6 +337,7 @@ public class UIWheelSpin : UIPage
         Debug.Log("Close button clicked");
         Debug.Log("UIWheelSpin closed");
         UniWebViewBridge.Send("backHomeAction", null);//send, call, request.  
+        FreeSpinCheck();
                                                       // UniWebViewBridge.Send("openMissionPage",null);
                                                       // UniWebViewBridge.Send("SpinItem",new SpinItem{itemId = "69fdaf4e0d3ceac0fa4715a7"});
                                                       // var UserData = UniWebViewBridge.Call("UserData",null);
