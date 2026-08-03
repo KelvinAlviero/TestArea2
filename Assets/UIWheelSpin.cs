@@ -23,43 +23,55 @@ public class UIWheelSpin : UIPage
     [Header("Script References")]
     [SerializeField] private APIController APIController;
     [SerializeField] private SpinningScript SpinningScript;
+    [SerializeField] private WheelPopulate wheelPopulate;
+    [SerializeField] private FreeSpinChecker freeSpinChecker;
+    [SerializeField] private Timer timer;
+    [SerializeField] private FlagGetter flagGetter;
+
+
+
     [SerializeField] private RectTransform wheelBackground;
     [SerializeField] private RectTransform wheel;
     [SerializeField] private Image backgroundImage;
-    [SerializeField] private Timer timer;
+    
     // [SerializeField] private Image LightsON_Single;
     [SerializeField] private RectTransform panelRectTransform;
-    [SerializeField] public TMP_Text FlagAmount;
+    
     [SerializeField] public UIWheelBalance balanceError;
 
     [SerializeField] private RectTransform contentRectTransform;
-    [SerializeField] public bool isSpinning = false;
+    private bool isSpinning = false;
     [SerializeField] public bool ispagedisplayed = false;
     [SerializeField] public int flagAmount;
     public List<GameObject> slot;
     public RewardsGetter reward;
     public RectTransform ContentRectTransform => contentRectTransform;
     public List<RewardSO> rewardDatabase;
-    private readonly Dictionary<string, int> rewardSlotByItemId = new Dictionary<string, int>();
 
     [SerializeField] private Button closeButton;
     [SerializeField] public Button spinFree; // X = 6, Y = -45, SCALE = 2
     [SerializeField] public Button spinPaid;
-    [SerializeField] private Button AddFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
+    [SerializeField] private Button addFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] private Button ResetFreeSpin;
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
-    private bool freeSpinButton;
-    public bool FreeSpinAvailable
+    [SerializeField] public bool freeSpinButton;
+
+    public bool IsSpinning => isSpinning;
+    public Button AddFlagButton => addFlagButton;
+
+    public bool GetIsSpinning()
     {
-        get
-        {
-            return freeSpinButton;
-        } 
-        set
-        {
-            freeSpinButton = value;
-        }
+        return isSpinning;
     }
+
+    public void SetIsSpinning(bool value)
+    {
+        isSpinning = value;
+    }
+
+
+    
+
 
     public class FlagTicketBalanceResponse
     {
@@ -94,162 +106,17 @@ public class UIWheelSpin : UIPage
     private void OnEnable()
     {
         // Clear stale balance immediately so a previous account can't linger.
-        OnFlagTicketChange(0);
-        GetFlagTicket();
+        flagGetter.OnFlagTicketChange(0);
+        flagGetter.GetFlagTicket();
         SetAppLanguage();
         timer.Initializer();
-        GetReward();
-        FreeSpinCheck();
+        wheelPopulate.GetReward();
+        freeSpinChecker.FreeSpinCheck();
     }
 
-    public void CheckPaidSpinOnFree()
-    {
-        if (FreeSpinAvailable == true)
-        {
-            DisableSpinPaidButton();
-        }
-        else
-        {
-            EnableSpinPaidButton();  
-        }
-    }
-
-    public void GetReward()
-    {
-        UniWebViewBridge.Request("getSpinWheelRewards",
-            new { spinwheel_config_name = "default_testing_spinwheel" },
-            onSuccess: json =>
-            {
-                var data = JsonConvert.DeserializeObject<APIController.SpinWheelRewardsResponse>(json);
-
-                PopulateRewards(data);
-                FreeSpinAvailable = data.FreeSpinAvailable;
-                FreeSpinCheck();
-                Debug.Log(FreeSpinAvailable);
-                UniWebViewBridge.Send("applicationReady", null);
-                // Host session is ready — refresh balance again (fixes account switch / early Call).
-                GetFlagTicket();
-                CheckPaidSpinOnFree();
-            },
-            onError: err =>
-            {
-                SpinningScript.ShowErrorPanel();
-                Debug.LogError("getRewards error: " + err);
-                UniWebViewBridge.Send("applicationReady", null);
-                GetFlagTicket();
-            },
-            timeout: 10000);
-    }
-
-    public void FreeSpinCheck()
-    {
-        if (FreeSpinAvailable == false)
-        {
-            DisableSpinButton();
-            timer.StartTimer();
-            Debug.Log("FreeSpinDisabled");
-        }
-        else
-        {
-            EnableSpinButton();
-        }
-    }
-    private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
-    {
-        if (data?.Result == null)
-        {
-            Debug.LogWarning("No reward result payload.");
-            return;
-        }
-
-        rewardSlotByItemId.Clear();
-        int slotIndex = 0;
-        foreach (var package in data.Result)
-        {
-            if (package?.Items == null) continue;
-
-            foreach (var item in package.Items)
-            {
-                if (slotIndex >= slot.Count) return;
-
-                Debug.Log($"[UIWheelSpin] Processing reward item: ItemId={item?.ItemId}, Name={item?.Name}, Amount={item?.Amount}");
-
-                var matchingSO = rewardDatabase.Find(so => so != null && so.itemId == item.ItemId);
-                if (matchingSO == null)
-                {
-                    Debug.LogWarning($"[UIWheelSpin] No RewardSO found for itemId={item?.ItemId}. Available IDs: {string.Join(", ", rewardDatabase.Where(so => so != null).Select(so => so.itemId).ToArray())}");
-                    continue;
-                }
-
-                Debug.Log($"[UIWheelSpin] Matched RewardSO: itemId={matchingSO.itemId}, name={matchingSO.itemName}, slot={slotIndex}");
-
-                rewardSlotByItemId[item.ItemId] = slotIndex;
-
-                var rewardUI = Instantiate(reward, Vector3.zero, Quaternion.identity, slot[slotIndex].transform);
-                rewardUI.SetReward(matchingSO);
-
-                var rect = rewardUI.GetComponent<RectTransform>();
-                if (rect != null)
-                {
-                    rect.anchorMin = Vector2.zero;
-                    rect.anchorMax = Vector2.one;
-                    rect.offsetMin = Vector2.zero;
-                    rect.offsetMax = Vector2.zero;
-                    rect.pivot = new Vector2(0.5f, 0.5f);
-                    rect.localRotation = Quaternion.identity;
-                    rect.localScale = Vector3.one;
-                }
-                slotIndex++;
-            }
-        }
-
-        if (SpinningScript != null)
-            SpinningScript.InvalidateRewardUprightCache();
-    }
-
-    public bool TryGetSlotIndex(string itemId, out int slotIndex)
-    {
-        return rewardSlotByItemId.TryGetValue(itemId, out slotIndex);
-    }
-
-    public void GetFlagTicket()
-    {
-        var raw = UniWebViewBridge.Call("getFlagTicketBalance", null);
-        if (string.IsNullOrEmpty(raw))
-        {
-            OnFlagTicketChange(0);
-            return;
-        }
-
-        var data = JsonConvert.DeserializeObject<FlagTicketBalanceResponse>(raw);
-        if (data == null)
-        {
-            OnFlagTicketChange(0);
-            return;
-        }
-
-        OnFlagTicketChange(data.balance);
-    }
-
-    public void OnFlagTicketChange(int value)
-    {
-        flagAmount = value;
-        FlagAmount.text = "<sprite name=flag>" + flagAmount.ToString();
-    }
-
-
-    public void IncreaseFlagTicket()
-    {
-        UniWebViewBridge.Request("increaseFlagTicket", new IncreaseFlagTicketRequest { amount = 10 },
-        onSuccess: json =>
-        {
-            var data = JsonConvert.DeserializeObject<FlagTicketBalanceResponse>(json);
-            if (data != null)
-                OnFlagTicketChange(data.balance);
-        },
-        onError: err => Debug.Log("increase error: " + err),
-        timeout: 10000);
-    }
+    
+    
+    
 
     private void Update()
     {
@@ -328,7 +195,7 @@ public class UIWheelSpin : UIPage
     public void OnAddFlagButtonClicked()
     {
         Debug.Log("Addflag tapped");
-        IncreaseFlagTicket();
+        flagGetter.IncreaseFlagTicket();
     }
 
     public void OnCloseButtonClicked()
@@ -336,7 +203,7 @@ public class UIWheelSpin : UIPage
         Debug.Log("Close button clicked");
         Debug.Log("UIWheelSpin closed");
         UniWebViewBridge.Send("backHomeAction", null);//send, call, request.  
-        FreeSpinCheck();
+        freeSpinChecker.FreeSpinCheck();
                                                       // UniWebViewBridge.Send("openMissionPage",null);
                                                       // UniWebViewBridge.Send("SpinItem",new SpinItem{itemId = "69fdaf4e0d3ceac0fa4715a7"});
                                                       // var UserData = UniWebViewBridge.Call("UserData",null);
@@ -347,20 +214,23 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinFreeButtonClicked()
     {
-        if (!FreeSpinAvailable)
+        if (!freeSpinChecker.FreeSpinAvailable)
         {
+            
+            isSpinning = true;
+            closeButton.interactable = false;
+            spinFree.interactable = false;
+            spinPaid.interactable = false;
+            MissionButton.interactable = false;
+            APIController.StartSpin();
+            timer.StartTimer();
+        }
+        
             Debug.Log("Free spin unavailable");
             return;
-        }
+        
 
-        isSpinning = true;
-        closeButton.interactable = false;
-        spinFree.interactable = false;
-        spinPaid.interactable = false;
-        MissionButton.interactable = false;
-        APIController.StartSpin();
-
-        timer.StartTimer();
+        
 
         // Debug.Log("UIWheelSpin: Spin button clicked");
         // Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
@@ -455,3 +325,4 @@ public class UIWheelSpin : UIPage
     }
 
 }
+

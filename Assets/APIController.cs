@@ -9,14 +9,11 @@ using Forgehub.SpookyBubbles;
 
 public class APIController : MonoBehaviour
 {
-    public SpinningScript SpinningScript;
-    public UIWheelSpin uIWheelSpin;
-    public UIWheelReward uiWheelReward;
-    public string URL_GetUser = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70";
-    public string URL_StartSpin = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
-    // public string URL_GetGems = ""
-    // public string URL_RecieveReward = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel";
-    public string URL_SendRewards = "https://mh-dev.dreamforgecreation.com/api/v1/mailbox/test";
+    [SerializeField] public SpinningScript SpinningScript;
+    [SerializeField] public UIWheelSpin uIWheelSpin;
+    [SerializeField] public UIWheelReward uiWheelReward;
+    [SerializeField] private WheelPopulate wheelPopulate;
+    [SerializeField] private FreeSpinChecker freeSpinChecker;
     public string email = "aaa@gmail.com";
     public string password = "qwerty123";
     public string returnSecureToken = "true";
@@ -40,148 +37,16 @@ public class APIController : MonoBehaviour
     [SerializeField] private TMP_Text JWT_Translated;
     public RewardSO SelectedReward;
 
-    [Serializable]
-    public class SpinWheelSpinRequest
-    {
-        [JsonProperty("spinwheel_config_name")]
-        public string SpinWheelConfigName;
+    
 
-        [JsonProperty("spin_count")]
-        public int SpinCount;
-    }
-
-    [Serializable]
-    public class SpinWheelSpinResponse
-    {
-        public string Currency;
-
-        public List<SpinWheelDraw> Draws;
-
-        [JsonProperty("free_spin_used")]
-        public bool FreeSpinUsed;
-
-        public string Name;
-
-        [JsonProperty("spin_count")]
-        public int SpinCount;
-
-        [JsonProperty("total_cost")]
-        public int TotalCost;
-    }
-
-    [Serializable]
-    public class SpinWheelDraw
-    {
-        [JsonProperty("package_id")]
-        public string PackageId;
-
-        public List<SpinWheelDrawItem> Items;
-    }
-
-    [Serializable]
-    public class SpinWheelDrawItem
-    {
-        public int Amount;
-
-        public string ItemId;
-
-        public string ItemType;
-
-        public string LogId;
-
-        public string Name;
-    }
-
-    [Serializable]
-    public class SpinWheelRewardsResponse
-    {
-        public string Currency;
-
-        [JsonProperty("free_spin_available")]
-        public bool FreeSpinAvailable;
-
-        public string Name;
-
-        public int Price;
-
-        public List<SpinWheelRewardPackageResult> Result;
-
-        public string Type;
-    }
-
-    [Serializable]
-    public class SpinWheelRewardPackageResult
-    {
-        [JsonProperty("package_id")]
-        public string PackageId;
-
-        public List<SpinWheelRewardsItemData> Items;
-    }
-
-    [Serializable]
-    public class SpinWheelRewardsItemData
-    {
-        public int Amount;
-
-        [JsonProperty("item_id")]
-        public string ItemId;
-
-        [JsonProperty("item_type")]
-        public string ItemType;
-
-        public string Name;
-    }
-
-    public IEnumerator SendReward()
-    {
-        if (!string.IsNullOrEmpty(PulledJWT))
-        {
-            JWTToken = PulledJWT;
-        }
-
-        using UnityWebRequest request = UnityWebRequest.Get(URL_SendRewards);
-        request.SetRequestHeader("Content-Type", "application/json");
-
-
-        if (!string.IsNullOrEmpty(JWTToken))
-        {
-            request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
-        }
-
-        yield return request.SendWebRequest();
-        string rawJson = request.downloadHandler?.text ?? "";
-
-        if (JSON_Raw != null)
-            JSON_Raw.text = string.IsNullOrEmpty(rawJson) ? "<empty response>" : rawJson;
-
-        if (DebugText_Status != null)
-        {
-            DebugText_Status.text = "GET Result: " + request.result + "\n" +
-                                    "Code: " + request.responseCode + "\n" +
-                                    "Error: " + request.error + "\n";
-        }
-
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            Debug.Log("GET request success");
-            Debug.Log(rawJson);
-            MailSender.text = "Success" + rawJson;
-        }
-        else
-        {
-            Debug.LogError("GET request failed: " + request.responseCode);
-            Debug.LogError(rawJson);
-            MailSender.text = "Failed" + rawJson;
-        }
-    }
 
     public void RewardObtainer()
     {
         var data = UniWebViewBridge.Call("getFlagTicketBalance", null);
-        var data2 = JsonUtility.FromJson<SpinWheelRewardsResponse>(data);
+        var data2 = JsonUtility.FromJson<SpinRequests.SpinWheelRewardsResponse>(data);
     }
 
-    private void ApplySpinResponseState(SpinWheelSpinResponse data)
+    private void ApplySpinResponseState(SpinRequests.SpinWheelSpinResponse data)
     {
         if (uIWheelSpin == null)
             return;
@@ -203,14 +68,14 @@ public class APIController : MonoBehaviour
         SpinningScript.Rotate();
         UniWebViewBridge.Request(
             "spinRequest",
-            new SpinWheelSpinRequest
+            new SpinRequests.SpinWheelSpinRequest
             {
                 SpinWheelConfigName = "default_testing_spinwheel",
                 SpinCount = 1
             },
             onSuccess: json =>
             {
-                var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
+                var data = JsonConvert.DeserializeObject<SpinRequests.SpinWheelSpinResponse>(json);
                 Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
 
                 ApplySpinResponseState(data);
@@ -235,14 +100,14 @@ public class APIController : MonoBehaviour
         SpinningScript.Rotate();
         UniWebViewBridge.Request(
             "spinRequest",
-            new SpinWheelSpinRequest
+            new SpinRequests.SpinWheelSpinRequest
             {
                 SpinWheelConfigName = "default_testing_spinwheel",
                 SpinCount = 1
             },
             onSuccess: json =>
             {
-                var data = JsonConvert.DeserializeObject<SpinWheelSpinResponse>(json);
+                var data = JsonConvert.DeserializeObject<SpinRequests.SpinWheelSpinResponse>(json);
                 Debug.Log("spin ok: " + JsonConvert.SerializeObject(data, Formatting.Indented));
                 Debug.Log("[APIController] Paid spin response received.");
 
