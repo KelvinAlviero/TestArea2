@@ -189,13 +189,11 @@ public class APIController : MonoBehaviour
         if (data?.FreeSpinUsed == true)
         {
             uIWheelSpin.FreeSpinAvailable = false;
-            uIWheelSpin.FreeSpinCheck();
             Debug.Log("FreeSpinDisabled");
         }
         else
         {
             uIWheelSpin.FreeSpinAvailable = true;
-            uIWheelSpin.FreeSpinCheck();
             Debug.Log("FreeSpinAvailableAfterSpin");
         }
     }
@@ -218,11 +216,6 @@ public class APIController : MonoBehaviour
                 ApplySpinResponseState(data);
                 Debug.Log("FreeSpinning");
                 ShowWonReward(data);
-                if (uIWheelSpin.isSpinning == true)
-                {
-                    uIWheelSpin.FreeSpinCheck();
-                }
-                
 
             },
             onError: err =>

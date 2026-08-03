@@ -58,7 +58,6 @@ public class UIWheelSpin : UIPage
         set
         {
             freeSpinButton = value;
-            CheckPaidSpinOnFree();
         }
     }
 
@@ -100,7 +99,7 @@ public class UIWheelSpin : UIPage
         SetAppLanguage();
         timer.Initializer();
         GetReward();
-        
+        FreeSpinCheck();
     }
 
     public void CheckPaidSpinOnFree()
