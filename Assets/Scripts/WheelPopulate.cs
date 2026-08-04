@@ -14,10 +14,10 @@ using Newtonsoft.Json;
 public class WheelPopulate : MonoBehaviour
 {
     [Header("Script References")]
-    [SerializeField] private APIController APIController;
-    [SerializeField] private SpinningScript SpinningScript;
-    [SerializeField] private WheelPopulate wheelPopulate;
+    [SerializeField] private APIController aPIController;
+    [SerializeField] private SpinningScript spinningScript;
     [SerializeField] private FreeSpinChecker freeSpinChecker;
+    public RewardsGetter rewardsGetter;
     [SerializeField] public UIWheelSpin uIWheelSpin;
     [SerializeField] private Timer timer;
     [SerializeField] private FlagGetter flagGetter;
@@ -31,7 +31,7 @@ public class WheelPopulate : MonoBehaviour
             new { spinwheel_config_name = "default_testing_spinwheel" },
             onSuccess: json =>
             {
-                var data = JsonConvert.DeserializeObject<APIController.SpinWheelRewardsResponse>(json);
+                var data = JsonConvert.DeserializeObject<SpinRequests.SpinWheelRewardsResponse>(json);
 
                 PopulateRewards(data);
                 freeSpinChecker.FreeSpinAvailable = data.FreeSpinAvailable;
@@ -39,15 +39,15 @@ public class WheelPopulate : MonoBehaviour
                 Debug.Log(freeSpinChecker.FreeSpinAvailable);
                 UniWebViewBridge.Send("applicationReady", null);
                 // Host session is ready — refresh balance again (fixes account switch / early Call).
-                FlagGetter.GetFlagTicket();
-                CheckPaidSpinOnFree();
+                flagGetter.GetFlagTicket();
+                freeSpinChecker.CheckPaidSpinOnFree();
             },
             onError: err =>
             {
-                SpinningScript.ShowErrorPanel();
+                spinningScript.ShowErrorPanel();
                 Debug.LogError("getRewards error: " + err);
                 UniWebViewBridge.Send("applicationReady", null);
-                GetFlagTicket();
+                flagGetter.GetFlagTicket();
             },
             timeout: 10000);
     }
@@ -57,7 +57,7 @@ public class WheelPopulate : MonoBehaviour
         return rewardSlotByItemId.TryGetValue(itemId, out slotIndex);
     }
 
-    private void PopulateRewards(APIController.SpinWheelRewardsResponse data)
+    private void PopulateRewards(SpinRequests.SpinWheelRewardsResponse data)
     {
         if (data?.Result == null)
         {
@@ -73,14 +73,14 @@ public class WheelPopulate : MonoBehaviour
 
             foreach (var item in package.Items)
             {
-                if (slotIndex >= slot.Count) return;
+                if (slotIndex >= uIWheelSpin.slot.Count) return;
 
                 Debug.Log($"[UIWheelSpin] Processing reward item: ItemId={item?.ItemId}, Name={item?.Name}, Amount={item?.Amount}");
 
-                var matchingSO = rewardDatabase.Find(so => so != null && so.itemId == item.ItemId);
+                var matchingSO = uIWheelSpin.rewardList.Find(so => so != null && so.itemId == item.ItemId);
                 if (matchingSO == null)
                 {
-                    Debug.LogWarning($"[UIWheelSpin] No RewardSO found for itemId={item?.ItemId}. Available IDs: {string.Join(", ", rewardDatabase.Where(so => so != null).Select(so => so.itemId).ToArray())}");
+                    Debug.LogWarning($"[UIWheelSpin] No RewardSO found for itemId={item?.ItemId}. Available IDs: {string.Join(", ", uIWheelSpin.rewardList.Where(so => so != null).Select(so => so.itemId).ToArray())}");
                     continue;
                 }
 
@@ -88,7 +88,7 @@ public class WheelPopulate : MonoBehaviour
 
                 rewardSlotByItemId[item.ItemId] = slotIndex;
 
-                var rewardUI = Instantiate(reward, Vector3.zero, Quaternion.identity, slot[slotIndex].transform);
+                var rewardUI = Instantiate(rewardsGetter, Vector3.zero, Quaternion.identity, uIWheelSpin.slot[slotIndex].transform);
                 rewardUI.SetReward(matchingSO);
 
                 var rect = rewardUI.GetComponent<RectTransform>();
@@ -106,8 +106,8 @@ public class WheelPopulate : MonoBehaviour
             }
         }
 
-        if (SpinningScript != null)
-            SpinningScript.InvalidateRewardUprightCache();
+        if (spinningScript != null)
+            spinningScript.InvalidateRewardUprightCache();
     }
 }
 

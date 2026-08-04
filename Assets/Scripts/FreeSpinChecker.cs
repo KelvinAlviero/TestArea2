@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class FreeSpinChecker : MonoBehaviour
@@ -22,6 +23,7 @@ public class FreeSpinChecker : MonoBehaviour
             uIWheelSpin.freeSpinButton = value;
         }
     }
+
 
     public void CheckPaidSpinOnFree()
     {

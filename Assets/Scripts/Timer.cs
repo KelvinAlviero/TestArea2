@@ -6,6 +6,8 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     public UIWheelSpin uIWheelSpin;
+    public FreeSpinChecker freeSpinChecker;
+
     [SerializeField] private DateTime timerStartTime = DateTime.UtcNow;
     [SerializeField] public TMP_Text TimeText;
     [SerializeField] public RectTransform TimePanel;
@@ -46,7 +48,7 @@ public class Timer : MonoBehaviour
         DateTime now = DateTime.UtcNow;
         TimeSpan timeRemaining = timerStartTime - now;
 
-        if (uIWheelSpin.FreeSpinAvailable)
+        if (freeSpinChecker.FreeSpinAvailable)
         {
             HideTimeText();
             return;
@@ -123,13 +125,13 @@ public class Timer : MonoBehaviour
     public void ResetTimerDebug()
     {
         timerStartTime = DateTime.UtcNow.AddSeconds(-1);
-        uIWheelSpin.FreeSpinAvailable = true;
+        freeSpinChecker.FreeSpinAvailable = true;
 
         if (uIWheelSpin != null)
         {
-            uIWheelSpin.isSpinning = false;
-            uIWheelSpin.spinFree.interactable = uIWheelSpin.FreeSpinAvailable;
-            uIWheelSpin.FreeSpinAvailable = true;
+            uIWheelSpin.SetIsSpinning(false);
+            uIWheelSpin.spinFree.interactable = freeSpinChecker.FreeSpinAvailable;
+            freeSpinChecker.FreeSpinAvailable = true;
             HideTimeText();
         }
 

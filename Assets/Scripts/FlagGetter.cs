@@ -15,6 +15,7 @@ public class FlagGetter : MonoBehaviour
 {
 
     [SerializeField] public TMP_Text FlagAmount;
+    [SerializeField] public int flagAmount;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void GetFlagTicket()
     {
@@ -25,7 +26,7 @@ public class FlagGetter : MonoBehaviour
             return;
         }
 
-        var data = JsonConvert.DeserializeObject<FlagTicketBalanceResponse>(raw);
+        var data = JsonConvert.DeserializeObject<FlagRequests.FlagTicketBalanceResponse>(raw);
         if (data == null)
         {
             OnFlagTicketChange(0);
@@ -44,10 +45,10 @@ public class FlagGetter : MonoBehaviour
 
     public void IncreaseFlagTicket()
     {
-        UniWebViewBridge.Request("increaseFlagTicket", new IncreaseFlagTicketRequest { amount = 10 },
+        UniWebViewBridge.Request("increaseFlagTicket", new FlagRequests.IncreaseFlagTicketRequest { amount = 10 },
         onSuccess: json =>
         {
-            var data = JsonConvert.DeserializeObject<FlagTicketBalanceResponse>(json);
+            var data = JsonConvert.DeserializeObject<FlagRequests.FlagTicketBalanceResponse>(json);
             if (data != null)
                 OnFlagTicketChange(data.balance);
         },

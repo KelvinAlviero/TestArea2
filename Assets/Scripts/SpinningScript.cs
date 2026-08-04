@@ -13,9 +13,11 @@ public class SpinningScript : MonoBehaviour
 { //oml man why did i make this script so bloated
 //I gotta ask the lads how to cut this down cuz this ain't company standard coding    
     [Header("Script References")]
-    public UIWheelReward UIWheelReward;
-    public UIWheelSpin UIWheelSpin;
+    public UIWheelReward uIWheelReward;
+    public UIWheelSpin uIWheelSpin;
     public APIController APIController;
+    public WheelPopulate wheelPopulate;
+    public SpinningScript spinningScript;
     [Space(10)]
 
     [Header("WheelSpin")] 
@@ -278,7 +280,7 @@ public class SpinningScript : MonoBehaviour
         if (!inRotate)
             return;
 
-        if (UIWheelSpin == null || !UIWheelSpin.TryGetSlotIndex(incomingItemId, out int slotIndex))
+        if (uIWheelSpin == null || !wheelPopulate.TryGetSlotIndex(incomingItemId, out int slotIndex))
         {
             ReceivedBackend = false;
             Debug.LogWarning("No populated slot for reward ID: " + incomingItemId);
@@ -335,11 +337,11 @@ public class SpinningScript : MonoBehaviour
         SpinEndTimer = 0f;
         ShowErrorPanel();
 
-        if (UIWheelSpin != null)
+        if (uIWheelSpin != null)
         {
-            UIWheelSpin.EnableSpinButton();
-            UIWheelSpin.EnableCloseButton();
-            UIWheelSpin.isSpinning = false;
+            uIWheelSpin.EnableSpinButton();
+            uIWheelSpin.EnableCloseButton();
+            uIWheelSpin.GetIsSpinning();
         }
     }
 
@@ -587,7 +589,7 @@ public class SpinningScript : MonoBehaviour
     {
         // Debug.Log("DelayedWin called");
         yield return new WaitForSeconds(DelayedWinTime);
-        UIWheelReward.PlayShowAnimation();
+        uIWheelReward.PlayShowAnimation();
         
         if (lightAnimationCoroutine != null)
         {

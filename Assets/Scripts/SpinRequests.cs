@@ -100,4 +100,6 @@ public static class SpinRequests
 
         public string Name;
     }
+
+    
 }

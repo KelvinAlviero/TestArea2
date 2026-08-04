@@ -42,11 +42,11 @@ public class UIWheelSpin : UIPage
     [SerializeField] private RectTransform contentRectTransform;
     private bool isSpinning = false;
     [SerializeField] public bool ispagedisplayed = false;
-    [SerializeField] public int flagAmount;
+    
     public List<GameObject> slot;
-    public RewardsGetter reward;
+    
     public RectTransform ContentRectTransform => contentRectTransform;
-    public List<RewardSO> rewardDatabase;
+    public List<RewardSO> rewardList;
 
     [SerializeField] private Button closeButton;
     [SerializeField] public Button spinFree; // X = 6, Y = -45, SCALE = 2
@@ -54,7 +54,7 @@ public class UIWheelSpin : UIPage
     [SerializeField] private Button addFlagButton; //UniWebViewBridge.Send("openMissionPage",null);
     [SerializeField] private Button ResetFreeSpin;
     [SerializeField] private Button MissionButton; //UniWebViewBridge.Send("openMissionPage",null);
-    [SerializeField] public bool freeSpinButton;
+    public bool freeSpinButton;
 
     public bool IsSpinning => isSpinning;
     public Button AddFlagButton => addFlagButton;
@@ -70,18 +70,6 @@ public class UIWheelSpin : UIPage
     }
 
 
-    
-
-
-    public class FlagTicketBalanceResponse
-    {
-        public int balance;
-    }
-
-    public class IncreaseFlagTicketRequest
-    {
-        public int amount;
-    }
 
     public class LanguageResponse
     {
@@ -241,7 +229,7 @@ public class UIWheelSpin : UIPage
     public void OnSpinPaidButtonClicked()
     {
 
-        if (flagAmount == 0)
+        if (flagGetter.flagAmount == 0)
         {
             balanceError.Show();
         }

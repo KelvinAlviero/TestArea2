@@ -14,31 +14,9 @@ public class APIController : MonoBehaviour
     [SerializeField] public UIWheelReward uiWheelReward;
     [SerializeField] private WheelPopulate wheelPopulate;
     [SerializeField] private FreeSpinChecker freeSpinChecker;
-    public string email = "aaa@gmail.com";
-    public string password = "qwerty123";
-    public string returnSecureToken = "true";
-    public string JWTToken;
-    public string datadebug;
-    public TMP_Text MailSender;
-    public TMP_Text DebugText_SpinAmount;
-    public TMP_Text DebugText_ItemList;
-    public TMP_Text DebugText_Status;
-    public TMP_Text JSON_Body;
-    public TMP_Text JSON_Raw;
-    private string PulledJWT;
-    public TMP_Text PulledJWTText;
-    public TMP_Text Debug1;
-    public TMP_Text Debug2;
-
+    [SerializeField] private FlagGetter flagGetter;
     public string ObtainedReward;
-    public string UnserializeditemId;
-    public int spin_count = 1;
-    [SerializeField] private TMP_Text JWT_Text;
-    [SerializeField] private TMP_Text JWT_Translated;
     public RewardSO SelectedReward;
-
-    
-
 
     public void RewardObtainer()
     {
@@ -53,12 +31,12 @@ public class APIController : MonoBehaviour
 
         if (data?.FreeSpinUsed == true)
         {
-            uIWheelSpin.FreeSpinAvailable = false;
+            freeSpinChecker.FreeSpinAvailable = false;
             Debug.Log("FreeSpinDisabled");
         }
         else
         {
-            uIWheelSpin.FreeSpinAvailable = true;
+            freeSpinChecker.FreeSpinAvailable = true;
             Debug.Log("FreeSpinAvailableAfterSpin");
         }
     }
@@ -92,10 +70,9 @@ public class APIController : MonoBehaviour
             timeout: 10000);
     }
 
-
     public void StartSpinPaid()
     {
-        if (uIWheelSpin.flagAmount > 0)
+        if (flagGetter.flagAmount > 0)
         {
         SpinningScript.Rotate();
         UniWebViewBridge.Request(
@@ -114,15 +91,15 @@ public class APIController : MonoBehaviour
                 var cost = Mathf.Max(0, data?.TotalCost ?? 0);
                 if (cost > 0)
                 {
-                    var flag = Mathf.Max(0, uIWheelSpin.flagAmount - cost);
-                    uIWheelSpin.OnFlagTicketChange(flag);
+                    var flag = Mathf.Max(0, flagGetter.flagAmount - cost);
+                    flagGetter.OnFlagTicketChange(flag);
                     Debug.Log("[APIController] Using Paid spin");
-                    Debug.Log("Freespinstatus" + uIWheelSpin.FreeSpinAvailable);
+                    Debug.Log("Freespinstatus" + freeSpinChecker.FreeSpinAvailable);
                 }
                 else
                 {
                     Debug.Log("[APIController] Paid spin had zero cost.");
-                    Debug.Log("Freespinstatus" + uIWheelSpin.FreeSpinAvailable);
+                    Debug.Log("Freespinstatus" + freeSpinChecker.FreeSpinAvailable);
                 }
 
                 ShowWonReward(data);
@@ -131,18 +108,18 @@ public class APIController : MonoBehaviour
             {
                 Debug.LogError("spin error: " + err);
                 SpinningScript.HandleSpinFailed();
-                Debug.Log("Freespinstatus" + uIWheelSpin.FreeSpinAvailable);
+                Debug.Log("Freespinstatus" + freeSpinChecker.FreeSpinAvailable);
             },
             timeout: 10000);
         }
         else
         {
             uIWheelSpin.balanceError.Show();
-            Debug.Log("Freespinstatus" + uIWheelSpin.FreeSpinAvailable);
+            Debug.Log("Freespinstatus" + freeSpinChecker.FreeSpinAvailable);
         }
     }
 
-    private void ShowWonReward(SpinWheelSpinResponse data)
+    private void ShowWonReward(SpinRequests.SpinWheelSpinResponse data)
     {
         var item = GetFirstItem(data);
         if (item == null)
@@ -151,7 +128,7 @@ public class APIController : MonoBehaviour
             SpinningScript.HandleSpinFailed();
             return;
         }
-        var database = uIWheelSpin.rewardDatabase ?? uIWheelSpin.rewardDatabase;
+        var database = uIWheelSpin.rewardList ?? uIWheelSpin.rewardList;
         var matchingSO = database.Find(so => so.itemId == item.ItemId);
         if (matchingSO == null)
         {
@@ -165,7 +142,7 @@ public class APIController : MonoBehaviour
         SpinningScript.UnserializedReward(item.ItemId);
     }
 
-    private static SpinWheelDrawItem GetFirstItem(SpinWheelSpinResponse data)
+    private SpinRequests.SpinWheelDrawItem GetFirstItem(SpinRequests.SpinWheelSpinResponse data)
     {
         if (data?.Draws == null) return null;
         foreach (var draw in data.Draws)
@@ -175,4 +152,6 @@ public class APIController : MonoBehaviour
         }
         return null;
     }
+
+    
 }

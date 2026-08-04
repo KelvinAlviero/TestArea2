@@ -8,8 +8,9 @@ namespace Forgehub.SpookyBubbles
     public class UIWheelReward : UIPage
     {
         [Header("Script References")]
-        public SpinningScript SpinningScript; 
-        public UIWheelSpin UIWheelSpin;
+        private SpinningScript SpinningScript; 
+        private UIWheelSpin UIWheelSpin;
+        private FreeSpinChecker freeSpinChecker;
         [Header("References")]
         [SerializeField] private RectTransform panelRectTransform;
         [SerializeField] private TMP_Text RewardText;
