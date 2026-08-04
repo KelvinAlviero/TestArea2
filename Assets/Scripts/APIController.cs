@@ -10,11 +10,13 @@ using Forgehub.SpookyBubbles;
 public class APIController : MonoBehaviour
 {
     [SerializeField] public SpinningScript SpinningScript;
+    [SerializeField] public UISpinningScript uISpinningScript;
     [SerializeField] public UIWheelSpin uIWheelSpin;
     [SerializeField] public UIWheelReward uiWheelReward;
     [SerializeField] private WheelPopulate wheelPopulate;
     [SerializeField] private FreeSpinChecker freeSpinChecker;
     [SerializeField] private FlagGetter flagGetter;
+    [SerializeField] private IDTranslator iDTranslator;
     public string ObtainedReward;
     public RewardSO SelectedReward;
 
@@ -43,7 +45,7 @@ public class APIController : MonoBehaviour
 
     public void StartSpin()
     {
-        SpinningScript.Rotate();
+        uISpinningScript.Rotate();
         UniWebViewBridge.Request(
             "spinRequest",
             new SpinRequests.SpinWheelSpinRequest
@@ -74,7 +76,7 @@ public class APIController : MonoBehaviour
     {
         if (flagGetter.flagAmount > 0)
         {
-        SpinningScript.Rotate();
+        uISpinningScript.Rotate();
         UniWebViewBridge.Request(
             "spinRequest",
             new SpinRequests.SpinWheelSpinRequest
@@ -139,7 +141,7 @@ public class APIController : MonoBehaviour
         SelectedReward = matchingSO;
         ObtainedReward = item.ItemId;
         uiWheelReward.SetReward(matchingSO);
-        SpinningScript.UnserializedReward(item.ItemId);
+        iDTranslator.UnserializedReward(item.ItemId);
     }
 
     private SpinRequests.SpinWheelDrawItem GetFirstItem(SpinRequests.SpinWheelSpinResponse data)

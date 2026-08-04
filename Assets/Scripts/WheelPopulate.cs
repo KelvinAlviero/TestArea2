@@ -16,6 +16,8 @@ public class WheelPopulate : MonoBehaviour
     [Header("Script References")]
     [SerializeField] private APIController aPIController;
     [SerializeField] private SpinningScript spinningScript;
+    [SerializeField] private UISpinningScript uISpinningScript;
+
     [SerializeField] private FreeSpinChecker freeSpinChecker;
     public RewardsGetter rewardsGetter;
     [SerializeField] public UIWheelSpin uIWheelSpin;
@@ -44,13 +46,15 @@ public class WheelPopulate : MonoBehaviour
             },
             onError: err =>
             {
-                spinningScript.ShowErrorPanel();
+                uISpinningScript.ShowErrorPanel();
                 Debug.LogError("getRewards error: " + err);
                 UniWebViewBridge.Send("applicationReady", null);
                 flagGetter.GetFlagTicket();
             },
             timeout: 10000);
     }
+
+
 
     public bool TryGetSlotIndex(string itemId, out int slotIndex)
     {
@@ -109,5 +113,8 @@ public class WheelPopulate : MonoBehaviour
         if (spinningScript != null)
             spinningScript.InvalidateRewardUprightCache();
     }
-}
+
+    
+    }
+
 

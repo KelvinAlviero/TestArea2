@@ -12,9 +12,19 @@ public class Timer : MonoBehaviour
     [SerializeField] public TMP_Text TimeText;
     [SerializeField] public RectTransform TimePanel;
     [SerializeField] public RectTransform ClockImage;
-
+    [SerializeField] private float SpinEndTimer;
     private StringBuilder sb;
     [SerializeField] public bool TimerDebug = false;
+
+    public float GetSpinEndTimer()
+    {
+        return SpinEndTimer;
+    }
+
+    public void SetSpinEndTimer(float value)
+    {
+        SpinEndTimer = value;
+    }
 
     public void Initializer()
     {
