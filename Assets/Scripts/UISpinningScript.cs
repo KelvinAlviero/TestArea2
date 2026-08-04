@@ -32,6 +32,7 @@ public class UISpinningScript : MonoBehaviour
     [SerializeField] private float preSpinDuration = 2f; // seconds to spin very fast before applying forced landing
     [SerializeField] private float preSpinSpeed = 3000f; // deg/s during pre-spin
     [SerializeField] private float preSpinDamping = 0f; // small damping during pre-spin so it stays fast
+    
     [SerializeField] private float switchAngularVelocity = 1500f; // angular velocity applied when switching to landing phase
     [SerializeField] private float desiredLandingMinDecel = 2500f; // desired min computed deceleration
     [SerializeField] private float desiredLandingMaxDecel = 2600f; // desired max computed deceleration
@@ -41,11 +42,17 @@ public class UISpinningScript : MonoBehaviour
     [SerializeField] public float stopPower;
     [SerializeField] private float DelayedWinTime = 3f; //Delays popup
     [SerializeField] private float DelayedSpinTime = 0.5f;
+    [SerializeField] public float smoothRotationDuration = 0.5f;
     private Coroutine preSpinCoroutine;
 
     public void ChangeTargetAngle(float value)
     {
         activeTargetAngle = value;
+    }
+
+    public Rigidbody2D GetRbody()
+    {
+        return rbody;
     }
 
     public float GetTargetAngle()
@@ -66,6 +73,11 @@ public class UISpinningScript : MonoBehaviour
     public void SetSpinCoroutine(Coroutine value) //used by Wheel button, don't delete pls
     {
         preSpinCoroutine = value;
+    }
+
+    public void SetStopPower(float value) //used by Wheel button, don't delete pls
+    {
+        stopPower = value;
     }
 
 
@@ -95,7 +107,7 @@ public class UISpinningScript : MonoBehaviour
                 timer.SetSpinEndTimer(0f);
             }
         }
-        BackendReward = APIController.ObtainedReward;
+        spinningScript.BackendReward = APIController.ObtainedReward;
     }
 
     public void Rotate(SpinningScript.RewardType rewardToUse)
@@ -110,7 +122,7 @@ public class UISpinningScript : MonoBehaviour
                 StopCoroutine(preSpinCoroutine);
 
             preSpinCoroutine = StartCoroutine(PreSpinThenSwitch());
-            inRotate = true;
+            uIWheelSpin.SetIsSpinning(true);
         }
     }
 
@@ -130,7 +142,7 @@ public class UISpinningScript : MonoBehaviour
 
         // 2) If reward not ready yet, keep spinning until it arrives or timeout
         float waited = 0f;
-        while (!ReceivedBackend && waited < rewardWaitTimeout)
+        while (!spinningScript.ReceivedBackend && waited < rewardWaitTimeout)
         {
             if (rbody.angularVelocity < switchAngularVelocity)
                 rbody.angularVelocity = switchAngularVelocity;
@@ -139,9 +151,9 @@ public class UISpinningScript : MonoBehaviour
             yield return null;
         }
 
-        if (!ReceivedBackend)
+        if (!spinningScript.ReceivedBackend)
         {
-            HandleSpinFailed();
+            spinningScript.HandleSpinFailed();
             yield break;
         }
 
@@ -152,13 +164,13 @@ public class UISpinningScript : MonoBehaviour
 
         rbody.angularVelocity = Mathf.Min(rbody.angularVelocity, switchAngularVelocity);
 
-        while (uISpinningScript.CalculateAngularDistanceToTarget() > approachThreshold && approached < approachWaitTimeout)
+        while (CalculateAngularDistanceToTarget() > approachThreshold && approached < approachWaitTimeout)
         {
             approached += Time.deltaTime;
             yield return null;
         }
 
-        Debug.Log($"Landing switch: cur={transform.eulerAngles.z:F1} target={uISpinningScript.GetTargetAngle():F1} remaining={uISpinningScript.CalculateAngularDistanceToTarget():F1}");
+        Debug.Log($"Landing switch: cur={transform.eulerAngles.z:F1} target={GetTargetAngle():F1} remaining={CalculateAngularDistanceToTarget():F1}");
         rbody.angularVelocity = switchAngularVelocity;
 
         int attempt = 0;
@@ -166,7 +178,7 @@ public class UISpinningScript : MonoBehaviour
         float computedDecel;
         while (true)
         {
-            angularDistance = uISpinningScript.CalculateAngularDistanceToTarget();
+            angularDistance = CalculateAngularDistanceToTarget();
             while (angularDistance < 60f) angularDistance += 360f;
 
             float v = Mathf.Abs(rbody.angularVelocity);
@@ -298,9 +310,9 @@ public class UISpinningScript : MonoBehaviour
     {
         // If we have a forced/backend-resolved reward, smoothly center to that target.
         // Otherwise determine the sector and center to that.
-        if (rewardType != RewardType.Normal || ReceivedBackend)
+        if (spinningScript.rewardType != SpinningScript.RewardType.Normal || spinningScript.ReceivedBackend)
         {
-            rewardResult = activeRewardResult;
+            spinningScript.rewardResult = activeRewardResult;
             StartCoroutine(SmoothRotateToThenDelayedWin(activeTargetAngle));
         }
         else
@@ -356,3 +368,4 @@ public class UISpinningScript : MonoBehaviour
         }
 
     }
+}

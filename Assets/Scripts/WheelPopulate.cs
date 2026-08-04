@@ -46,7 +46,7 @@ public class WheelPopulate : MonoBehaviour
             },
             onError: err =>
             {
-                uISpinningScript.ShowErrorPanel();
+                spinningScript.ShowErrorPanel();
                 Debug.LogError("getRewards error: " + err);
                 UniWebViewBridge.Send("applicationReady", null);
                 flagGetter.GetFlagTicket();

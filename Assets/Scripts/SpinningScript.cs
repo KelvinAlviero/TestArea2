@@ -19,6 +19,7 @@ public class SpinningScript : MonoBehaviour
     public APIController APIController;
     public WheelPopulate wheelPopulate;
     public SpinningScript spinningScript;
+    public Timer timer;
     [Space(10)]
 
     [Header("WheelSpin")] 
@@ -29,6 +30,7 @@ public class SpinningScript : MonoBehaviour
     
     [Space(10)]
     [SerializeField] public RewardType rewardType;
+    
     [Space(10)]
 
     [Header("Results Debug")]
@@ -52,6 +54,8 @@ public class SpinningScript : MonoBehaviour
     private float lastWheelZForUpright = float.NaN;
     private Transform[] cachedRewardTransforms;
     private int cachedRewardCount = -1;
+    
+    public Dictionary<string, RewardType> GetRewardList => rewardMap;
 
     
     private void Start()
@@ -173,11 +177,11 @@ public class SpinningScript : MonoBehaviour
             uISpinningScript.SetSpinCoroutine(null);
         }
 
-        rbody.angularVelocity = 0f;
-        stopPower = 0f;
+        uISpinningScript.GetRbody().angularVelocity = 0f;
+        uISpinningScript.SetStopPower(0f);
         uIWheelSpin.SetIsSpinning(false);
         ReceivedBackend = false;
-        SpinEndTimer = 0f;
+        timer.SetSpinEndTimer(0f);
         ShowErrorPanel();
 
         if (uIWheelSpin != null)
