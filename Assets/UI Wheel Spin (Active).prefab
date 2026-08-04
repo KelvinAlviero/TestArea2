@@ -637,6 +637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5614683551839795172}
+  - component: {fileID: 6124182722572460142}
   m_Layer: 5
   m_Name: FlagPanel
   m_TagString: Untagged
@@ -668,6 +669,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6124182722572460142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345216667259747246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eb8e50ec411c4ff998194d832e48337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlagAmount: {fileID: 0}
+  flagAmount: 0
 --- !u!1 &1406434400894642743
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,7 +982,7 @@ GameObject:
   - component: {fileID: 6131079000121167258}
   - component: {fileID: 415917481606675198}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Pointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1118,7 +1133,7 @@ GameObject:
   - component: {fileID: 3397050505293130409}
   - component: {fileID: 8570184274230600357}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Pin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1474,6 +1489,7 @@ GameObject:
   - component: {fileID: 3630890681226147895}
   - component: {fileID: 3054531206331287848}
   - component: {fileID: 8857346105107906864}
+  - component: {fileID: 2730707635340694805}
   m_Layer: 5
   m_Name: UI Wheel Spin (Active)
   m_TagString: Untagged
@@ -1497,12 +1513,11 @@ RectTransform:
   - {fileID: 606430092206950651}
   - {fileID: 8651898759820667151}
   - {fileID: 2669267874270937550}
-  - {fileID: 5180565963865037795}
-  - {fileID: 2951691022709980281}
   - {fileID: 2479474379503553669}
   - {fileID: 304785699658550784}
   - {fileID: 2156126141704891759}
   - {fileID: 8367495798436840459}
+  - {fileID: 5180565963865037795}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1564,17 +1579,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   APIController: {fileID: 7152944613695529808}
   SpinningScript: {fileID: 8605470602749666370}
+  wheelPopulate: {fileID: 0}
+  freeSpinChecker: {fileID: 0}
+  timer: {fileID: 4271076614712899117}
+  flagGetter: {fileID: 0}
   wheelBackground: {fileID: 4657143638813181676}
   wheel: {fileID: 8804170872817917831}
   backgroundImage: {fileID: 6445541776472999164}
-  timer: {fileID: 4271076614712899117}
   panelRectTransform: {fileID: 8651898759820667151}
-  FlagAmount: {fileID: 2567527895280586037}
   balanceError: {fileID: 6176271006521206517}
   contentRectTransform: {fileID: 8651898759820667151}
-  isSpinning: 0
   ispagedisplayed: 0
-  flagAmount: 0
   slot:
   - {fileID: 6585783664581763563}
   - {fileID: 5828910602962892710}
@@ -1584,22 +1599,14 @@ MonoBehaviour:
   - {fileID: 3676395719756036374}
   - {fileID: 4476538925646367027}
   - {fileID: 1551427462030033244}
-  reward: {fileID: -2343386700000185286, guid: 39dea3d332165c146837691174b9b689, type: 3}
-  rewardDatabase:
-  - {fileID: 11400000, guid: 11e2d77ec10b24e69852ca00facb7013, type: 2}
-  - {fileID: 11400000, guid: eff5d8ff8594d4975b30afe5d9cdffbb, type: 2}
-  - {fileID: 11400000, guid: 5373e11fa220f421ca11662ede13d394, type: 2}
-  - {fileID: 11400000, guid: 2d4ab1218d8804a278680ed3ba9fed4b, type: 2}
-  - {fileID: 11400000, guid: 76f0a13ef2f404d719a9bb85f8d9f836, type: 2}
-  - {fileID: 11400000, guid: f133b22bf98cb413abe20bde9f54cd17, type: 2}
-  - {fileID: 11400000, guid: 8c7705f3894f64a60bf18085784b9e68, type: 2}
-  - {fileID: 11400000, guid: 146aa312bbe4549b8ae9d71744aeb0c3, type: 2}
+  rewardList: []
   closeButton: {fileID: 6503996170453036949}
   spinFree: {fileID: 2445904170868763293}
   spinPaid: {fileID: 741316284379382875}
-  AddFlagButton: {fileID: 2673756494095979086}
+  addFlagButton: {fileID: 0}
   ResetFreeSpin: {fileID: 2585136215001642873}
   MissionButton: {fileID: 8422542409945773152}
+  freeSpinButton: 0
 --- !u!114 &8857346105107906864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1623,6 +1630,24 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &2730707635340694805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3136722360775618520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9deed33a6c87c499ab7d9ae742117e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  APIController: {fileID: 0}
+  SpinningScript: {fileID: 0}
+  wheelPopulate: {fileID: 0}
+  freeSpinChecker: {fileID: 0}
+  uIWheelSpin: {fileID: 0}
+  timer: {fileID: 0}
 --- !u!1 &3368860842640690043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2321,6 +2346,7 @@ RectTransform:
   - {fileID: 2324845966395913657}
   - {fileID: 4802148460616962992}
   - {fileID: 5861176624037130546}
+  - {fileID: 2951691022709980281}
   m_Father: {fileID: 1291233667871826566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2425,9 +2451,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9b6fd6c786d4695b639fce2b85b74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIWheelReward: {fileID: 7825203071873768027}
-  UIWheelSpin: {fileID: 3054531206331287848}
+  uIWheelReward: {fileID: 0}
+  uIWheelSpin: {fileID: 0}
   APIController: {fileID: 7152944613695529808}
+  wheelPopulate: {fileID: 0}
+  spinningScript: {fileID: 0}
   rbody: {fileID: 4615571469960341665}
   slots:
   - {fileID: 7377022001716181950}
@@ -2614,12 +2642,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4578663730785128383}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2133022324062498395}
+  m_Father: {fileID: 4322724696468965447}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2738,8 +2766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee7fee9f0bf9447d885ab1b05cba760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpinningScript: {fileID: 8605470602749666370}
-  UIWheelSpin: {fileID: 3054531206331287848}
   panelRectTransform: {fileID: 8264876827781756165}
   RewardText: {fileID: 5396967195935872469}
   contentRectTransform: {fileID: 4157058189758562441}
@@ -3657,28 +3683,10 @@ MonoBehaviour:
   SpinningScript: {fileID: 8605470602749666370}
   uIWheelSpin: {fileID: 3054531206331287848}
   uiWheelReward: {fileID: 7825203071873768027}
-  URL_GetUser: https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70
-  URL_StartSpin: https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin
-  URL_SendRewards: https://mh-dev.dreamforgecreation.com/api/v1/mailbox/test
-  email: aaa@gmail.com
-  password: qwerty123
-  returnSecureToken: true
-  JWTToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYUBnbWFpbC5jb20iLCJleHAiOjE3ODU0OTE3MzYsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjQ5MzYwODg5NjU1NzYzMzUzNiJ9.Qgx5qpP5fc0r0xSavxHbqmz4CKhnHsT4OO_ql0MOzNw
-  datadebug: 
-  MailSender: {fileID: 0}
-  DebugText_SpinAmount: {fileID: 0}
-  DebugText_ItemList: {fileID: 0}
-  DebugText_Status: {fileID: 0}
-  JSON_Body: {fileID: 0}
-  JSON_Raw: {fileID: 0}
-  PulledJWTText: {fileID: 0}
-  Debug1: {fileID: 0}
-  Debug2: {fileID: 0}
+  wheelPopulate: {fileID: 0}
+  freeSpinChecker: {fileID: 0}
+  flagGetter: {fileID: 0}
   ObtainedReward: 69fdaf030d3ceac0fa4715a1
-  UnserializeditemId: 69fdaf030d3ceac0fa4715a1
-  spin_count: 1
-  JWT_Text: {fileID: 0}
-  JWT_Translated: {fileID: 0}
   SelectedReward: {fileID: 0}
 --- !u!1 &5467610904731863037
 GameObject:
@@ -5625,6 +5633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIWheelSpin: {fileID: 3054531206331287848}
+  freeSpinChecker: {fileID: 0}
   TimeText: {fileID: 6392231997386385618}
   TimePanel: {fileID: 7008563220240365766}
   ClockImage: {fileID: 7314146506260177605}
@@ -5641,7 +5650,7 @@ GameObject:
   - component: {fileID: 6928991499496378511}
   - component: {fileID: 4535425160106137901}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Flags
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
