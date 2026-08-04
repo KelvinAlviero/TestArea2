@@ -10,8 +10,8 @@ using UnityEngine.UI;
 
 
 public class SpinningScript : MonoBehaviour
-{ //oml man why did i make this script so bloated
-//I gotta ask the lads how to cut this down cuz this ain't company standard coding    
+{ 
+
     [Header("Script References")]
     public UIWheelReward uIWheelReward;
     public UIWheelSpin uIWheelSpin;
