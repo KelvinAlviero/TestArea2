@@ -1510,10 +1510,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62b9d9870b54a431e9d756fa099d5093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinningScript: {fileID: 0}
-  uIWheelSpin: {fileID: 0}
-  wheelPopulate: {fileID: 0}
-  uIspinningScript: {fileID: 0}
+  spinningScript: {fileID: 2110953908}
+  uIWheelSpin: {fileID: 287149371}
+  wheelPopulate: {fileID: 1847944103}
+  uIspinningScript: {fileID: 1847944102}
 --- !u!224 &1953435923 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 606430092206950651, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
