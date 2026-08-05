@@ -36,7 +36,6 @@ public class SpinningScript : MonoBehaviour
     [Header("Results Debug")]
     private List<float> RewardAngleBoundaries; 
     private List<float> RewardAngles;
-    public List<string> rewardAmounts; // Keeping this line intact
     public int rewardResult; // Keeping this line intact
     [SerializeField] private UIWheelError errorPanel;
     
@@ -64,7 +63,6 @@ public class SpinningScript : MonoBehaviour
         // Initialize reward angles
         RewardAngleBoundaries = new List<float>();
         RewardAngles = new List<float>();
-        rewardAmounts = new List<string>();
         // EnsureDebugAngles();
         rewardMap = new Dictionary<string, RewardType>
         {
