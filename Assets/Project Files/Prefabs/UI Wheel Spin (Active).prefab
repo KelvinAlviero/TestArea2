@@ -150,126 +150,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &668057661383507880
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6785770683868442858}
-  - component: {fileID: 2381472059725171470}
-  - component: {fileID: 249603679700241949}
-  - component: {fileID: 2585136215001642873}
-  m_Layer: 5
-  m_Name: ResetFreeSpin
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &6785770683868442858
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668057661383507880}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5614683551839795172}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5196953, y: 0}
-  m_AnchorMax: {x: 0.70478106, y: 0.32362524}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &2381472059725171470
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668057661383507880}
-  m_CullTransparentMesh: 1
---- !u!114 &249603679700241949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668057661383507880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0997951d76d0d42738fd36988a3e2772, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &2585136215001642873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668057661383507880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 249603679700241949}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &995762653658763136
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,7 +541,6 @@ RectTransform:
   - {fileID: 4371311819549015587}
   - {fileID: 2309552177562185449}
   - {fileID: 2107673110973295985}
-  - {fileID: 6785770683868442858}
   m_Father: {fileID: 2669267874270937550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7923749, y: 0.822}
@@ -681,7 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eb8e50ec411c4ff998194d832e48337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlagAmount: {fileID: 0}
+  FlagAmount: {fileID: 2567527895280586037}
   flagAmount: 0
 --- !u!1 &1406434400894642743
 GameObject:
@@ -1579,10 +1458,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   APIController: {fileID: 7152944613695529808}
   SpinningScript: {fileID: 8605470602749666370}
-  wheelPopulate: {fileID: 0}
-  freeSpinChecker: {fileID: 0}
+  wheelPopulate: {fileID: 4866160312084345352}
+  freeSpinChecker: {fileID: 5403096416369261141}
   timer: {fileID: 4271076614712899117}
-  flagGetter: {fileID: 0}
+  flagGetter: {fileID: 6124182722572460142}
   wheelBackground: {fileID: 4657143638813181676}
   wheel: {fileID: 8804170872817917831}
   backgroundImage: {fileID: 6445541776472999164}
@@ -1603,8 +1482,8 @@ MonoBehaviour:
   closeButton: {fileID: 6503996170453036949}
   spinFree: {fileID: 2445904170868763293}
   spinPaid: {fileID: 741316284379382875}
-  addFlagButton: {fileID: 0}
-  ResetFreeSpin: {fileID: 2585136215001642873}
+  addFlagButton: {fileID: 2673756494095979086}
+  ResetFreeSpin: {fileID: 1889236083478736682}
   MissionButton: {fileID: 8422542409945773152}
   freeSpinButton: 0
 --- !u!114 &8857346105107906864
@@ -1642,12 +1521,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9deed33a6c87c499ab7d9ae742117e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  APIController: {fileID: 0}
-  SpinningScript: {fileID: 0}
-  wheelPopulate: {fileID: 0}
-  freeSpinChecker: {fileID: 0}
-  uIWheelSpin: {fileID: 0}
-  timer: {fileID: 0}
+  APIController: {fileID: 7152944613695529808}
+  SpinningScript: {fileID: 8605470602749666370}
+  wheelPopulate: {fileID: 4866160312084345352}
+  freeSpinChecker: {fileID: 5403096416369261141}
+  uIWheelSpin: {fileID: 194991804542574738}
+  timer: {fileID: 4271076614712899117}
 --- !u!1 &3368860842640690043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2404,6 +2283,7 @@ GameObject:
   - component: {fileID: 7228234795628400756}
   - component: {fileID: 8605470602749666370}
   - component: {fileID: 4615571469960341665}
+  - component: {fileID: 5403096416369261141}
   m_Layer: 5
   m_Name: Wheel
   m_TagString: Untagged
@@ -2451,12 +2331,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9b6fd6c786d4695b639fce2b85b74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uIWheelReward: {fileID: 0}
-  uIWheelSpin: {fileID: 0}
+  uIWheelReward: {fileID: 7825203071873768027}
+  uIWheelSpin: {fileID: 194991804542574738}
+  uISpinningScript: {fileID: 5951280048948946855}
   APIController: {fileID: 7152944613695529808}
-  wheelPopulate: {fileID: 0}
-  spinningScript: {fileID: 0}
-  rbody: {fileID: 4615571469960341665}
+  wheelPopulate: {fileID: 4866160312084345352}
+  spinningScript: {fileID: 8605470602749666370}
+  timer: {fileID: 4271076614712899117}
   slots:
   - {fileID: 7377022001716181950}
   - {fileID: 6893730935949017684}
@@ -2466,61 +2347,13 @@ MonoBehaviour:
   - {fileID: 5091839514934245594}
   - {fileID: 7977428922956219762}
   - {fileID: 6038123263288288771}
-  Reward1: 0
-  Reward2: 45
-  Reward3: 90
-  Reward4: 135
-  Reward5: 180
-  Reward6: 225
-  Reward7: 270
-  Reward8: 315
-  stopPower: 2500
-  landingTuner: 1
-  minLandingStopPower: 2600
-  maxLandingStopPower: 2600
-  preSpinDuration: 2
-  preSpinSpeed: 3000
-  preSpinDamping: 0
-  switchAngularVelocity: 1500
-  desiredLandingMinDecel: 2500
-  desiredLandingMaxDecel: 2600
-  landingAdjustmentWait: 0.1
-  landingAdjustmentAttempts: 300
-  smoothRotationDuration: 0.7
-  DelayedWinTime: 0.5
-  DelayedSpinTime: 0.5
-  rewardWaitTimeout: 10
-  activeTargetAngle: 0
-  MoreSpins: 0
-  activeRewardType: 6
-  RewardAngleBoundaries:
-  - 0
-  - 45
-  - 90
-  - 135
-  - 180
-  - 225
-  - 270
-  - 315
-  RewardAngles:
-  - 45
-  - 90
-  - 135
-  - 180
-  - 225
-  - 270
-  - 315
+  rewardType: 6
   rewardAmounts:
   - 69fdaf030d3ceac0fa4715a1
   rewardResult: 8
-  activeRewardResult: 8
-  SpinEndTimer: 0
-  Debug_RewardList: {fileID: 0}
+  errorPanel: {fileID: 6761945219423787663}
   ReceivedBackend: 0
   BackendReward: 69fdaf030d3ceac0fa4715a1
-  rewardType: 6
-  inRotate: 0
-  errorPanel: {fileID: 6761945219423787663}
 --- !u!50 &4615571469960341665
 Rigidbody2D:
   serializedVersion: 5
@@ -2548,6 +2381,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 2
+--- !u!114 &5403096416369261141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458070341391188178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9deed33a6c87c499ab7d9ae742117e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  APIController: {fileID: 7152944613695529808}
+  SpinningScript: {fileID: 8605470602749666370}
+  wheelPopulate: {fileID: 4866160312084345352}
+  freeSpinChecker: {fileID: 5403096416369261141}
+  uIWheelSpin: {fileID: 194991804542574738}
+  timer: {fileID: 4271076614712899117}
 --- !u!1 &4476538925646367027
 GameObject:
   m_ObjectHideFlags: 0
@@ -3660,7 +3511,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9997715, y: 0.9997715, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8293403715329697031}
   m_Father: {fileID: 2133022324062498395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3681,11 +3533,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpinningScript: {fileID: 8605470602749666370}
+  uISpinningScript: {fileID: 0}
   uIWheelSpin: {fileID: 3054531206331287848}
   uiWheelReward: {fileID: 7825203071873768027}
   wheelPopulate: {fileID: 0}
   freeSpinChecker: {fileID: 0}
   flagGetter: {fileID: 0}
+  iDTranslator: {fileID: 5096870941697633263}
   ObtainedReward: 69fdaf030d3ceac0fa4715a1
   SelectedReward: {fileID: 0}
 --- !u!1 &5467610904731863037
@@ -4425,6 +4279,12 @@ GameObject:
   - component: {fileID: 1794944611473545378}
   - component: {fileID: 5826596676988028257}
   - component: {fileID: 4793059613905267304}
+  - component: {fileID: 4866160312084345352}
+  - component: {fileID: 194991804542574738}
+  - component: {fileID: 6398560466709007796}
+  - component: {fileID: 5196095066877664911}
+  - component: {fileID: 5951280048948946855}
+  - component: {fileID: 8442590731606552774}
   m_Layer: 5
   m_Name: WheelImage
   m_TagString: Untagged
@@ -4490,6 +4350,164 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4866160312084345352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406308481629850375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1516d50a559af44b98704997b7f3aafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aPIController: {fileID: 7152944613695529808}
+  spinningScript: {fileID: 8605470602749666370}
+  uISpinningScript: {fileID: 5951280048948946855}
+  freeSpinChecker: {fileID: 5403096416369261141}
+  rewardsGetter: {fileID: 5380605222451677780}
+  uIWheelSpin: {fileID: 194991804542574738}
+  timer: {fileID: 4271076614712899117}
+  flagGetter: {fileID: 6124182722572460142}
+--- !u!114 &194991804542574738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406308481629850375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43907a47b80d845daab6ed5a02dbb58c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  APIController: {fileID: 7152944613695529808}
+  SpinningScript: {fileID: 8605470602749666370}
+  wheelPopulate: {fileID: 4866160312084345352}
+  freeSpinChecker: {fileID: 5403096416369261141}
+  timer: {fileID: 4271076614712899117}
+  flagGetter: {fileID: 6124182722572460142}
+  wheelBackground: {fileID: 4657143638813181676}
+  wheel: {fileID: 1794944611473545378}
+  backgroundImage: {fileID: 53504872709110264}
+  panelRectTransform: {fileID: 4657143638813181676}
+  balanceError: {fileID: 6176271006521206517}
+  contentRectTransform: {fileID: 2669267874270937550}
+  ispagedisplayed: 0
+  slot: []
+  rewardList: []
+  closeButton: {fileID: 6503996170453036949}
+  spinFree: {fileID: 2445904170868763293}
+  spinPaid: {fileID: 741316284379382875}
+  addFlagButton: {fileID: 2673756494095979086}
+  ResetFreeSpin: {fileID: 1889236083478736682}
+  MissionButton: {fileID: 8422542409945773152}
+  freeSpinButton: 0
+--- !u!223 &6398560466709007796
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406308481629850375}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &5196095066877664911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406308481629850375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &5951280048948946855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406308481629850375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d108df2517b964e8182a980f369e5edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rbody: {fileID: 4615571469960341665}
+  uIWheelReward: {fileID: 7825203071873768027}
+  uIWheelSpin: {fileID: 194991804542574738}
+  APIController: {fileID: 7152944613695529808}
+  wheelPopulate: {fileID: 4866160312084345352}
+  spinningScript: {fileID: 8605470602749666370}
+  timer: {fileID: 4271076614712899117}
+  activeTargetAngle: 0
+  activeRewardResult: 0
+  landingTuner: 1
+  minLandingStopPower: 2600
+  maxLandingStopPower: 2600
+  preSpinDuration: 2
+  preSpinSpeed: 3000
+  preSpinDamping: 0
+  switchAngularVelocity: 1500
+  desiredLandingMinDecel: 2500
+  desiredLandingMaxDecel: 2600
+  landingAdjustmentWait: 0.1
+  landingAdjustmentAttempts: 1000
+  rewardWaitTimeout: 10
+  stopPower: 0
+  DelayedWinTime: 3
+  DelayedSpinTime: 0.5
+  smoothRotationDuration: 0.5
+--- !u!50 &8442590731606552774
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406308481629850375}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &6585783664581763563
 GameObject:
   m_ObjectHideFlags: 0
@@ -5294,6 +5312,58 @@ MonoBehaviour:
   mGUI_ShowCallback: 0
   mLocalizeTarget: {fileID: 0}
   mLocalizeTargetName: I2.Loc.LocalizeTarget_TextMeshPro_UGUI
+--- !u!1 &7720942873964272398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8293403715329697031}
+  - component: {fileID: 5096870941697633263}
+  m_Layer: 5
+  m_Name: IDTranslator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8293403715329697031
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720942873964272398}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 606430092206950651}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5096870941697633263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720942873964272398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b9d9870b54a431e9d756fa099d5093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spinningScript: {fileID: 8605470602749666370}
+  uIWheelSpin: {fileID: 194991804542574738}
+  wheelPopulate: {fileID: 4866160312084345352}
+  uIspinningScript: {fileID: 5951280048948946855}
 --- !u!1 &7809781099453925852
 GameObject:
   m_ObjectHideFlags: 0
@@ -5633,10 +5703,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIWheelSpin: {fileID: 3054531206331287848}
-  freeSpinChecker: {fileID: 0}
+  freeSpinChecker: {fileID: 5403096416369261141}
   TimeText: {fileID: 6392231997386385618}
   TimePanel: {fileID: 7008563220240365766}
   ClockImage: {fileID: 7314146506260177605}
+  SpinEndTimer: 0
   TimerDebug: 0
 --- !u!1 &8341331235323514932
 GameObject:
