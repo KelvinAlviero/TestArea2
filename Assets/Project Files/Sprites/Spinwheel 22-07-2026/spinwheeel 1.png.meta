@@ -139,12 +139,12 @@ TextureImporter:
       name: spinwheeel 1_0
       rect:
         serializedVersion: 2
-        x: 99
+        x: 100
         y: 100
         width: 658
         height: 658
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

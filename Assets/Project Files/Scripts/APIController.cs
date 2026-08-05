@@ -155,5 +155,11 @@ public class APIController : MonoBehaviour
         return null;
     }
 
+
+    public void DebugSpin()
+    {
+        uISpinningScript.Rotate();
+    }
+
     
 }

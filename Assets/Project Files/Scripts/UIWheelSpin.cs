@@ -228,21 +228,22 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinPaidButtonClicked()
     {
+        APIController.DebugSpin();
 
-        if (flagGetter.flagAmount == 0)
-        {
-            balanceError.Show();
-        }
-        else
-        {
+        // if (flagGetter.flagAmount == 0)
+        // {
+        //     balanceError.Show();
+        // }
+        // else
+        // {
 
-        isSpinning = true;
-        closeButton.interactable = false;
-        spinFree.interactable = false;
-        spinPaid.interactable = false;
-        MissionButton.interactable = false;
-        APIController.StartSpinPaid();
-        }
+        // isSpinning = true;
+        // closeButton.interactable = false;
+        // spinFree.interactable = false;
+        // spinPaid.interactable = false;
+        // MissionButton.interactable = false;
+        // APIController.StartSpinPaid();
+        // }
     }
 
     public void OnResetFreeSpinButtonClicked()

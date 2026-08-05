@@ -21,11 +21,6 @@ public class UISpinningScript : MonoBehaviour
     private int Reward1, Reward2, Reward3, Reward4, Reward5, Reward6, Reward7, Reward8;
     [SerializeField] private float activeTargetAngle;
     [SerializeField] private int activeRewardResult;
-    
-    
-
-
-
     [Header("WheelSpin config")]
     [SerializeField] private float landingTuner = 1f; // , <1 Increase power (Lower Resistance),  >1 Decrease power (Higher Resitance)
     [SerializeField] private float minLandingStopPower = 2600; // minimum landing deceleration
