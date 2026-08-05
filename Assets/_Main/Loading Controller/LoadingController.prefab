@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5747423508302715822}
-  - component: {fileID: 2605884227974724350}
+  - component: {fileID: 9212509603771844211}
   m_Layer: 5
   m_Name: LoadingController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5747423508302715822
 Transform:
   m_ObjectHideFlags: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 665033680201009480}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2605884227974724350
+--- !u!114 &9212509603771844211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 611597739334011316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be83bb1af4e04d2d84bfdecc8f92743, type: 3}
+  m_Script: {fileID: 11500000, guid: fb105713d68854c9fa4745e3e6e06e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 5380931744771463853}
@@ -190,8 +190,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Loading . . .
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ca21ad1bcf053734c9a68d477e53ca78, type: 2}
-  m_sharedMaterial: {fileID: -9082522980169211356, guid: ca21ad1bcf053734c9a68d477e53ca78, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 16375
+    m_Bits: 4294967295
 --- !u!1 &8492190585766055871
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 269f4afee04aa4d879d3a825c26927b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b6e37e6dce3da444c947019c1eabe1e6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
