@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using System.Text;
 using TMPro;
@@ -46,6 +47,7 @@ public class UIWheelSpin : UIPage
     public List<GameObject> slot;
     
     public RectTransform ContentRectTransform => contentRectTransform;
+    [FormerlySerializedAs("rewardDatabase")]
     public List<RewardSO> rewardList;
 
     [SerializeField] private Button closeButton;
@@ -204,26 +206,17 @@ public class UIWheelSpin : UIPage
     {
         if (!freeSpinChecker.FreeSpinAvailable)
         {
-            
-            isSpinning = true;
-            closeButton.interactable = false;
-            spinFree.interactable = false;
-            spinPaid.interactable = false;
-            MissionButton.interactable = false;
-            APIController.StartSpin();
-            timer.StartTimer();
-        }
-        
             Debug.Log("Free spin unavailable");
             return;
-        
+        }
 
-        
-
-        // Debug.Log("UIWheelSpin: Spin button clicked");
-        // Debug.Log("UIWheelSpin IsSpinning = " + isSpinning);
-        // Debug.Log("UIWheelSpin Spin amount = " + APIController.spin_count);
-
+        isSpinning = true;
+        closeButton.interactable = false;
+        spinFree.interactable = false;
+        spinPaid.interactable = false;
+        MissionButton.interactable = false;
+        APIController.StartSpin();
+        timer.StartTimer();
     }
 
     public void OnSpinPaidButtonClicked()

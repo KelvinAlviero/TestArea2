@@ -29,16 +29,26 @@ public class WheelPopulate : MonoBehaviour
 
     public void GetReward()
     {
+        if (uIWheelSpin == null)
+        {
+            Debug.LogError("[WheelPopulate] uIWheelSpin reference is missing.");
+        }
+
         UniWebViewBridge.Request("getSpinWheelRewards",
             new { spinwheel_config_name = "default_testing_spinwheel" },
             onSuccess: json =>
             {
                 var data = JsonConvert.DeserializeObject<SpinRequests.SpinWheelRewardsResponse>(json);
+                if (data == null)
+                {
+                    Debug.LogError("[WheelPopulate] Failed to deserialize getSpinWheelRewards response.");
+                    return;
+                }
 
                 PopulateRewards(data);
                 freeSpinChecker.FreeSpinAvailable = data.FreeSpinAvailable;
                 freeSpinChecker.FreeSpinCheck();
-                Debug.Log(freeSpinChecker.FreeSpinAvailable);
+                Debug.Log("[WheelPopulate] FreeSpinAvailable=" + freeSpinChecker.FreeSpinAvailable);
                 UniWebViewBridge.Send("applicationReady", null);
                 // Host session is ready — refresh balance again (fixes account switch / early Call).
                 flagGetter.GetFlagTicket();
@@ -69,6 +79,24 @@ public class WheelPopulate : MonoBehaviour
             return;
         }
 
+        if (uIWheelSpin == null)
+        {
+            Debug.LogError("[WheelPopulate] uIWheelSpin reference is missing in PopulateRewards.");
+            return;
+        }
+
+        if (uIWheelSpin.slot == null || uIWheelSpin.slot.Count == 0)
+        {
+            Debug.LogError("[WheelPopulate] uIWheelSpin.slot list is missing or empty.");
+            return;
+        }
+
+        if (rewardsGetter == null)
+        {
+            Debug.LogError("[WheelPopulate] rewardsGetter reference is missing.");
+            return;
+        }
+
         rewardSlotByItemId.Clear();
         int slotIndex = 0;
         foreach (var package in data.Result)
@@ -77,9 +105,19 @@ public class WheelPopulate : MonoBehaviour
 
             foreach (var item in package.Items)
             {
-                if (slotIndex >= uIWheelSpin.slot.Count) return;
+                if (slotIndex >= uIWheelSpin.slot.Count)
+                {
+                    Debug.LogWarning($"[WheelPopulate] Ran out of slots at index {slotIndex}. Slot count={uIWheelSpin.slot.Count}.");
+                    return;
+                }
 
                 Debug.Log($"[UIWheelSpin] Processing reward item: ItemId={item?.ItemId}, Name={item?.Name}, Amount={item?.Amount}");
+
+                if (uIWheelSpin.rewardList == null)
+                {
+                    Debug.LogError("[WheelPopulate] uIWheelSpin.rewardList is null.");
+                    return;
+                }
 
                 var matchingSO = uIWheelSpin.rewardList.Find(so => so != null && so.itemId == item.ItemId);
                 if (matchingSO == null)
@@ -93,6 +131,12 @@ public class WheelPopulate : MonoBehaviour
                 rewardSlotByItemId[item.ItemId] = slotIndex;
 
                 var rewardUI = Instantiate(rewardsGetter, Vector3.zero, Quaternion.identity, uIWheelSpin.slot[slotIndex].transform);
+                if (rewardUI == null)
+                {
+                    Debug.LogError("[WheelPopulate] Failed to instantiate reward prefab.");
+                    return;
+                }
+
                 rewardUI.SetReward(matchingSO);
 
                 var rect = rewardUI.GetComponent<RectTransform>();
