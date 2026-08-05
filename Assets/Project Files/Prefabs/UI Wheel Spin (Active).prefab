@@ -3533,12 +3533,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpinningScript: {fileID: 8605470602749666370}
-  uISpinningScript: {fileID: 0}
+  uISpinningScript: {fileID: 5951280048948946855}
   uIWheelSpin: {fileID: 3054531206331287848}
   uiWheelReward: {fileID: 7825203071873768027}
-  wheelPopulate: {fileID: 0}
-  freeSpinChecker: {fileID: 0}
-  flagGetter: {fileID: 0}
+  wheelPopulate: {fileID: 4866160312084345352}
+  freeSpinChecker: {fileID: 5403096416369261141}
+  flagGetter: {fileID: 6124182722572460142}
   iDTranslator: {fileID: 5096870941697633263}
   ObtainedReward: 69fdaf030d3ceac0fa4715a1
   SelectedReward: {fileID: 0}
