@@ -26,6 +26,8 @@ namespace Forgehub.SpookyBubbles
         {
             closeButton.onClick.AddListener(OnCloseButtonClicked);
             isInitialized = true;
+            UIWheelSpin.DisableSpinButton();
+            UIWheelSpin.DisableSpinPaidButton();
         }
 
         private void OnDestroy()
@@ -45,10 +47,11 @@ namespace Forgehub.SpookyBubbles
         public void OnCloseButtonClicked()
         {
             PlayHideAnimation();
-
+            UniWebViewBridge.Send("backHomeAction", null);
             if (UIWheelSpin != null)
             {
-                UIWheelSpin.EnableSpinButton();
+                UIWheelSpin.DisableSpinButton();
+                UIWheelSpin.DisableSpinPaidButton();
                 UIWheelSpin.EnableCloseButton();
             }
         }
