@@ -17,14 +17,22 @@
 		}
 
 		div#gameContainer {
-			background: transparent !important;
+			/*background: transparent !important;*/
+			background: #100e0e;
 			position: absolute;
+			inset: 0;
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		div#gameContainer canvas {
 			position: absolute;
 			-webkit-user-select: none;
 			user-select: none;
+			z-index: 0;
 		}
 
 		div#gameContainer canvas[data-pixel-art="true"] {
@@ -39,15 +47,129 @@
 			image-rendering: pixelated;
 			-ms-interpolation-mode: nearest-neighbor;
 		}
+
+		.loadingBottom {
+			background-color: #100e0e; /* Set background color to black */
+			text-align: center;
+			position: fixed;
+			bottom: 20px;
+			width: 100%;
+			z-index: 10;
+			display: block;
+			left: 0;
+			-webkit-transform: translateZ(0);
+			transform: translateZ(0);
+		}
+
+		.loadingBar {
+			width: 50%;
+			height: 5px;
+			background-color: #333; /* Darker shade of black */
+			margin: auto;
+			position: relative;
+		}
+
+		.loadingProgress {
+			height: 100%;
+			background-color: #afa54c;
+			/* Initial width set to 0% */
+			width: 0%;
+		}
+
+		.loadingPercentage {
+			margin-top: 10px;
+			font-size: 10px;
+			color: #fff;
+		}
+
+		.centered-image {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 50%; /* Adjust width as needed */
+			height: auto; /* Adjust height as needed, 'auto' maintains aspect ratio */
+			z-index: 10;
+			display: block;
+			-webkit-transform: translate(-50%, -50%) translateZ(0);
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		/* Keep Unity canvas behind loading UI while bootstrapping on iOS WebView */
+		#unity-canvas {
+			z-index: 0;
+		}
+
+		.loadingFontText {
+			font-size: 8pt;
+
+		}
+
+		@media only screen and (min-width:480px) and (max-width:599px) {
+			.loadingFontText {
+				font-size: 8.5pt !important;
+			}
+		}
+
+
+		@media only screen and (min-width:600px) and (max-width:852px){
+			.loadingFontText {
+				font-size: 9.5pt !important;
+			}
+		}
+
+		@media only screen and (min-width:853px) and (max-width:1023px){
+			.loadingFontText {
+				font-size: 12pt !important;
+			}
+		}
+
+		@media only screen and (min-width:1024px) and (max-width:1280px) and (min-height:600px) and (max-height:799px){
+			.loadingFontText {
+				font-size: 9.5pt !important;
+			}
+		}
+
+		@media only screen and (min-width:1024px) and (max-width:1280px) and (min-height:800px) and (max-height:1365px){
+			.loadingFontText {
+				font-size: 10pt !important;
+			}
+		}
+
+		@media only screen and (min-width:1024px) and (max-width:1280px) and (min-height:1366px) and (max-height:2000px) {
+			.loadingFontText {
+				font-size: 15pt !important;
+			}
+		}
+		
 	</style>
 </head>
 
 <body>
 	<div id="gameContainer">
-		<canvas id="unity-canvas" width="{{{ WIDTH }}}" height="{{{ HEIGHT }}}" data-pixel-art="{{{ OPTIMIZE_FOR_PIXEL_ART }}}"></canvas>
+		<!-- Loading Screen -->
+		<img src="StreamingAssets/loading_icon.png" alt="Centered Image" class="centered-image">
+		<div class="loadingBottom">
+			<p style="color: #fff;" class="loadingFontText">Loading Game</p>
+			<div class="loadingBar">
+				<div class="loadingProgress"></div>
+			</div>
+			<p class="loadingPercentage loadingFontText">0%</p>
+		</div>
+		
+		<!-- GoPay Midtrans SDK -->
+		<script src="https://gwk.gopayapi.com/sdk/stable/gp-container.min.js"></script>
+
+		<!-- Unity Loader -->
+		<canvas id="unity-canvas" data-pixel-art="{{{ OPTIMIZE_FOR_PIXEL_ART }}}"></canvas>
 		<script src="Build/{{{ LOADER_FILENAME }}}"></script>
 		<script>
 			var canvas = document.querySelector("#unity-canvas");
+			var loadingScreenHidden = true;
+
 			var config = {
 				dataUrl: "Build/{{{ DATA_FILENAME }}}",
 				frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
@@ -62,19 +184,52 @@
 				companyName: "{{{ COMPANY_NAME }}}",
 				productName: "{{{ PRODUCT_NAME }}}",
 				productVersion: "{{{ PRODUCT_VERSION }}}",
-				autoSyncPersistentDataPath: true,
 			};
+
 			var scaleToFit;
 			try {
 				scaleToFit = !!JSON.parse("{{{ SCALE_TO_FIT }}}");
 			} catch (e) {
 				scaleToFit = true;
 			}
+
 			function progressHandler(progress) {
 				var percent = progress * 100 + '%';
-				canvas.style.background = 'linear-gradient(to right, white, white ' + percent + ', transparent ' + percent + ', transparent) no-repeat center';
-				canvas.style.backgroundSize = '100% 1rem';
+
+				// Get the progress bar element
+				var progressBar = document.querySelector('.loadingProgress');
+
+				// Update the width of the progress bar based on the percentage
+				progressBar.style.width = percent;
+
+				// Update the percentage text
+				var percentageText = document.querySelector('.loadingPercentage');
+				percentageText.textContent = Math.floor(progress * 100) + '%';
+
+				if (progress >= 1) {
+					hideLoadingScreen();
+				}
 			}
+
+			function hideLoadingScreen() {
+				if (loadingScreenHidden) {
+					return;
+				}
+
+				loadingScreenHidden = true;
+
+				var centeredImage = document.querySelector('.centered-image');
+				var loadingBottom = document.querySelector('.loadingBottom');
+
+				if (centeredImage) {
+					centeredImage.classList.add('hidden');
+				}
+
+				if (loadingBottom) {
+					loadingBottom.classList.add('hidden');
+				}
+			}
+			
 			function onResize() {
 				var container = canvas.parentElement;
 				var w;
@@ -101,12 +256,65 @@
 				container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
 				window.focus();
 			}
-			createUnityInstance(canvas, config, progressHandler).then(function (instance) {
-				canvas = instance.Module.canvas;
-				onResize();
+
+			window.addEventListener("load", function () {
+				if ("serviceWorker" in navigator) {
+					navigator.serviceWorker.register("ServiceWorker.js");
+				}
+
+				// Let the browser paint the loading UI before Unity initialization.
+				requestAnimationFrame(() => {
+					requestAnimationFrame(() => {
+						startUnity();
+					});
+				});
 			});
-			window.addEventListener('resize', onResize);
-			onResize();
+
+			function startUnity() {
+				createUnityInstance(canvas, config, progressHandler).then((unityInstance) => {
+					window.unityInstance = unityInstance;
+					canvas = unityInstance.Module.canvas;
+
+					onResize();
+
+					// iOS Safari can occasionally skip a final progress update.
+					requestAnimationFrame(() => {
+						requestAnimationFrame(() => {
+							hideLoadingScreen();
+						});
+					});
+
+					window.addEventListener('message', function (event) { 
+						var dataString;
+
+						if (typeof event.data === 'object') {
+							dataString = JSON.stringify(event.data);
+						} else { 
+							dataString = String(event.data);
+						}
+
+						console.log('Message From Parent: ', dataString);
+						unityInstance.SendMessage("WebGLBridgeController", "ReceiveJsonHandler", dataString);
+					});
+
+					document.addEventListener('visibilitychange', function () {
+						var state = document.visibilityState;
+
+						console.log('The document is: ', state);
+						unityInstance.SendMessage("WebGLBridgeController", "OnVisibilityStateHandler", state);
+					});
+				}).catch((message) => {
+					alert(message);
+				});
+			}
+
+			function stopUnity() {
+				if (window.unityInstance != null) {
+					window.unityInstance.Quit().then(() => {
+						window.unityInstance = null;
+					});
+				}
+			}
 
 			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 				// Mobile device style: fill the whole browser client area with the game canvas:
@@ -115,6 +323,13 @@
 				meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
 				document.getElementsByTagName('head')[0].appendChild(meta);
 			}
+
+			window.addEventListener('resize', onResize);
+			onResize();
+		</script>
+		<script type="module">
+			import NativeHelper from './helper.js';
+			window.NativeHelper = NativeHelper;
 		</script>
 	</div>
 </body>
