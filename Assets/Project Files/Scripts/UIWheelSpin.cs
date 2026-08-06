@@ -45,7 +45,6 @@ public class UIWheelSpin : UIPage
     [SerializeField] public bool ispagedisplayed = false;
     
     public List<GameObject> slot;
-    
     public RectTransform ContentRectTransform => contentRectTransform;
     [FormerlySerializedAs("rewardDatabase")]
     public List<RewardSO> rewardList;
@@ -223,6 +222,7 @@ public class UIWheelSpin : UIPage
         // }
         // else
         // {
+
 
         // closeButton.interactable = false;
         // spinFree.interactable = false;

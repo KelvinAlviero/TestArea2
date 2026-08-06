@@ -231,10 +231,22 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4896721816736060944, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101468809358995307, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6849223511671270505, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: mLocalizeTarget
       value: 
       objectReference: {fileID: 1495544792}
+    - target: {fileID: 7825203071873768027, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+      propertyPath: panelRectTransform
+      value: 
+      objectReference: {fileID: 1723739657}
     - target: {fileID: 7838646698582680092, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -700,6 +712,11 @@ MonoBehaviour:
   mAlignment_LTR: 514
   mAlignmentWasRTL: 0
   mInitializeAlignment: 0
+--- !u!224 &1723739657 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8264876827781756165, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+  m_PrefabInstance: {fileID: 287149364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1844120398
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -722,7 +739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000019073486
+      value: 0.000022888184
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
