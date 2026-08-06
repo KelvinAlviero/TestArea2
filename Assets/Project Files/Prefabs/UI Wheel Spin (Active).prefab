@@ -897,6 +897,60 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1986932276389725355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2952892579057507496}
+  - component: {fileID: 5877081631762535069}
+  m_Layer: 5
+  m_Name: FreeSpinCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2952892579057507496
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986932276389725355}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 606430092206950651}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5877081631762535069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986932276389725355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9deed33a6c87c499ab7d9ae742117e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  APIController: {fileID: 7152944613695529808}
+  SpinningScript: {fileID: 8605470602749666370}
+  wheelPopulate: {fileID: 4866160312084345352}
+  freeSpinChecker: {fileID: 5877081631762535069}
+  uIWheelSpin: {fileID: 194991804542574738}
+  timer: {fileID: 4271076614712899117}
 --- !u!1 &2221003616812218485
 GameObject:
   m_ObjectHideFlags: 0
@@ -1414,9 +1468,7 @@ GameObject:
   - component: {fileID: 2133022324062498395}
   - component: {fileID: 4010648305755240096}
   - component: {fileID: 3630890681226147895}
-  - component: {fileID: 3054531206331287848}
   - component: {fileID: 8857346105107906864}
-  - component: {fileID: 2730707635340694805}
   m_Layer: 5
   m_Name: UI Wheel Spin (Active)
   m_TagString: Untagged
@@ -1484,48 +1536,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3054531206331287848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3136722360775618520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43907a47b80d845daab6ed5a02dbb58c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  APIController: {fileID: 7152944613695529808}
-  SpinningScript: {fileID: 8605470602749666370}
-  wheelPopulate: {fileID: 4866160312084345352}
-  freeSpinChecker: {fileID: 5403096416369261141}
-  timer: {fileID: 4271076614712899117}
-  flagGetter: {fileID: 6124182722572460142}
-  wheelBackground: {fileID: 4657143638813181676}
-  wheel: {fileID: 8804170872817917831}
-  backgroundImage: {fileID: 6445541776472999164}
-  panelRectTransform: {fileID: 8651898759820667151}
-  balanceError: {fileID: 6176271006521206517}
-  contentRectTransform: {fileID: 8651898759820667151}
-  ispagedisplayed: 0
-  slot:
-  - {fileID: 6585783664581763563}
-  - {fileID: 5828910602962892710}
-  - {fileID: 995762653658763136}
-  - {fileID: 1125552237543497719}
-  - {fileID: 4512034244000306622}
-  - {fileID: 3676395719756036374}
-  - {fileID: 4476538925646367027}
-  - {fileID: 1551427462030033244}
-  rewardList: []
-  closeButton: {fileID: 6503996170453036949}
-  spinFree: {fileID: 2445904170868763293}
-  spinPaid: {fileID: 741316284379382875}
-  addFlagButton: {fileID: 2673756494095979086}
-  ResetFreeSpin: {fileID: 1889236083478736682}
-  MissionButton: {fileID: 8422542409945773152}
-  freeSpinButton: 0
 --- !u!114 &8857346105107906864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1549,24 +1559,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &2730707635340694805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3136722360775618520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9deed33a6c87c499ab7d9ae742117e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  APIController: {fileID: 7152944613695529808}
-  SpinningScript: {fileID: 8605470602749666370}
-  wheelPopulate: {fileID: 4866160312084345352}
-  freeSpinChecker: {fileID: 5403096416369261141}
-  uIWheelSpin: {fileID: 194991804542574738}
-  timer: {fileID: 4271076614712899117}
 --- !u!1 &3368860842640690043
 GameObject:
   m_ObjectHideFlags: 0
@@ -1660,7 +1652,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.2
+  m_fontSize: 55
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1956,7 +1948,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82.4
+  m_fontSize: 92.05
   m_fontSizeBase: 83.65
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2761,7 +2753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d080c5d8b79bb749a5d40689df7878f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIWheelSpin: {fileID: 3054531206331287848}
+  UIWheelSpin: {fileID: 194991804542574738}
   panelRectTransform: {fileID: 1291233667871826566}
   errorLoc: {fileID: 440722911062775690}
   closeButton: {fileID: 7374332776543016589}
@@ -3552,6 +3544,7 @@ RectTransform:
   m_Children:
   - {fileID: 8293403715329697031}
   - {fileID: 6670733078168280860}
+  - {fileID: 2952892579057507496}
   m_Father: {fileID: 2478185949826403179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3573,7 +3566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpinningScript: {fileID: 8605470602749666370}
   uISpinningScript: {fileID: 5951280048948946855}
-  uIWheelSpin: {fileID: 3054531206331287848}
+  uIWheelSpin: {fileID: 0}
   uiWheelReward: {fileID: 7825203071873768027}
   wheelPopulate: {fileID: 4866160312084345352}
   freeSpinChecker: {fileID: 5403096416369261141}
@@ -5283,7 +5276,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.65
+  m_fontSize: 54.35
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5757,7 +5750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b90dd0450a824d11859d2434666313e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uIWheelSpin: {fileID: 3054531206331287848}
+  uIWheelSpin: {fileID: 194991804542574738}
   freeSpinChecker: {fileID: 5403096416369261141}
   TimeText: {fileID: 6392231997386385618}
   TimePanel: {fileID: 7008563220240365766}
@@ -6354,7 +6347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37652a0373a8b4274bb1b2aac2507bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIWheelSpin: {fileID: 3054531206331287848}
+  UIWheelSpin: {fileID: 194991804542574738}
   panelRectTransform: {fileID: 9049736816075645790}
   errorLoc: {fileID: 3818244694373063441}
   missionLoc: {fileID: 1300201392512482631}
