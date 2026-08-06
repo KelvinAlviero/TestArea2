@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &32765695035361120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6670733078168280860}
+  - component: {fileID: 1746708294359778384}
+  m_Layer: 5
+  m_Name: Webview
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6670733078168280860
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32765695035361120}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 606430092206950651}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1746708294359778384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32765695035361120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd5613f448363430198d6705ce90683a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &91930661914583800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,7 +1660,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
+  m_fontSize: 49.2
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1908,7 +1956,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.05
+  m_fontSize: 82.4
   m_fontSizeBase: 83.65
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2340,8 +2388,6 @@ MonoBehaviour:
   - {fileID: 7977428922956219762}
   - {fileID: 6038123263288288771}
   rewardType: 6
-  rewardAmounts:
-  - 69fdaf030d3ceac0fa4715a1
   rewardResult: 8
   errorPanel: {fileID: 6761945219423787663}
   ReceivedBackend: 0
@@ -3505,6 +3551,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8293403715329697031}
+  - {fileID: 6670733078168280860}
   m_Father: {fileID: 2478185949826403179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4387,8 +4434,24 @@ MonoBehaviour:
   balanceError: {fileID: 6176271006521206517}
   contentRectTransform: {fileID: 2669267874270937550}
   ispagedisplayed: 0
-  slot: []
-  rewardList: []
+  slot:
+  - {fileID: 6585783664581763563}
+  - {fileID: 5828910602962892710}
+  - {fileID: 995762653658763136}
+  - {fileID: 1125552237543497719}
+  - {fileID: 4512034244000306622}
+  - {fileID: 3676395719756036374}
+  - {fileID: 4476538925646367027}
+  - {fileID: 1551427462030033244}
+  rewardList:
+  - {fileID: 11400000, guid: 11e2d77ec10b24e69852ca00facb7013, type: 2}
+  - {fileID: 11400000, guid: eff5d8ff8594d4975b30afe5d9cdffbb, type: 2}
+  - {fileID: 11400000, guid: 5373e11fa220f421ca11662ede13d394, type: 2}
+  - {fileID: 11400000, guid: 76f0a13ef2f404d719a9bb85f8d9f836, type: 2}
+  - {fileID: 11400000, guid: f133b22bf98cb413abe20bde9f54cd17, type: 2}
+  - {fileID: 11400000, guid: 8c7705f3894f64a60bf18085784b9e68, type: 2}
+  - {fileID: 11400000, guid: 146aa312bbe4549b8ae9d71744aeb0c3, type: 2}
+  - {fileID: 11400000, guid: 2d4ab1218d8804a278680ed3ba9fed4b, type: 2}
   closeButton: {fileID: 6503996170453036949}
   spinFree: {fileID: 2445904170868763293}
   spinPaid: {fileID: 741316284379382875}
@@ -5220,7 +5283,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.35
+  m_fontSize: 48.65
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
