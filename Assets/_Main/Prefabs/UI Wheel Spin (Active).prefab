@@ -1209,7 +1209,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 0.99197716}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8804170872817917831}
+  - {fileID: 4657143638813181676}
   - {fileID: 1940888599460657545}
   - {fileID: 5661734144494180014}
   - {fileID: 4666899575534372601}
@@ -1565,7 +1565,7 @@ MonoBehaviour:
   APIController: {fileID: 7152944613695529808}
   SpinningScript: {fileID: 8605470602749666370}
   wheelBackground: {fileID: 4657143638813181676}
-  wheel: {fileID: 8804170872817917831}
+  wheel: {fileID: 1794944611473545378}
   backgroundImage: {fileID: 6445541776472999164}
   timer: {fileID: 4271076614712899117}
   panelRectTransform: {fileID: 8651898759820667151}
@@ -1716,7 +1716,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
+  m_fontSize: 45.6
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2012,7 +2012,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92
+  m_fontSize: 75.6
   m_fontSizeBase: 83.65
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2377,7 +2377,7 @@ GameObject:
   - component: {fileID: 8804170872817917831}
   - component: {fileID: 7228234795628400756}
   - component: {fileID: 8605470602749666370}
-  - component: {fileID: 4615571469960341665}
+  - component: {fileID: 4407456061931643385}
   m_Layer: 5
   m_Name: Wheel
   m_TagString: Untagged
@@ -2392,18 +2392,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4458070341391188178}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4657143638813181676}
-  m_Father: {fileID: 2669267874270937550}
+  - {fileID: 1794944611473545378}
+  m_Father: {fileID: 4657143638813181676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.07877085, y: 0.021000002}
   m_AnchorMax: {x: 0.5, y: 0.7102223}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 170.33672, y: 82.17616}
+  m_SizeDelta: {x: 468.08667, y: 190.03455}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7228234795628400756
 CanvasRenderer:
@@ -2428,7 +2428,7 @@ MonoBehaviour:
   UIWheelReward: {fileID: 7825203071873768027}
   UIWheelSpin: {fileID: 3054531206331287848}
   APIController: {fileID: 7152944613695529808}
-  rbody: {fileID: 4615571469960341665}
+  rbody: {fileID: 0}
   slots:
   - {fileID: 7377022001716181950}
   - {fileID: 6893730935949017684}
@@ -2493,7 +2493,7 @@ MonoBehaviour:
   rewardType: 6
   inRotate: 0
   errorPanel: {fileID: 6761945219423787663}
---- !u!50 &4615571469960341665
+--- !u!50 &4407456061931643385
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -2519,7 +2519,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 2
+  m_Constraints: 0
 --- !u!1 &4476538925646367027
 GameObject:
   m_ObjectHideFlags: 0
@@ -4437,12 +4437,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7838646698582680092}
-  m_Father: {fileID: 4657143638813181676}
+  m_Father: {fileID: 8804170872817917831}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.025, y: 0.04}
   m_AnchorMax: {x: 0.98, y: 0.95}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0.000030517578}
+  m_SizeDelta: {x: 0.000061035156, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5826596676988028257
 CanvasRenderer:
@@ -4845,13 +4845,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1794944611473545378}
-  m_Father: {fileID: 8804170872817917831}
+  - {fileID: 8804170872817917831}
+  m_Father: {fileID: 2669267874270937550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -404.38, y: -119.23028}
+  m_SizeDelta: {x: -1111.24, y: -275.72314}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6747083618988823200
 CanvasRenderer:
@@ -5202,7 +5202,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.3
+  m_fontSize: 44.65
   m_fontSizeBase: 56.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
