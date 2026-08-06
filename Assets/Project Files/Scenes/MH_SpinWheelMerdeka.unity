@@ -235,10 +235,6 @@ PrefabInstance:
       propertyPath: mLocalizeTarget
       value: 
       objectReference: {fileID: 1495544792}
-    - target: {fileID: 7152944613695529808, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-      propertyPath: uIWheelSpin
-      value: 
-      objectReference: {fileID: 1009777792}
     - target: {fileID: 7838646698582680092, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -613,17 +609,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1009777792 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 194991804542574738, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
-  m_PrefabInstance: {fileID: 287149364}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43907a47b80d845daab6ed5a02dbb58c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1165795794
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -737,7 +722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00002670288
+      value: -0.000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x

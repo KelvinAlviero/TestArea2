@@ -123,6 +123,7 @@ public class APIController : MonoBehaviour
 
     private void ShowWonReward(SpinRequests.SpinWheelSpinResponse data)
     {
+        Debug.Log("Reward list avalible= " + uIWheelSpin.rewardList);
         var item = GetFirstItem(data);
         if (item == null)
         {
@@ -132,6 +133,13 @@ public class APIController : MonoBehaviour
         }
         var database = uIWheelSpin.rewardList ?? uIWheelSpin.rewardList;
         var matchingSO = database.Find(so => so.itemId == item.ItemId);
+
+        if (uIWheelSpin.rewardList == null)
+                {
+                    
+                    return;
+                }
+
         if (matchingSO == null)
         {
             Debug.LogWarning($"No RewardSO for itemId={item.ItemId}");

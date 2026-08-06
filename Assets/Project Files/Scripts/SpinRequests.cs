@@ -51,8 +51,6 @@ public static class SpinRequests
     public class SpinWheelDrawItem
     {
         public int Amount;
-       
-        [JsonProperty("item_id")]
         public string ItemId;
 
         public string ItemType;

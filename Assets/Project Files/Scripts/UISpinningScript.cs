@@ -95,7 +95,7 @@ public class UISpinningScript : MonoBehaviour
         if (rbody.angularVelocity <= 0f && uIWheelSpin.GetIsSpinning())
         {
             rbody.angularVelocity = 0f;
-            timer.SetSpinEndTimer(Time.deltaTime) ;
+            timer.SetSpinEndTimer(timer.GetSpinEndTimer() + Time.deltaTime) ;
             if (timer.GetSpinEndTimer() >= DelayedSpinTime)
             {
                 FinalizeSpinResults();
@@ -112,6 +112,7 @@ public class UISpinningScript : MonoBehaviour
         {
             spinningScript.ReceivedBackend = false;
             spinningScript.rewardType = rewardToUse;
+            Debug.Log("Started spin");
 
             // Start pre-spin; landing target is set when API reward arrives via UnserializedReward
             if (preSpinCoroutine != null)
