@@ -211,6 +211,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3054531206331287848, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+      propertyPath: wheel
+      value: 
+      objectReference: {fileID: 826423197}
     - target: {fileID: 3136722360775618520, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
       propertyPath: m_Name
       value: UI Wheel Spin (Active)
@@ -560,6 +564,11 @@ MonoBehaviour:
   mAlignment_LTR: 514
   mAlignmentWasRTL: 0
   mInitializeAlignment: 0
+--- !u!224 &826423197 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1794944611473545378, guid: 4bf23df488aca431ab36c21402acb78a, type: 3}
+  m_PrefabInstance: {fileID: 287149364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,7 +798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000091552734
+      value: -0.000011444092
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
