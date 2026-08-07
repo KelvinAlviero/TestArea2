@@ -10,27 +10,39 @@ public class StarAnimation : MonoBehaviour
     [SerializeField] private int topMax;
     [SerializeField] private float animSpeed;
 
-    
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        DOTween.Init();
-        starImage1.transform.DOMoveY(topMax, animSpeed)
-        .SetLoops(-1, LoopType.Yoyo);
-        starImage2.transform.DOMoveY(topMax, animSpeed - 0.2f)
-        .SetLoops(-1, LoopType.Yoyo);
-        starImage3.transform.DOMoveY(topMax, animSpeed - 0.3f)
-        .SetLoops(-1, LoopType.Yoyo);
-
-            
-        // boxImage.transform.DORestart();
-        // boxImage.transform.DOMoveY(bottomMax, animSpeed);
+        star1();
+        star2();
+        star3();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void star1()
     {
-        
+        float distance = topMax; // interpret this as "move up by this amount"
+        var seq = DOTween.Sequence()
+            .Append(starImage1.DOAnchorPosY(distance, animSpeed).SetRelative(true).SetEase(Ease.InQuad))
+            .Append(starImage1.DOAnchorPosY(-distance, animSpeed).SetRelative(true).SetEase(Ease.OutQuad))
+            .SetLoops(-1);
     }
+    private void star2()
+    {
+        float distance = topMax; // interpret this as "move up by this amount"
+        var seq = DOTween.Sequence()
+            .Append(starImage2.DOAnchorPosY(distance, animSpeed - 0.2f).SetRelative(true).SetEase(Ease.InQuad))
+            .Append(starImage2.DOAnchorPosY(-distance, animSpeed - 0.2f).SetRelative(true).SetEase(Ease.OutQuad))
+            .SetLoops(-1);
+    }
+    private void star3()
+    {
+        float distance = topMax; // interpret this as "move up by this amount"
+        var seq = DOTween.Sequence()
+            .Append(starImage3.DOAnchorPosY(distance, animSpeed - 0.3f).SetRelative(true).SetEase(Ease.InQuad))
+            .Append(starImage3.DOAnchorPosY(-distance, animSpeed - 0.3f).SetRelative(true).SetEase(Ease.OutQuad))
+            .SetLoops(-1);
+    }
+
+
+
 }

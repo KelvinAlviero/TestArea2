@@ -14,15 +14,17 @@ public class BoxAnimation : MonoBehaviour
     void Start()
     {
         DOTween.Init();
-        boxImage.transform.DOMoveY(topMax, animSpeed, true)
-            .SetLoops(-1, LoopType.Yoyo);
-        // boxImage.transform.DORestart();
-        // boxImage.transform.DOMoveY(bottomMax, animSpeed);
+
+        float distance = topMax; // interpret this as "move up by this amount"
+        var seq = DOTween.Sequence()
+            .Append(boxImage.DOAnchorPosY(distance, animSpeed).SetRelative(true).SetEase(Ease.InQuad))
+            .Append(boxImage.DOAnchorPosY(-distance, animSpeed).SetRelative(true).SetEase(Ease.OutQuad))
+            .SetLoops(-1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
