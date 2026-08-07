@@ -18,7 +18,6 @@ public class BoxAnimation : MonoBehaviour
             .SetLoops(-1, LoopType.Yoyo);
         // boxImage.transform.DORestart();
         // boxImage.transform.DOMoveY(bottomMax, animSpeed);
-        DOTween.Play(boxImage);
     }
 
     // Update is called once per frame
