@@ -12,27 +12,13 @@ public class APIController : MonoBehaviour
     public SpinningScript SpinningScript;
     public UIWheelSpin uIWheelSpin;
     public UIWheelReward uiWheelReward;
-    public string URL_GetUser = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB-VcA8mR2rOlVxlxObaZYIY27yIYFdb70";
-    public string URL_StartSpin = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/spin";
-    // public string URL_GetGems = ""
-    // public string URL_RecieveReward = "https://mh-dev.dreamforgecreation.com/api/v1/spinwheel/rewards?spinwheel_config_name=default_testing_spinwheel";
-    public string URL_SendRewards = "https://mh-dev.dreamforgecreation.com/api/v1/mailbox/test";
-    public string email = "aaa@gmail.com";
-    public string password = "qwerty123";
-    public string returnSecureToken = "true";
     public string JWTToken;
     public string datadebug;
     public TMP_Text MailSender;
-    public TMP_Text DebugText_SpinAmount;
-    public TMP_Text DebugText_ItemList;
     public TMP_Text DebugText_Status;
     public TMP_Text JSON_Body;
     public TMP_Text JSON_Raw;
     private string PulledJWT;
-    public TMP_Text PulledJWTText;
-    public TMP_Text Debug1;
-    public TMP_Text Debug2;
-
     public string ObtainedReward;
     public string UnserializeditemId;
     public int spin_count = 1;
@@ -130,55 +116,6 @@ public class APIController : MonoBehaviour
         public string ItemType;
 
         public string Name;
-    }
-
-    public IEnumerator SendReward()
-    {
-        if (!string.IsNullOrEmpty(PulledJWT))
-        {
-            JWTToken = PulledJWT;
-        }
-
-        using UnityWebRequest request = UnityWebRequest.Get(URL_SendRewards);
-        request.SetRequestHeader("Content-Type", "application/json");
-
-
-        if (!string.IsNullOrEmpty(JWTToken))
-        {
-            request.SetRequestHeader("Authorization", "Bearer " + JWTToken);
-        }
-
-        yield return request.SendWebRequest();
-        string rawJson = request.downloadHandler?.text ?? "";
-
-        if (JSON_Raw != null)
-            JSON_Raw.text = string.IsNullOrEmpty(rawJson) ? "<empty response>" : rawJson;
-
-        if (DebugText_Status != null)
-        {
-            DebugText_Status.text = "GET Result: " + request.result + "\n" +
-                                    "Code: " + request.responseCode + "\n" +
-                                    "Error: " + request.error + "\n";
-        }
-
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            Debug.Log("GET request success");
-            Debug.Log(rawJson);
-            MailSender.text = "Success" + rawJson;
-        }
-        else
-        {
-            Debug.LogError("GET request failed: " + request.responseCode);
-            Debug.LogError(rawJson);
-            MailSender.text = "Failed" + rawJson;
-        }
-    }
-
-    public void RewardObtainer()
-    {
-        var data = UniWebViewBridge.Call("getFlagTicketBalance", null);
-        var data2 = JsonUtility.FromJson<SpinWheelRewardsResponse>(data);
     }
 
     private void ApplySpinResponseState(SpinWheelSpinResponse data)

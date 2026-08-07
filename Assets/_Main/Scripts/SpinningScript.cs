@@ -215,64 +215,6 @@ public class SpinningScript : MonoBehaviour
         return false;
     }
 
-
-    // ----- Input rewards Quue ----- //
-    // public void QueueRewards(IEnumerable<string> incomingItemIds)
-    // {
-    //     // Makes new list if null
-    //     if (rewardAmounts == null)
-    //         rewardAmounts = new List<string>();
-
-    //     rewardAmounts.Clear();
-    //     rewardQueueIndex = 0;
-
-    //     if (incomingItemIds == null)
-    //         return;
-
-    //     foreach (string incomingItemId in incomingItemIds)
-    //     {
-    //         if (string.IsNullOrEmpty(incomingItemId))
-    //             continue;
-
-    //         rewardAmounts.Add(incomingItemId);
-    //     }
-    //     Debug.Log("Queued reward IDs: " + string.Join(",", rewardAmounts));
-        
-    // }
-
-    // public bool HasPendingRewards => rewardAmounts != null && rewardQueueIndex < rewardAmounts.Count;
-
-    // ----- Start extra spins -- //
-    // public void StartNextQueuedSpin()
-    // {
-    //     if (!HasPendingRewards)
-    //     {
-    //         MoreSpins = false;
-    //         Debug.Log("No queued rewards left.");
-    //         return;
-    //     }
-
-    //     string incomingItemId = rewardAmounts[rewardQueueIndex];
-    //     rewardQueueIndex++;
-
-    //     if (TryResolveReward(incomingItemId, out RewardType resolvedReward))
-    //     {
-    //         rewardType = resolvedReward;
-    //         activeRewardType = resolvedReward;
-    //         ConfigureForcedReward(resolvedReward);
-    //         ReceivedBackend = true;
-    //         Rotate(resolvedReward);
-    //         // Debug.Log("Starting queued reward: " + incomingItemId + " -> " + resolvedReward);
-    //         Debug_RewardList.text = rewardType.ToString();
-    //         MoreSpins = true;
-    //     }
-    //     else
-    //     {
-    //         ReceivedBackend = false;
-    //         Debug.LogWarning("Unknown queued reward ID: " + incomingItemId);
-    //     }
-    // }
-
     public void UnserializedReward(string incomingItemId) //Translates ID into cases
     {
         if (!inRotate)
