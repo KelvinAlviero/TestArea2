@@ -14,7 +14,7 @@ public class BoxAnimation : MonoBehaviour
     void Start()
     {
         DOTween.Init();
-        boxImage.transform.DOMoveY(topMax, animSpeed)
+        boxImage.transform.DOMoveY(topMax, animSpeed, true)
             .SetLoops(-1, LoopType.Yoyo);
         // boxImage.transform.DORestart();
         // boxImage.transform.DOMoveY(bottomMax, animSpeed);
