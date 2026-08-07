@@ -370,6 +370,7 @@ public class UIWheelSpin : UIPage
 
     public void OnSpinPaidButtonClicked()
     {
+
         if (flagAmount == 0)
         {
             balanceError.Show();
